@@ -1,0 +1,244 @@
+/* ==========================================================================
+   STUDENT SHOWCASE SECTION - 3D MODERN CARD GRID
+   ========================================================================== */
+
+student-showcase-component {
+  display: block;
+  width: 100%;
+}
+
+.student-section {
+  padding: 80px 24px;
+  background: linear-gradient(180deg, #f5f7fb 0%, #eef2f8 100%);
+  position: relative;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.student-container {
+  max-width: 1340px;
+  margin: 0 auto;
+}
+
+.student-heading {
+  font-family: var(--font-logo-vn);
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  color: #132238;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.student-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #0f6fff, #00b4d8);
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(15, 111, 255, 0.3);
+}
+
+/* Responsive Student Grid */
+.student-section .student-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+/* 3D Glassmorphic Student Card */
+.student-section .student-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(252, 254, 255, 0.94) 100%);
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  /* Precision 3D borders */
+  border-top: 2px solid rgba(255, 255, 255, 0.95);
+  border-left: 2px solid rgba(255, 255, 255, 0.95);
+  border-bottom: 3.5px solid rgba(19, 34, 56, 0.08);
+  border-right: 2.5px solid rgba(19, 34, 56, 0.06);
+  
+  /* Layered physical shadow */
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 6px 10px rgba(19, 34, 56, 0.02),
+    0 18px 40px rgba(8, 48, 110, 0.05);
+}
+
+.student-section .student-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-top-color: rgba(15, 111, 255, 0.35);
+  border-left-color: rgba(15, 111, 255, 0.35);
+  box-shadow: 
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.7),
+    0 10px 20px rgba(15, 111, 255, 0.04),
+    0 24px 48px rgba(15, 111, 255, 0.12);
+}
+
+/* Image Wrapper */
+.student-section .student-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  background: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.student-section .student-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: block;
+}
+
+.student-section .student-card:hover .student-image {
+  transform: scale(1.06);
+}
+
+/* Vector SVG placeholders */
+.student-section .student-svg-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.student-section .student-svg-placeholder svg {
+  width: 60px;
+  height: 60px;
+  display: block;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.06));
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.student-section .student-card:hover .student-svg-placeholder svg {
+  transform: scale(1.1) rotate(3deg);
+}
+
+/* SVG placeholder colors themes */
+.student-section .student-svg-placeholder.theme-1 {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  color: #0f6fff;
+}
+.student-section .student-svg-placeholder.theme-2 {
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+  color: #00b4d8;
+}
+.student-section .student-svg-placeholder.theme-3 {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  color: #f77f00;
+}
+.student-section .student-svg-placeholder.theme-4 {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  color: #10b981;
+}
+
+/* Card Body */
+.student-section .student-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.student-section .student-card-title {
+  font-family: var(--font-logo-vn);
+  font-size: 17.5px;
+  font-weight: 700;
+  color: #132238;
+  margin: 0 0 6px;
+  line-height: 1.35;
+  transition: color 0.3s ease;
+}
+
+.student-section .student-card:hover .student-card-title {
+  color: #0f6fff;
+}
+
+.student-section .student-card-major {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: #5c6b7b;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.student-section .student-card-desc {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  color: #5c6b7b;
+  line-height: 1.65;
+  margin: 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.student-section .student-card-desc strong {
+  color: #132238;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN FOR STUDENT SECTION
+   ========================================================================== */
+
+@media (max-width: 1200px) {
+  .student-section .student-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .student-section {
+    padding: 60px 20px;
+  }
+  
+  .student-heading {
+    font-size: 26px;
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 576px) {
+  .student-section .student-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .student-section .student-card {
+    border-radius: 20px;
+  }
+  
+  .student-section .student-image-wrapper {
+    height: 160px;
+  }
+  
+  .student-heading {
+    font-size: 22px;
+  }
+}

@@ -1,0 +1,633 @@
+/* ==========================================================================
+   SLIDING HERO BANNER COMPONENT STYLES
+   ========================================================================== */
+
+hero-slider-component {
+  display: block;
+  width: 100%;
+}
+
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+  background: #081a36;
+  font-family: var(--font-logo-en);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  transition: opacity 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              visibility 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2;
+}
+
+/* Background image with high contrast dark overlays */
+.slide-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.slide-bg::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Solid professional gradient for readability */
+  background: linear-gradient(90deg, 
+    rgba(8, 30, 68, 0.94) 0%, 
+    rgba(15, 78, 172, 0.78) 50%, 
+    rgba(8, 30, 68, 0.94) 100%
+  );
+  z-index: 1;
+}
+
+/* Base layout grid */
+.slide-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 40px;
+  align-items: center;
+}
+
+/* LEFT COLUMN: Message pill & visual widgets */
+.slide-left {
+  display: flex;
+  flex-direction: column;
+  animation: slideInLeft 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  opacity: 0;
+}
+
+.slide.active .slide-left {
+  opacity: 1;
+}
+
+.glow-box {
+  background: rgba(13, 71, 161, 0.45);
+  border-radius: 24px;
+  padding: 28px 36px;
+  position: relative;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2.5px solid rgba(0, 0, 0, 0.3);
+  border-right: 2.5px solid rgba(0, 0, 0, 0.3);
+}
+
+/* Individual slide themed glow colors */
+.ug-slide .glow-box {
+  border-color: #2196f3;
+  box-shadow: 0 0 25px rgba(33, 150, 243, 0.25), inset 0 0 15px rgba(33, 150, 243, 0.1);
+}
+
+.ai-slide .glow-box {
+  border-color: #ff9800;
+  box-shadow: 0 0 25px rgba(255, 152, 0, 0.25), inset 0 0 15px rgba(255, 152, 0, 0.1);
+}
+
+.campaign-slide .glow-box {
+  border-color: #00b4d8;
+  box-shadow: 0 0 25px rgba(0, 180, 216, 0.25), inset 0 0 15px rgba(0, 180, 216, 0.15);
+}
+
+.glow-title {
+  font-family: var(--font-logo-vn);
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 800;
+  color: #ffeb3b;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.glow-subtitle {
+  font-family: var(--font-logo-vn);
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.glow-text {
+  font-size: 14.5px;
+  color: #e3f2fd;
+  font-weight: 600;
+  line-height: 1.55;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Floating Paper Airplanes */
+.airplane {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.85);
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+}
+
+.ap-top {
+  top: -24px;
+  right: -10px;
+  animation: floatPlaneTop 6s ease-in-out infinite;
+}
+
+.ap-bottom {
+  bottom: -24px;
+  left: -20px;
+  animation: floatPlaneBottom 6s ease-in-out infinite;
+}
+
+@keyframes floatPlaneTop {
+  0% { transform: translateY(0) rotate(12deg) scale(1); }
+  50% { transform: translateY(-8px) rotate(16deg) scale(1.03); }
+  100% { transform: translateY(0) rotate(12deg) scale(1); }
+}
+
+@keyframes floatPlaneBottom {
+  0% { transform: translateY(0) rotate(-10deg) scale(1); }
+  50% { transform: translateY(6px) rotate(-6deg) scale(0.97); }
+  100% { transform: translateY(0) rotate(-10deg) scale(1); }
+}
+
+/* Stat badges */
+.stat-badges {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.stat-badge {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255,255,255,0.2);
+  border-left: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 2px solid rgba(0,0,0,0.15);
+  border-right: 2px solid rgba(0,0,0,0.15);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.stat-value {
+  display: block;
+  font-family: var(--font-logo-vn);
+  font-size: 20px;
+  font-weight: 800;
+  color: #ffeb3b;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+.stat-badge.ug .stat-value { color: #64b5f6; }
+.stat-badge.ai .stat-value { color: #ffb74d; }
+
+.stat-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.5px;
+}
+
+/* Render Building Thumbnails */
+.render-thumbs {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.thumb {
+  flex: 1;
+  height: 80px;
+  border-radius: 12px;
+  border: 2px solid #ffffff;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.18);
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+}
+
+.thumb:hover {
+  transform: translateY(-4px) scale(1.05);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* RIGHT COLUMN: Logos, campaign title, bank data cards */
+.slide-right {
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  opacity: 0;
+}
+
+.slide.active .slide-right {
+  opacity: 1;
+}
+
+.banner-logos {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.uni-logo {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.campaign-tagline {
+  color: #ffffff;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+  border-left: 2px solid rgba(255, 255, 255, 0.3);
+  padding-left: 12px;
+}
+
+.campaign-tagline strong {
+  font-family: var(--font-logo-vn);
+  font-size: 14px;
+  color: #ffeb3b;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.campaign-badge {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e0f2f1;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.campaign-main-title {
+  font-family: var(--font-logo-vn);
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.campaign-sub-title {
+  font-family: var(--font-logo-vn);
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 700;
+  color: #ffeb3b;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.campaign-sub-title .highlight {
+  color: #ffeb3b;
+  font-weight: 800;
+}
+
+/* Bank detail box & QR Code Wrapper */
+.bank-card-wrapper {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  margin-top: 8px;
+}
+
+.bank-card {
+  flex: 1;
+  background: rgba(0, 180, 216, 0.16);
+  border: 1.5px solid #00b4d8;
+  border-radius: 16px;
+  padding: 16px 20px;
+  color: #ffffff;
+  font-size: 12.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.bank-card-header {
+  font-family: var(--font-logo-vn);
+  font-weight: 800;
+  text-align: center;
+  font-size: 13px;
+  text-transform: uppercase;
+  border-bottom: 1.5px solid rgba(0, 180, 216, 0.35);
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  color: #b2f5ea;
+  letter-spacing: 0.5px;
+}
+
+.bank-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bank-detail-item .label {
+  color: #b2ebf2;
+  font-weight: 600;
+}
+
+.bank-detail-item .value {
+  font-weight: 700;
+}
+
+.bank-detail-item.highlight-item {
+  background: rgba(255, 235, 59, 0.12);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1.5px dashed rgba(255, 235, 59, 0.4);
+}
+
+.bank-detail-item.highlight-item .value {
+  color: #ffeb3b;
+  font-family: var(--font-logo-vn);
+  font-size: 15.5px;
+  font-weight: 800;
+}
+
+.qr-container {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  border: 2px solid #00b4d8;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+}
+
+.qr-container:hover {
+  transform: scale(1.06) rotate(3deg);
+}
+
+.qr-code-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Action card for regular info slides */
+.action-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 24px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.action-card h4 {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.action-card p {
+  color: #e3f2fd;
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Slider Controls: Arrows */
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.slider-arrow:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.slider-arrow.prev {
+  left: 24px;
+}
+
+.slider-arrow.next {
+  right: 24px;
+}
+
+/* Slider Controls: Dots */
+.slider-dots {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.slider-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.slider-dot.active {
+  width: 26px;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+/* Animations on slide active */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN FOR SLIDER
+   ========================================================================== */
+
+@media (max-width: 991px) {
+  .hero-slider {
+    height: auto;
+  }
+  
+  .slide {
+    position: relative;
+    opacity: 1;
+    visibility: visible;
+    display: none;
+    height: auto;
+    padding: 60px 0 80px;
+  }
+  
+  .slide.active {
+    display: flex;
+  }
+  
+  .slide-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 0 24px;
+  }
+  
+  .slider-arrow {
+    display: none; /* Hide arrows on tablets and mobile, rely on swiping and dots */
+  }
+  
+  .stat-badges, .render-thumbs {
+    margin-top: 16px;
+  }
+  
+  .bank-card-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .bank-card {
+    width: 100%;
+  }
+  
+  .qr-container {
+    width: 130px;
+    height: 130px;
+  }
+}
+
+@media (max-width: 575px) {
+  .slide {
+    padding: 48px 0 64px;
+  }
+  
+  .glow-box {
+    padding: 20px 24px;
+  }
+  
+  .stat-badges {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .stat-badge {
+    padding: 10px;
+  }
+  
+  .render-thumbs {
+    gap: 10px;
+  }
+  
+  .thumb {
+    height: 64px;
+  }
+  
+  .campaign-main-title {
+    font-size: 22px;
+  }
+  
+  .campaign-sub-title {
+    font-size: 17px;
+    margin-bottom: 16px;
+  }
+}

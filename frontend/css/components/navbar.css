@@ -1,0 +1,320 @@
+/* ==========================================================================
+   REDESIGNED NAVBAR COMPONENT STYLES - REFERENCE STYLE MATCH
+   ========================================================================== */
+
+:root {
+  /* Solid, professional blue-to-cyan gradient matching Can Tho University reference style */
+  --nav-bg: linear-gradient(90deg, #1b4d89 0%, #1e6091 35%, #0077b6 70%, #0096c7 100%);
+  --nav-bg-scrolled: linear-gradient(90deg, #153c6d 0%, #1b537e 35%, #006094 70%, #007fa9 100%);
+  
+  /* Compact & professional heights */
+  --nav-height-desktop: 76px;
+  --nav-height-mobile: 68px;
+  
+  /* Typography */
+  --font-logo-vn: 'Be Vietnam Pro', 'Inter', sans-serif;
+  --font-logo-en: 'Be Vietnam Pro', 'Inter', sans-serif;
+}
+
+/* Base Body Adjustment for Fixed Navbar */
+body {
+  padding-top: var(--nav-height-desktop) !important;
+}
+
+@media (max-width: 991px) {
+  body {
+    padding-top: var(--nav-height-mobile) !important;
+  }
+}
+
+/* Header Container */
+.main-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height-desktop);
+  background: var(--nav-bg);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(8, 26, 54, 0.15);
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Scrolled state for Header */
+.main-header.scrolled {
+  height: calc(var(--nav-height-desktop) - 6px);
+  background: var(--nav-bg-scrolled);
+  box-shadow: 0 6px 24px rgba(8, 26, 54, 0.22);
+}
+
+/* Navbar Wrapper */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Brand Section (Logo & Titles) */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: #ffffff;
+  user-select: none;
+}
+
+/* Logo container matching reference layout */
+.brand-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transition: transform 0.4s ease;
+  flex-shrink: 0;
+}
+
+.navbar-brand:hover .brand-logo-container {
+  transform: scale(1.05);
+}
+
+.brand-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.brand-title {
+  font-family: var(--font-logo-vn);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.brand-subtitle {
+  font-family: var(--font-logo-en);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.2;
+  margin-top: 2px;
+  letter-spacing: 0.3px;
+}
+
+/* Navigation Links - Flat text with active bottom underlines */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.nav-item {
+  display: block;
+  height: 100%;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 4px;
+  margin: 0 10px;
+  text-decoration: none;
+  font-family: var(--font-logo-vn);
+  font-size: 13.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  border-bottom: 3.5px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  letter-spacing: 0.3px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Hover State */
+.nav-link:hover {
+  color: #ffffff;
+  border-bottom-color: rgba(255, 255, 255, 0.55);
+  transform: none;
+  background: transparent;
+}
+
+/* Active State - Current Page - Solid thick white underline as in CTU image */
+.nav-link.active {
+  color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: transparent;
+  font-weight: 800;
+}
+
+/* Mobile Toggler (Hamburger) */
+.navbar-toggler {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1010;
+}
+
+.navbar-toggler span {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Animated Hamburger to X */
+.navbar-toggler.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.navbar-toggler.open span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.navbar-toggler.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ========================================================================== */
+
+@media (max-width: 991px) {
+  .main-header {
+    height: var(--nav-height-mobile);
+  }
+
+  .main-header.scrolled {
+    height: var(--nav-height-mobile);
+  }
+
+  .navbar {
+    padding: 0 16px;
+  }
+
+  .brand-title {
+    font-size: 13.5px;
+  }
+
+  .brand-subtitle {
+    font-size: 10px;
+    margin-top: 1px;
+  }
+
+  .brand-logo-container {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar-toggler {
+    display: flex;
+  }
+
+  /* Mobile Dropdown Navigation Menu */
+  .navbar-nav {
+    position: fixed;
+    top: var(--nav-height-mobile);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--nav-height-mobile));
+    background: linear-gradient(180deg, #1b4d89 0%, #1e6091 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 24px 20px;
+    gap: 12px;
+    box-shadow: 0 10px 30px rgba(8, 26, 54, 0.3);
+    
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-15px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    pointer-events: none;
+    height: auto; /* Fits content on mobile menu */
+    max-height: calc(100vh - var(--nav-height-mobile));
+    overflow-y: auto;
+  }
+
+  .navbar-nav.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .nav-item {
+    height: auto;
+  }
+
+  .nav-link {
+    display: flex;
+    justify-content: flex-start;
+    height: auto;
+    padding: 14px 20px;
+    margin: 0;
+    font-size: 14px;
+    border-radius: 8px;
+    width: 100%;
+    border-bottom: none;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .nav-link.active {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    font-weight: 800;
+  }
+}

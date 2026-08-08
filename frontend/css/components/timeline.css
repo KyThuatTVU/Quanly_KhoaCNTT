@@ -1,0 +1,253 @@
+/* ==========================================================================
+   FACULTY TIMELINE SECTION STYLES - 3D VOLUMETRIC EDITION
+   ========================================================================== */
+
+.timeline-section {
+  padding: 80px 24px;
+  background: #f8fafc; /* Contrasts beautifully with the white background of the overview */
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Heading */
+.timeline-heading {
+  font-family: var(--font-logo-vn);
+  font-size: 32px;
+  font-weight: 800;
+  text-align: center;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 60px;
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.timeline-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 4px;
+  background: linear-gradient(90deg, #0f6fff, #00b4d8);
+  border-radius: 2px;
+}
+
+/* Timeline List holding the vertical line */
+.timeline-list {
+  position: relative;
+  padding-left: 54px;
+  margin: 0 auto;
+  max-width: 860px;
+}
+
+/* Vertical gradient line */
+.timeline-vertical-line {
+  position: absolute;
+  left: 18px;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  background: linear-gradient(180deg, #0f6fff 0%, #00b4d8 100%);
+  border-radius: 2px;
+  z-index: 1;
+}
+
+/* Timeline Item row */
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Circular Node dot on the line */
+.timeline-dot-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -41.5px; /* Centers dot perfectly on the 18px left line */
+  top: 26px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 4.5px solid #0f6fff;
+  box-shadow: 0 0 0 4px rgba(15, 111, 255, 0.12);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  z-index: 2;
+}
+
+.timeline-item:hover .timeline-dot {
+  border-color: #00b4d8;
+  box-shadow: 0 0 0 7px rgba(15, 111, 255, 0.24);
+  transform: scale(1.15);
+}
+
+/* 3D Perspective wrapper */
+.timeline-card-3d-wrap {
+  perspective: 1200px;
+}
+
+/* 3D Card */
+.timeline-card-3d {
+  transform-style: preserve-3d;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  /* Top-left borders highlighted to create real 3D volume */
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 25px rgba(15, 111, 255, 0.04);
+  transform: translateZ(0);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-align: left;
+}
+
+/* Hover 3D lift physics */
+.timeline-item:hover .timeline-card-3d {
+  transform: translateY(-6px) translateZ(12px) rotateX(1deg) rotateY(-1deg);
+  border-color: rgba(15, 111, 255, 0.25);
+  box-shadow: 0 20px 35px rgba(15, 111, 255, 0.08), 0 6px 12px rgba(15, 111, 255, 0.03);
+}
+
+/* Card Header */
+.timeline-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+/* Year Badge styled as 3D text gradient */
+.timeline-year-badge {
+  font-family: var(--font-logo-vn);
+  font-size: 26px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #0f6fff, #00b4d8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+/* Date label */
+.timeline-date-label {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.2px;
+}
+
+/* Timeline text */
+.timeline-text {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: #475569;
+  margin: 0;
+}
+
+.timeline-text strong {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+/* Decision number */
+.timeline-dec {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  display: inline-block;
+  margin-top: 12px;
+  font-style: italic;
+  letter-spacing: 0.1px;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN FOR TIMELINE SECTION
+   ========================================================================== */
+
+@media (max-width: 991px) {
+  .timeline-section {
+    padding: 60px 20px;
+  }
+
+  .timeline-heading {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+
+  .timeline-list {
+    padding-left: 40px;
+  }
+
+  .timeline-vertical-line {
+    left: 12px;
+  }
+
+  .timeline-dot {
+    left: -29.5px;
+    top: 24px;
+    width: 11px;
+    height: 11px;
+    border-width: 3.5px;
+  }
+  
+  .timeline-card-3d {
+    padding: 20px 22px;
+  }
+
+  .timeline-year-badge {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .timeline-list {
+    padding-left: 30px;
+  }
+
+  .timeline-vertical-line {
+    left: 8px;
+  }
+
+  .timeline-dot {
+    left: -24px;
+    top: 20px;
+    width: 9px;
+    height: 9px;
+    border-width: 3px;
+  }
+
+  .timeline-card-3d {
+    padding: 16px 18px;
+  }
+
+  .timeline-text {
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+}

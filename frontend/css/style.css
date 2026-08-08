@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'components/navbar.css';
+@import 'components/admission.css';
+@import 'components/overview.css';
+@import 'components/timeline.css';
+@import 'components/partner.css';
+@import 'components/stats.css';
+@import 'components/alumni.css';
+@import 'components/slider.css';
+@import 'components/news.css';
+@import 'components/student.css';
+@import 'components/infographic.css';
+@import 'components/gallery.css';
+@import 'components/footer.css';
+@import 'pages/home.css';
+
+@font-face {
+	font-family: 'Be Vietnam Pro';
+	src: url('../assets/fonts/BeVietnamPro-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Be Vietnam Pro';
+	src: url('../assets/fonts/BeVietnamPro-SemiBold.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Be Vietnam Pro';
+	src: url('../assets/fonts/BeVietnamPro-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Inter';
+	src: url('../assets/fonts/Inter.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Montserrat';
+	src: url('../assets/fonts/Montserrat.ttf') format('truetype');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+:root {
+	color-scheme: light;
+	--bg: #f5f7fb;
+	--surface: #ffffff;
+	--text: #132238;
+	--muted: #5c6b7b;
+	--accent: #0f6fff;
+	--accent-strong: #0b56c3;
+	--border: #dbe3ee;
+	--font-body: 'Be Vietnam Pro', 'Inter', Arial, Helvetica, sans-serif;
+	--font-logo-vn: 'Be Vietnam Pro', 'Inter', Arial, Helvetica, sans-serif;
+	--font-logo-en: 'Be Vietnam Pro', 'Inter', Arial, Helvetica, sans-serif;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+	font-family: var(--font-body);
+	background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 45%, #eef2f8 100%);
+	color: var(--text);
+}
+
+body {
+	padding: 32px 16px 48px;
+}
+
+.page {
+	width: min(100%, 1080px);
+	margin: 0 auto;
+}
+
+.hero,
+.card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: 20px;
+	box-shadow: 0 12px 40px rgba(17, 39, 79, 0.08);
+}
+
+.hero {
+	padding: 32px;
+}
+
+.eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	border-radius: 999px;
+	background: #eaf1ff;
+	color: var(--accent-strong);
+	font-size: 14px;
+	font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+p {
+	margin: 0;
+}
+
+.hero h1 {
+	margin-top: 16px;
+	font-size: clamp(32px, 5vw, 56px);
+	line-height: 1.05;
+}
+
+.hero p,
+.card p {
+	color: var(--muted);
+	line-height: 1.7;
+}
+
+.hero p {
+	margin-top: 16px;
+	max-width: 760px;
+	font-size: 18px;
+}
+
+.nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 24px;
+}
+
+.nav a,
+.button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	padding: 10px 16px;
+	border-radius: 999px;
+	text-decoration: none;
+	font-weight: 700;
+}
+
+.nav a {
+	background: #f3f6fb;
+	color: var(--text);
+	border: 1px solid var(--border);
+}
+
+.nav a:hover,
+.button:hover {
+	transform: translateY(-1px);
+}
+
+.button {
+	background: var(--accent);
+	color: #fff;
+	border: 0;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 16px;
+	margin-top: 20px;
+}
+
+.card {
+	padding: 24px;
+}
+
+.card h2,
+.card h3 {
+	margin-bottom: 10px;
+}
+
+.meta {
+	margin-top: 12px;
+	font-size: 14px;
+	color: var(--muted);
+}
+
+@media (max-width: 640px) {
+	body {
+		padding: 16px 12px 28px;
+	}
+
+	.hero {
+		padding: 24px;
+	}
+}
