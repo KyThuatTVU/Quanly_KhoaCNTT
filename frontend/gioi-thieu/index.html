@@ -4,21 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Giới Thiệu - Khoa Công Nghệ Thông Tin | TVU</title>
-    <!-- Google Fonts for premium typography -->
     <!-- Component and page styles -->
     <link rel="stylesheet" href="../css/style.css" />
     <!-- Component JS script loaded as ES Module -->
     <script type="module" src="../js/main.js"></script>
   </head>
   <body>
-    <!-- Reusable Navbar Component -->
+    <!-- Reusable Navbar Component (Full Width) -->
     <navbar-component></navbar-component>
 
-    <!-- Main Content Container -->
-    <main class="page" style="margin-top: 40px;">
-      <!-- About Overview Component -->
-      <about-overview-component></about-overview-component>
+    <!-- About Overview Component (Full Width background, content centered inside) -->
+    <about-overview-component></about-overview-component>
 
+    <!-- Main Content Container for Vision, Philosophy, Facilities (Constrained to page width) -->
+    <main class="page" style="margin-top: 50px; margin-bottom: 50px;">
       <div class="grid">
         <div class="card">
           <h2>Tầm nhìn 2030</h2>
@@ -33,15 +32,21 @@
           <p>Hệ thống phòng thực hành máy tính cấu hình cao, phòng nghiên cứu AI & IoT hiện đại cùng không gian tự học đầy sáng tạo dành cho sinh viên.</p>
         </div>
       </div>
-
-      <!-- Timeline History Component -->
-      <timeline-history-component></timeline-history-component>
-
-      <!-- International Partners Component -->
-      <international-partners-component></international-partners-component>
     </main>
 
-    <!-- Footer Component -->
+    <!-- Leadership Contact Cards Component (Full Width) -->
+    <cooperation-contact-component></cooperation-contact-component>
+
+    <!-- Timeline History Component (Full Width background, content centered inside) -->
+    <timeline-history-component></timeline-history-component>
+
+    <!-- International Partners Component (Full Width background, content centered inside) -->
+    <international-partners-component></international-partners-component>
+
+    <!-- Cooperate CTA Banner (Full Width - Placed at the very bottom) -->
+    <cooperate-cta-component></cooperate-cta-component>
+
+    <!-- Footer Component (Full Width) -->
     <footer-component></footer-component>
   </body>
 </html>

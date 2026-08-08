@@ -1,0 +1,577 @@
+/* ==========================================================================
+   FACULTY RESEARCH PAGE STYLES - 3D VOLUMETRIC SYSTEM
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Research Main Banner (Full Width Background, content centered)
+   -------------------------------------------------------------------------- */
+.res-banner {
+  padding: 80px 24px;
+  background: linear-gradient(135deg, #1b4d89 0%, #1e6091 50%, #0077b6 100%);
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 -10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.res-banner-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.res-banner-title {
+  font-family: var(--font-logo-vn);
+  font-size: 36px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  margin: 0 0 18px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.res-banner-desc {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* --------------------------------------------------------------------------
+   Core Content Wrapper (Centered at 1200px max width)
+   -------------------------------------------------------------------------- */
+.res-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto 100px;
+  padding: 0 24px;
+}
+
+.res-section {
+  padding-top: 70px;
+  margin-bottom: 30px;
+}
+
+.res-section-heading {
+  font-family: var(--font-logo-vn);
+  font-size: 26px;
+  font-weight: 850;
+  color: #0f2d59;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 40px;
+  position: relative;
+  padding-bottom: 14px;
+  display: inline-block;
+}
+
+.res-section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 4.5px;
+  background: linear-gradient(90deg, #0f6fff, #00b4d8);
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Section 1: Hướng nghiên cứu chính (2-Column Grid)
+   -------------------------------------------------------------------------- */
+.res-directions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.res-direction-card-3d {
+  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
+  border: 1px solid rgba(219, 234, 254, 0.8);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  padding: 36px;
+  box-shadow: 0 10px 25px -5px rgba(15, 111, 255, 0.03);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.res-direction-card-3d:hover {
+  transform: translateY(-6px) translateZ(12px) rotateX(1deg) rotateY(-1deg);
+  border-color: rgba(15, 111, 255, 0.25);
+  box-shadow: 0 20px 40px -10px rgba(15, 111, 255, 0.1);
+}
+
+.res-dir-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  color: #0f6fff;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 10px rgba(15, 111, 255, 0.08);
+}
+
+.res-direction-card-3d:hover .res-dir-icon {
+  background: linear-gradient(135deg, #0f6fff 0%, #00b4d8 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 8px 16px rgba(15, 111, 255, 0.2);
+}
+
+.res-dir-title {
+  font-family: var(--font-logo-vn);
+  font-size: 19px;
+  font-weight: 850;
+  color: #0f2d59;
+  margin: 0 0 12px;
+}
+
+.res-dir-desc {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #475569;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Section 2: Đề tài và dự án (3-Column Grid)
+   -------------------------------------------------------------------------- */
+.res-topics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.res-topic-card-3d {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.015);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.res-topic-card-3d:hover {
+  transform: translateY(-5px);
+  border-color: rgba(15, 111, 255, 0.2);
+  box-shadow: 0 16px 30px rgba(15, 111, 255, 0.06);
+}
+
+.res-topic-tag {
+  align-self: flex-start;
+  font-family: var(--font-logo-vn);
+  font-size: 10.5px;
+  font-weight: 850;
+  text-transform: uppercase;
+  color: #1e40af;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 2px rgba(15, 111, 255, 0.03);
+}
+
+.res-topic-title {
+  font-family: var(--font-logo-vn);
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #1e293b;
+  line-height: 1.5;
+  margin: 0 0 20px;
+  flex-grow: 1;
+}
+
+.res-topic-meta {
+  border-top: 1.5px solid #f1f5f9;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.res-topic-meta p {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+.res-topic-owner {
+  color: #334155;
+  font-weight: 700;
+}
+
+.res-topic-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-logo-vn);
+  font-size: 11px;
+  font-weight: 850;
+  text-transform: uppercase;
+  color: #047857; /* Emerald green */
+  align-self: flex-start;
+}
+
+/* Green Pulse dot */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #10b981;
+  border-radius: 50%;
+  position: relative;
+}
+
+.status-dot::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #10b981;
+  border-radius: 50%;
+  animation: resPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes resPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Section 3: Công báo khoa học (Timeline Grid Group)
+   -------------------------------------------------------------------------- */
+.res-publications-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.res-pub-year-group {
+  position: relative;
+}
+
+.res-pub-year-title {
+  font-family: var(--font-logo-vn);
+  font-size: 28px;
+  font-weight: 900;
+  color: #94a3b8;
+  margin: 0 0 12px;
+  line-height: 1;
+}
+
+.res-pub-year-line {
+  height: 2px;
+  background: #cbd5e1;
+  width: 100%;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.res-pub-year-line::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #0f6fff;
+  border-radius: 50%;
+  top: -5px;
+  left: 0;
+  box-shadow: 0 0 8px #0f6fff;
+}
+
+.res-pub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.res-pub-card-3d {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+  transition: all 0.3s ease;
+}
+
+.res-pub-card-3d:hover {
+  transform: translateY(-3px);
+  border-color: rgba(15, 111, 255, 0.25);
+  box-shadow: 0 10px 24px rgba(15, 111, 255, 0.05);
+}
+
+.res-pub-main {
+  flex-grow: 1;
+}
+
+.res-pub-title {
+  font-family: var(--font-logo-vn);
+  font-size: 16px;
+  font-weight: 850;
+  color: #1e293b;
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+
+.res-pub-authors-journal {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0 0 16px;
+}
+
+.res-pub-authors {
+  font-weight: 700;
+  color: #334155;
+  margin-right: 4px;
+}
+
+.res-pub-journal {
+  font-style: italic;
+  font-weight: 500;
+  color: #64748b;
+}
+
+/* Mini Abstract Button */
+.res-pub-abstract-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 16px;
+  background: #ffffff;
+  border: 1px solid #0f6fff;
+  border-radius: 6px;
+  color: #0f6fff;
+  font-family: var(--font-logo-vn);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(15, 111, 255, 0.05);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.res-pub-abstract-btn:hover {
+  background: #0f6fff;
+  color: #ffffff;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 8px rgba(15, 111, 255, 0.15);
+}
+
+/* Badge Type container */
+.res-pub-badge-container {
+  flex-shrink: 0;
+}
+
+.res-pub-badge {
+  font-family: var(--font-logo-vn);
+  font-size: 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+
+.res-pub-badge.badge-journal {
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+
+.res-pub-badge.badge-conference {
+  color: #0369a1;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+}
+
+/* --------------------------------------------------------------------------
+   Section 4: Hợp tác nghiên cứu
+   -------------------------------------------------------------------------- */
+.res-coop-desc {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: #64748b;
+  margin: 0 auto 40px 0;
+  font-weight: 500;
+}
+
+.res-coop-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.res-coop-card-3d {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 16px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.01);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+}
+
+.res-coop-card-3d:hover {
+  transform: translateY(-5px) translateZ(8px) rotateX(1deg) rotateY(-1deg);
+  border-color: rgba(15, 111, 255, 0.25);
+  box-shadow: 0 12px 24px rgba(15, 111, 255, 0.08);
+}
+
+.res-partner-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   Section 5: Đầu mối liên hệ nghiên cứu (2-Column Grid)
+   -------------------------------------------------------------------------- */
+.res-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.res-contact-card-3d {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+  border: 1px solid #dbeafe;
+  border-top: 4.5px solid #0f6fff;
+  border-radius: 20px;
+  padding: 36px 30px;
+  box-shadow: 0 10px 25px -5px rgba(15, 111, 255, 0.03);
+  transition: all 0.3s ease;
+}
+
+.res-contact-card-3d:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(15, 111, 255, 0.06);
+}
+
+.res-contact-name {
+  font-family: var(--font-logo-vn);
+  font-size: 19px;
+  font-weight: 850;
+  color: #0f2d59;
+  margin: 0 0 10px;
+}
+
+.res-contact-role {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0 0 24px;
+  font-weight: 500;
+}
+
+.res-contact-email-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 18px;
+}
+
+.email-icon {
+  font-size: 16px;
+}
+
+.res-contact-email-link {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f6fff;
+  text-decoration: none;
+  border-bottom: 1.5px dashed transparent;
+  transition: all 0.2s ease;
+}
+
+.res-contact-email-link:hover {
+  border-color: #0f6fff;
+  color: #005691;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN FOR RESEARCH PAGE
+   ========================================================================== */
+
+@media (max-width: 991px) {
+  .res-banner-title {
+    font-size: 30px;
+  }
+
+  .res-directions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .res-topics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .res-coop-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .res-contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .res-topics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .res-pub-card-3d {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .res-pub-badge-container {
+    align-self: flex-start;
+  }
+}

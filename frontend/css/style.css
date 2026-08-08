@@ -4,6 +4,7 @@
 @import 'components/overview.css';
 @import 'components/timeline.css';
 @import 'components/partner.css';
+@import 'components/contact.css';
 @import 'components/stats.css';
 @import 'components/alumni.css';
 @import 'components/slider.css';
@@ -12,6 +13,10 @@
 @import 'components/infographic.css';
 @import 'components/gallery.css';
 @import 'components/footer.css';
+@import 'components/staff.css';
+@import 'components/research.css';
+@import 'components/curriculum.css';
+@import 'components/postgraduate.css';
 @import 'pages/home.css';
 
 @font-face {

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sau Đại Học - Khoa Công Nghệ Thông Tin | TVU</title>
     <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
     <!-- Component and page styles -->
     <link rel="stylesheet" href="../css/style.css" />
     <!-- Component JS script loaded as ES Module -->
@@ -15,31 +18,11 @@
     <navbar-component></navbar-component>
 
     <!-- Main Content Container -->
-    <main class="page" style="margin-top: 40px;">
-      <section class="hero">
-        <div class="eyebrow">
-          <span>Chương Trình Đào Tạo Nâng Cao</span>
-        </div>
-        <h1>Đào Tạo Sau Đại Học</h1>
-        <p>Khoa Công nghệ Thông tin - Trường Đại học Trà Vinh đào tạo các bậc học nâng cao (Thạc sĩ, Tiến sĩ), hướng tới đào tạo các chuyên gia đầu ngành có năng lực nghiên cứu độc lập, định hình xu hướng công nghệ tương lai.</p>
-      </section>
-
-      <div class="grid">
-        <div class="card">
-          <h2>Thạc sĩ Công nghệ Thông tin</h2>
-          <p>Chương trình đào tạo thạc sĩ định hướng ứng dụng và định hướng nghiên cứu, cập nhật các xu thế mới nhất như Khoa học Dữ liệu, Blockchain và AI nâng cao.</p>
-          <div class="meta">Định hướng chuyên sâu: 1.5 - 2 năm</div>
-        </div>
-        <div class="card">
-          <h2>Tiến sĩ Khoa học Máy tính</h2>
-          <p>Đào tạo nghiên cứu sinh có khả năng nghiên cứu học thuật đỉnh cao, viết bài báo khoa học quốc tế Scopus/ISI và giải quyết các bài toán công nghệ phức tạp.</p>
-          <div class="meta">Tuyển sinh hàng năm</div>
-        </div>
-        <div class="card">
-          <h2>Hợp tác & Liên kết Quốc tế</h2>
-          <p>Liên kết đào tạo sau đại học với các trường Đại học uy tín tại châu Âu, Nhật Bản, Đài Loan mở ra cơ hội nhận học bổng và trao đổi học thuật quốc tế.</p>
-        </div>
-      </div>
+    <main style="margin-top: 30px;">
+      <postgraduate-page-component></postgraduate-page-component>
     </main>
+
+    <!-- Reusable Footer Component -->
+    <footer-component></footer-component>
   </body>
 </html>

@@ -4,6 +4,7 @@
  * ==========================================================================
  * A reusable, native web component for displaying the international partners.
  * Connects to /api/partners endpoint.
+ * Implements an infinite horizontal scrolling marquee loop.
  */
 
 import { PartnerService } from '../services/partnerService.js';
@@ -115,7 +116,7 @@ class InternationalPartnersComponent extends HTMLElement {
   render() {
     if (this.partnersData.length === 0) return;
 
-    let gridHtml = '';
+    let cardsHtml = '';
 
     // Vector SVGs fallbacks for missing image files to guarantee crisp rendering
     const vectorLogos = {
@@ -178,7 +179,7 @@ class InternationalPartnersComponent extends HTMLElement {
         innerContent = `<img src="${resolvedPath}" alt="${item.ten_doi_tac}" class="partner-img" onerror="this.onerror=null; this.parentNode.innerHTML='<span class=%22partner-text-fallback%22>${item.ten_doi_tac}</span>'">`;
       }
 
-      gridHtml += `
+      cardsHtml += `
         <div class="partner-card-3d-wrap">
           <div class="partner-card-3d" title="${item.ten_doi_tac}">
             <div class="partner-logo-container">
@@ -200,9 +201,13 @@ class InternationalPartnersComponent extends HTMLElement {
             Khoa hợp tác rộng rãi với các viện nghiên cứu, trường đại học và đối tác quốc tế trong đào tạo, nghiên cứu khoa học và chuyển giao công nghệ.
           </p>
           
-          <!-- Grid representing the 6 logo cards -->
-          <div class="partners-grid">
-            ${gridHtml}
+          <!-- Infinite Scrolling Marquee Wrapper -->
+          <div class="partners-marquee-wrapper">
+            <div class="partners-marquee-track">
+              <!-- Double the items to allow a seamless infinite scroll loop -->
+              ${cardsHtml}
+              ${cardsHtml}
+            </div>
           </div>
         </div>
       </section>

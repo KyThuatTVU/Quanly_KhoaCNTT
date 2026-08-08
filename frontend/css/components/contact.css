@@ -1,0 +1,365 @@
+/* ==========================================================================
+   FACULTY COOPERATION & LEADERSHIP CONTACT SECTION STYLES - 3D VOLUMETRIC
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Section 1: Cooperate CTA Banner (Full Width)
+   -------------------------------------------------------------------------- */
+.coop-banner {
+  padding: 80px 24px;
+  background: linear-gradient(135deg, #1b4d89 0%, #1e6091 50%, #0077b6 100%);
+  color: #ffffff;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.15), inset 0 -10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.coop-banner-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Banner Title */
+.coop-banner-title {
+  font-family: var(--font-logo-vn);
+  font-size: 32px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  margin: 0 0 18px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Banner Description */
+.coop-banner-desc {
+  font-family: var(--font-body);
+  font-size: 15.5px;
+  line-height: 1.85;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 36px;
+  font-weight: 500;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 3D Action Button */
+.coop-btn-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: #ffffff;
+  border: none;
+  border-radius: 30px;
+  color: #1b4d89;
+  font-family: var(--font-logo-vn);
+  font-size: 13.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: none;
+  /* 3D Volumetric Shadows */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12), inset 0 -3px 0 rgba(15, 23, 42, 0.15);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.coop-btn-3d:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18), inset 0 -3px 0 rgba(15, 23, 42, 0.15);
+  color: #0077b6;
+}
+
+.coop-btn-3d:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(15, 23, 42, 0.15);
+}
+
+.btn-arrow-icon {
+  transition: transform 0.25s ease;
+}
+
+.coop-btn-3d:hover .btn-arrow-icon {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   Section 2: Leadership Contact Cards Section (Full Width background)
+   -------------------------------------------------------------------------- */
+.deans-section {
+  padding: 90px 24px;
+  background: #f8fafc; /* Alternates from blue gradient to a light grey-blue */
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.deans-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Section Title */
+.deans-heading {
+  font-family: var(--font-logo-vn);
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f2d59; /* Deep navy */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 60px;
+  position: relative;
+  padding-bottom: 16px;
+  display: inline-block;
+}
+
+.deans-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4.5px;
+  background: linear-gradient(90deg, #0f6fff, #00b4d8);
+  border-radius: 2px;
+}
+
+/* Deans Grid (Centered Flex wrap for 5 cards) */
+.deans-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* 3D Card wrap */
+.dean-card-3d-wrap {
+  width: calc(33.333% - 20px);
+  min-width: 320px;
+  max-width: 360px;
+  perspective: 1200px;
+}
+
+/* 3D Card - Centered text layout with radial/linear background */
+.dean-card-3d {
+  transform-style: preserve-3d;
+  background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+  border: 1px solid #dbeafe;
+  /* Top-left borders highlighted to create 3D volume */
+  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 36px 28px;
+  height: calc(100% - 72px); /* Fill the wrap box */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; /* Center-aligns all internal items */
+  box-shadow: 0 10px 25px rgba(15, 111, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transform: translateZ(0);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-align: center; /* Center-aligns text blocks */
+}
+
+/* Role colored top border accents for 3D hierarchy */
+.dean-card-3d.dean-boss {
+  border-top: 5px solid #1b4d89;
+}
+
+.dean-card-3d.dean-sub {
+  border-top: 5px solid #0096c7;
+}
+
+/* Hover 3D lift physics */
+.dean-card-3d-wrap:hover .dean-card-3d {
+  transform: translateY(-8px) translateZ(15px) rotateX(1.5deg) rotateY(-1.5deg);
+  border-color: rgba(15, 111, 255, 0.25);
+  box-shadow: 0 22px 40px rgba(15, 111, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Card Details Wrapper */
+.dean-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Centered Avatar styles */
+.dean-avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.dean-avatar-ring {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, #0096c7 0%, #00b4d8 100%);
+  box-shadow: 0 6px 16px rgba(0, 150, 199, 0.22), inset 0 1.5px 0 rgba(255, 255, 255, 0.45);
+  transition: transform 0.4s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dean-card-3d-wrap:hover .dean-avatar-ring {
+  transform: scale(1.05) rotate(2deg);
+}
+
+.dean-avatar-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Centered Field Display rows */
+.dean-field {
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  color: #475569;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.dean-field:last-child {
+  margin-bottom: 0;
+}
+
+.field-label {
+  font-weight: 700;
+  color: #334155;
+  margin-right: 6px;
+}
+
+.field-val {
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Specific styling for names */
+.dean-name-highlight {
+  font-family: var(--font-logo-vn);
+  font-size: 17px;
+  font-weight: 900;
+  color: #0f2d59; /* Deep navy */
+  letter-spacing: 0.1px;
+}
+
+/* Centered Email link */
+.dean-email-link-center {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f6fff; /* Action blue */
+  text-decoration: none;
+  border-bottom: 1.5px dashed transparent;
+  transition: all 0.25s ease;
+  display: inline-block;
+}
+
+.dean-email-link-center:hover {
+  border-color: #0f6fff;
+  transform: translateY(-0.5px);
+}
+
+/* Card Footer with centered 3D button */
+.dean-card-footer-center {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1.5px solid #e2e8f0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.dean-detail-btn-3d {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 28px;
+  background: linear-gradient(135deg, #0f6fff 0%, #00b4d8 100%);
+  color: #ffffff !important;
+  font-family: var(--font-logo-vn);
+  font-size: 11.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(15, 111, 255, 0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  width: 70%;
+  text-align: center;
+}
+
+.dean-detail-btn-3d:hover {
+  transform: translateY(-2.5px);
+  box-shadow: 0 8px 16px rgba(15, 111, 255, 0.3), inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #00b4d8 0%, #0f6fff 100%);
+}
+
+.dean-detail-btn-3d:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(15, 111, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN FOR COOPERATION & LEADERSHIP SECTION
+   ========================================================================== */
+
+@media (max-width: 991px) {
+  .coop-banner {
+    padding: 60px 20px;
+  }
+
+  .coop-banner-title {
+    font-size: 28px;
+  }
+
+  .coop-banner-desc {
+    font-size: 14.5px;
+    margin-bottom: 28px;
+  }
+
+  .deans-section {
+    padding: 60px 20px;
+  }
+
+  .deans-heading {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+
+  .deans-grid {
+    gap: 20px;
+  }
+  
+  .dean-card-3d-wrap {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .dean-card-3d {
+    padding: 30px 24px;
+  }
+  
+  .dean-detail-btn-3d {
+    width: 80%;
+  }
+}
+
+@media (max-width: 576px) {
+  .coop-btn-3d {
+    padding: 12px 24px;
+    font-size: 12.5px;
+  }
+}

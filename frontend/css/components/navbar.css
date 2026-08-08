@@ -16,13 +16,15 @@
   --font-logo-en: 'Be Vietnam Pro', 'Inter', sans-serif;
 }
 
-/* Base Body Adjustment for Fixed Navbar */
+/* Base Body Adjustment for Fixed Navbar - Remove side margins for edge-to-edge full width elements */
 body {
+  padding: 0 !important;
   padding-top: var(--nav-height-desktop) !important;
 }
 
 @media (max-width: 991px) {
   body {
+    padding: 0 !important;
     padding-top: var(--nav-height-mobile) !important;
   }
 }

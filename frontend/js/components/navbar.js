@@ -23,7 +23,7 @@ class NavbarComponent extends HTMLElement {
    * Render the HTML structure of the navbar
    */
   render() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     let prefix = './';
 
@@ -36,7 +36,7 @@ class NavbarComponent extends HTMLElement {
     }
 
     const logoPath = `${prefix}assets/images/sit.jpg`;
-    const homeLink = `${prefix}`;
+    const homeLink = `${prefix}trang-chu/`;
     const gioiThieuLink = `${prefix}gioi-thieu/`;
     const nhanSuLink = `${prefix}nhan-su/`;
     const nghienCuuLink = `${prefix}nghien-cuu/`;
@@ -47,7 +47,7 @@ class NavbarComponent extends HTMLElement {
       <header class="main-header" id="mainHeader">
         <div class="navbar">
           <!-- Logo & Brand Titles (Uppercase to match reference style) -->
-          <a href="${daiHocLink}" class="navbar-brand" title="Khoa Công nghệ Thông tin - Đại học Trà Vinh">
+          <a href="${homeLink}" class="navbar-brand" title="Khoa Công nghệ Thông tin - Đại học Trà Vinh">
             <div class="brand-logo-container">
               <img src="${logoPath}" alt="FIT Logo" class="brand-logo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23ffffff%22 stroke=%22%230f6fff%22 stroke-width=%225%22/><text x=%2250%25%22 y=%2255%25%22 font-family=%22sans-serif%22 font-size=%2222%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%230f6fff%22>SIT</text></svg>'">
             </div>
@@ -106,6 +106,8 @@ class NavbarComponent extends HTMLElement {
     } else if (currentPath.includes('/sau-dai-hoc')) {
       activePage = 'sau-dai-hoc';
     } else if (currentPath.includes('/dai-hoc')) {
+      activePage = 'dai-hoc';
+    } else if (currentPath.includes('/trang-chu')) {
       activePage = 'home';
     } else {
       activePage = 'home';

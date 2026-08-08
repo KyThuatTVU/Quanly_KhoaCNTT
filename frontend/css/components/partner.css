@@ -1,10 +1,10 @@
 /* ==========================================================================
-   FACULTY PARTNERS SECTION STYLES - 3D VOLUMETRIC EDITION
+   FACULTY PARTNERS SECTION STYLES - 3D VOLUMETRIC MARQUEE EDITION
    ========================================================================== */
 
 .partners-section {
   padding: 80px 24px;
-  background: #ffffff; /* Alternates beautifully with the #f8fafc timeline section */
+  background: #ffffff; /* Alternates with the #f8fafc timeline section */
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -52,16 +52,66 @@
   font-weight: 500;
 }
 
-/* Partners Grid (6 columns) */
-.partners-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 20px;
-  align-items: stretch;
+/* --------------------------------------------------------------------------
+   Infinite Scrolling Marquee CSS Ticker
+   -------------------------------------------------------------------------- */
+.partners-marquee-wrapper {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  padding: 15px 0;
 }
 
-/* 3D Perspective wrapper */
+/* Gradient Masks to fade logos at edges for smooth transition */
+.partners-marquee-wrapper::before,
+.partners-marquee-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.partners-marquee-wrapper::before {
+  left: 0;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.partners-marquee-wrapper::after {
+  right: 0;
+  background: linear-gradient(-90deg, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* Scroll Track */
+.partners-marquee-track {
+  display: flex;
+  gap: 30px;
+  width: max-content;
+  animation: partnersMarqueeScroll 28s linear infinite;
+  will-change: transform;
+}
+
+/* Hover Pause Effect requested by user */
+.partners-marquee-wrapper:hover .partners-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Keyframes for seamless looping */
+@keyframes partnersMarqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0); /* Shifts exactly by half the track W+G */
+  }
+}
+
+/* Card Wrap inside Marquee */
 .partner-card-3d-wrap {
+  flex-shrink: 0;
+  width: 180px; /* Fixed consistent card width */
   perspective: 800px;
 }
 
@@ -74,8 +124,8 @@
   border-top: 1.5px solid rgba(255, 255, 255, 0.95);
   border-left: 1.5px solid rgba(255, 255, 255, 0.95);
   border-radius: 14px;
-  padding: 16px 20px;
-  height: 90px;
+  padding: 12px 18px;
+  height: 80px; /* Symmetrical height for ticker */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,26 +200,28 @@
     font-size: 14.5px;
     margin-bottom: 36px;
   }
-
-  .partners-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
   
+  .partner-card-3d-wrap {
+    width: 150px;
+  }
+
   .partner-card-3d {
-    height: 80px;
-    padding: 12px 16px;
+    height: 70px;
   }
 }
 
 @media (max-width: 576px) {
-  .partners-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+  .partner-card-3d-wrap {
+    width: 130px;
   }
-  
+
   .partner-card-3d {
-    height: 76px;
-    padding: 10px 12px;
+    height: 65px;
+    padding: 8px 12px;
+  }
+
+  .partners-marquee-wrapper::before,
+  .partners-marquee-wrapper::after {
+    width: 60px; /* Narrower fade masks on small screens */
   }
 }

@@ -3,190 +3,20 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Đại Học - Khoa Công Nghệ Thông Tin | TVU</title>
+    <title>Đào Tạo Đại Học - Khoa Công Nghệ Thông Tin | TVU</title>
     <!-- Component and page styles -->
     <link rel="stylesheet" href="../css/style.css" />
     <!-- Component JS script loaded as ES Module -->
     <script type="module" src="../js/main.js"></script>
   </head>
   <body>
-    <!-- Reusable Navbar Component -->
+    <!-- Reusable Navbar Component (Full Width) -->
     <navbar-component></navbar-component>
 
-    <!-- Hero Banner Section -->
-    <section class="hero-section">
-      <div class="hero-content">
-        <div class="hero-welcome">Chào mừng bạn đến với</div>
-        <h1 class="hero-title">Khoa Công nghệ Thông tin</h1>
-        <div class="hero-subtitle">Welcome to Faculty of Information Technology</div>
-      </div>
-    </section>
+    <!-- Dynamic Curriculum & Training Programs Component (Full Width) -->
+    <curriculum-program-component style="display: block;"></curriculum-program-component>
 
-    <!-- Programs Grid Section -->
-    <main class="programs-section">
-      <div class="programs-grid">
-        
-        <!-- Card 1: Undergraduate Program (Công nghệ thông tin) -->
-        <article class="program-card ug">
-          <div class="aun-badge">AUN-QA</div>
-          <div class="program-icon-wrapper">
-            <!-- Code/Computer SVG Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-              <line x1="8" y1="21" x2="16" y2="21"></line>
-              <line x1="12" y1="17" x2="12" y2="21"></line>
-              <polyline points="10 9 7 12 10 15"></polyline>
-              <polyline points="14 15 17 12 14 9"></polyline>
-            </svg>
-          </div>
-          <h2 class="program-title">Kỹ sư Công nghệ thông tin</h2>
-          <p class="program-desc">Đào tạo kỹ sư CNTT chất lượng cao, định hướng thực hành ứng dụng, làm chủ công nghệ phần mềm và hệ thống mạng hiện đại.</p>
-        </article>
-
-        <!-- Card 2: AI Program (Trí tuệ nhân tạo) -->
-        <article class="program-card ai">
-          <div class="hot-badge">HOT</div>
-          <div class="program-icon-wrapper">
-            <!-- Lightbulb SVG Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1 .3 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
-              <path d="M9 18h6"></path>
-              <path d="M10 22h4"></path>
-              <path d="M12 2v2"></path>
-              <path d="M4.9 4.9l1.4 1.4"></path>
-              <path d="M19.1 4.9l-1.4 1.4"></path>
-            </svg>
-          </div>
-          <h2 class="program-title">Kỹ sư Trí tuệ nhân tạo</h2>
-          <p class="program-desc">Đào tạo mũi nhọn về khoa học dữ liệu, thuật toán máy học, xử lý ngôn ngữ tự nhiên và phát triển các hệ thống AI thông minh.</p>
-        </article>
-
-        <!-- Card 3: Master Program (Thạc sĩ CNTT) -->
-        <article class="program-card ms">
-          <div class="aun-badge">AUN-QA</div>
-          <div class="program-icon-wrapper">
-            <!-- Graduation Cap SVG Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-              <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
-            </svg>
-          </div>
-          <h2 class="program-title">Thạc sĩ Công nghệ thông tin</h2>
-          <p class="program-desc">Nâng cao chuyên môn học thuật và ứng dụng thực tiễn, trang bị tư duy nghiên cứu độc lập và năng lực quản lý dự án công nghệ lớn.</p>
-        </article>
-
-        <!-- Card 4: PhD Program (Tiến sĩ Khoa học máy tính) -->
-        <article class="program-card phd">
-          <div class="program-icon-wrapper">
-            <!-- Science Beaker SVG Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 3h12"></path>
-              <path d="M9 3v6c0 1.5-1 3.5-3 5.5A4 4 0 0 0 9 21h6a4 4 0 0 0 3-6.5c-2-2-3-4-3-5.5V3"></path>
-              <path d="M6 14h12"></path>
-            </svg>
-          </div>
-          <h2 class="program-title">Tiến sĩ Khoa học máy tính</h2>
-          <p class="program-desc">Chương trình nghiên cứu học thuật chuyên sâu nhất, đào tạo các nhà khoa học, chuyên gia đầu ngành có khả năng tạo ra tri thức công nghệ mới.</p>
-        </article>
-
-      </div>
-    </main>
-
-    <!-- Admission Information Section -->
-    <section class="admission-section">
-      <div class="admission-container">
-        <h2 class="admission-heading">Thông tin tuyển sinh 2026</h2>
-        
-        <div class="admission-programs">
-          <!-- Công nghệ thông tin -->
-          <div class="admission-card">
-            <div class="admission-card-header">
-              <div class="admission-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                  <line x1="8" y1="21" x2="16" y2="21"></line>
-                  <line x1="12" y1="17" x2="12" y2="21"></line>
-                </svg>
-              </div>
-              <h3 class="admission-title">Công nghệ thông tin</h3>
-            </div>
-            <div class="admission-subjects">
-              <div class="subject-item">
-                <span class="subject-code">A00</span>
-                <span class="subject-desc">Toán, Vật lý, Hóa học</span>
-              </div>
-              <div class="subject-item">
-                <span class="subject-code">A01</span>
-                <span class="subject-desc">Toán, Vật lý, Tiếng Anh</span>
-              </div>
-              <div class="subject-item">
-                <span class="subject-code">C01</span>
-                <span class="subject-desc">Ngữ văn, Toán, Vật lý</span>
-              </div>
-              <div class="subject-item">
-                <span class="subject-code">D07</span>
-                <span class="subject-desc">Toán, Hóa học, Tiếng Anh</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Trí tuệ nhân tạo -->
-          <div class="admission-card">
-            <div class="admission-card-header">
-              <div class="admission-icon ai">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1 .3 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
-                  <path d="M9 18h6"></path>
-                  <path d="M10 22h4"></path>
-                </svg>
-              </div>
-              <h3 class="admission-title">Trí tuệ nhân tạo</h3>
-            </div>
-            <div class="admission-subjects">
-              <div class="subject-item">
-                <span class="subject-code">A00</span>
-                <span class="subject-desc">Toán, Vật lý, Hóa học</span>
-              </div>
-              <div class="subject-item">
-                <span class="subject-code">A01</span>
-                <span class="subject-desc">Toán, Vật lý, Tiếng Anh</span>
-              </div>
-              <div class="subject-item">
-                <span class="subject-code">C01</span>
-                <span class="subject-desc">Ngữ văn, Toán, Vật lí</span>
-              </div>
-              <div class="subject-item">
-                <span class="subject-code">D07</span>
-                <span class="subject-desc">Toán, Hóa học, Tiếng Anh</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Reusable Slider Component -->
-    <hero-slider-component></hero-slider-component>
-
-    <!-- News & Events Grid Component -->
-    <news-events-component></news-events-component>
-
-    <!-- Student Showcase Component -->
-    <student-showcase-component></student-showcase-component>
-
-    <!-- Infographics List Component -->
-    <infographic-list-component></infographic-list-component>
-
-    <!-- Counter Stats Component -->
-    <stats-counter-component></stats-counter-component>
-
-    <!-- Alumni Showcase Component -->
-    <alumni-showcase-component></alumni-showcase-component>
-
-    <!-- Activity Gallery Component -->
-    <activity-gallery-component></activity-gallery-component>
-
-    <!-- Footer Component -->
+    <!-- Footer Component (Full Width) -->
     <footer-component></footer-component>
   </body>
 </html>
