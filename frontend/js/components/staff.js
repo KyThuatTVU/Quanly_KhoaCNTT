@@ -37,7 +37,7 @@ class StaffDirectoryComponent extends HTMLElement {
   }
 
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -134,12 +134,17 @@ class StaffDirectoryComponent extends HTMLElement {
    * Renders the directory list grouped by groups
    */
   renderDirectory() {
-    const leaders = this.staffList.filter(item => item.nhom_id === 1);
-    const lecturers = this.staffList.filter(item => item.nhom_id !== 1);
+    const visibleStaff = this.staffList.filter(item => item.an_hien !== 0);
+    const leaders = visibleStaff.filter(item => item.nhom_id === 1);
+    const lecturers = visibleStaff.filter(item => item.nhom_id !== 1);
 
     const renderCard = (item) => {
-      // Create relative image path or fallback SVG
-      const imgPath = `${this.assetPrefix}${item.anh_ca_nhan_url}`;
+      // Làm sạch đường dẫn trong DB nếu lỡ lưu có '../' ở đầu
+      let rawPath = item.anh_ca_nhan_url || '';
+      if (rawPath.startsWith('../')) {
+        rawPath = rawPath.substring(3);
+      }
+      const imgPath = `${this.assetPrefix}${rawPath}`;
       const avatarHtml = `
         <div class="staff-card-img-container">
           <img src="${imgPath}" alt="${item.ho_ten}" class="staff-card-img" onerror="this.onerror=null; this.parentNode.innerHTML='${this.getFallbackAvatar()}'">
@@ -193,7 +198,11 @@ class StaffDirectoryComponent extends HTMLElement {
     const staff = this.staffList.find(item => item.id === this.activeStaffId);
     if (!staff || !this.profileData) return;
 
-    const imgPath = `${this.assetPrefix}${staff.anh_ca_nhan_url}`;
+    let rawPath = staff.anh_ca_nhan_url || '';
+    if (rawPath.startsWith('../')) {
+      rawPath = rawPath.substring(3);
+    }
+    const imgPath = `${this.assetPrefix}${rawPath}`;
     const avatarHtml = `
       <img src="${imgPath}" alt="${staff.ho_ten}" class="profile-avatar-img" onerror="this.onerror=null; this.parentNode.innerHTML='${this.getFallbackAvatar()}'">
     `;
@@ -374,9 +383,11 @@ class StaffDirectoryComponent extends HTMLElement {
               
               <!-- Contact social row -->
               <div class="profile-social-row">
-                <a href="mailto:${this.profileData.email}" class="social-icon-btn" title="Gửi Email">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                </a>
+                ${staff.an_hien_email !== 0 ? `
+                  <a href="mailto:${this.profileData.email || staff.email}" class="social-icon-btn" title="Gửi Email">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                  </a>
+                ` : ''}
                 <a href="tel:02943855246" class="social-icon-btn" title="Điện thoại">
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                 </a>
@@ -392,10 +403,12 @@ class StaffDirectoryComponent extends HTMLElement {
             <div class="personal-info-card-3d">
               <h3 class="personal-info-heading">📝 Thông tin cá nhân</h3>
               <ul class="personal-info-list">
-                <li>
-                  <span class="info-label">📧 Email:</span>
-                  <span class="info-val"><a href="mailto:${this.profileData.email}">${this.profileData.email}</a></span>
-                </li>
+                ${staff.an_hien_email !== 0 ? `
+                  <li>
+                    <span class="info-label">📧 Email:</span>
+                    <span class="info-val"><a href="mailto:${this.profileData.email || staff.email}">${this.profileData.email || staff.email}</a></span>
+                  </li>
+                ` : ''}
                 <li>
                   <span class="info-label">🏛️ Ngạch viên chức:</span>
                   <span class="info-val">${this.profileData.ngach_vien_chuc}</span>

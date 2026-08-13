@@ -1,276 +1,124 @@
 /* ==========================================================================
-   ADMISSION INFORMATION SECTION - 3D ELEGANT DESIGN
+   ADMISSION INFORMATION SECTION - PREMIUM ALERT/CALLOUT BOX DESIGN
    ========================================================================== */
 
 .admission-section {
-  padding: 80px 24px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+  padding: 50px 24px;
+  background: #ffffff;
   position: relative;
-}
-
-.admission-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
 }
 
 .admission-container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
-.admission-heading {
-  font-family: var(--font-logo-vn);
-  font-size: 32px;
-  font-weight: 800;
-  text-align: center;
-  color: #1a2332;
-  margin-bottom: 50px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  position: relative;
-  padding-bottom: 20px;
+/* Callout Box Design */
+.admission-callout {
+  background-color: #ebf5ff; /* Soft pastel blue background */
+  border-left: 5px solid #1e88e5; /* Thick blue left accent border */
+  border-top: 1px solid #d0e5ff;
+  border-right: 1px solid #d0e5ff;
+  border-bottom: 1px solid #d0e5ff;
+  border-radius: 6px;
+  padding: 24px 30px;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: var(--font-logo-en), sans-serif;
+  color: #334155; /* Slate color for text */
 }
 
-.admission-heading::after {
+.admission-callout:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 10px 15px -3px rgba(30, 136, 229, 0.08),
+    0 4px 6px -2px rgba(30, 136, 229, 0.04);
+}
+
+.admission-callout-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.admission-callout-icon {
+  font-size: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admission-callout-title {
+  font-family: var(--font-logo-vn), sans-serif;
+  font-size: 18px;
+  font-weight: 750;
+  color: #0f172a; /* Very dark slate for heading */
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.admission-callout-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admission-callout-content p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.admission-callout-content p strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.admission-link {
+  color: #1e88e5;
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.admission-link::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #4a90e2, #64b5f6);
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
-}
-
-.admission-programs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 40px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-/* Admission Card - 3D Elevated Design */
-.admission-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px 28px;
-  position: relative;
-  
-  /* 3D Effect - Subtle elevation */
-  box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.06),
-    0 8px 16px rgba(0, 0, 0, 0.08),
-    0 16px 32px rgba(0, 0, 0, 0.06);
-  
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: hidden;
-}
-
-.admission-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4a90e2, #64b5f6);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  width: 0;
+  height: 1.5px;
+  background-color: #1565c0;
+  transition: width 0.25s ease;
 }
 
-.admission-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.08),
-    0 12px 24px rgba(0, 0, 0, 0.12),
-    0 24px 48px rgba(0, 0, 0, 0.1);
+.admission-link:hover {
+  color: #1565c0;
 }
 
-.admission-card:hover::before {
-  opacity: 1;
-}
-
-/* Card Header */
-.admission-card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 28px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid #f0f2f5;
-}
-
-.admission-icon {
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #4a90e2 0%, #64b5f6 100%);
-  border-radius: 12px;
-  color: #ffffff;
-  flex-shrink: 0;
-  
-  /* 3D Icon effect */
-  box-shadow: 
-    0 4px 12px rgba(74, 144, 226, 0.3),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 2px 4px rgba(255, 255, 255, 0.2);
-  
-  transition: transform 0.3s ease;
-}
-
-.admission-icon.ai {
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
-  box-shadow: 
-    0 4px 12px rgba(245, 158, 11, 0.3),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.1),
-    inset 0 2px 4px rgba(255, 255, 255, 0.2);
-}
-
-.admission-card:hover .admission-icon {
-  transform: scale(1.05) rotate(5deg);
-}
-
-.admission-title {
-  font-family: var(--font-logo-vn);
-  font-size: 22px;
-  font-weight: 700;
-  color: #1a2332;
-  margin: 0;
-  line-height: 1.3;
-}
-
-/* Subject Items */
-.admission-subjects {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.subject-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  background: #f8f9fb;
-  border-radius: 10px;
-  border: 1px solid #e8ecf1;
-  
-  /* Subtle 3D inset */
-  box-shadow: 
-    inset 0 1px 2px rgba(0, 0, 0, 0.04),
-    0 1px 2px rgba(255, 255, 255, 0.8);
-  
-  transition: all 0.25s ease;
-}
-
-.subject-item:hover {
-  background: #ffffff;
-  border-color: #d1dce6;
-  transform: translateX(4px);
-  
-  box-shadow: 
-    inset 0 1px 2px rgba(0, 0, 0, 0.02),
-    0 2px 8px rgba(74, 144, 226, 0.12);
-}
-
-.subject-code {
-  font-family: var(--font-logo-en);
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-  background: linear-gradient(135deg, #4a90e2, #5ca8ef);
-  padding: 6px 12px;
-  border-radius: 6px;
-  min-width: 50px;
-  text-align: center;
-  flex-shrink: 0;
-  
-  /* 3D button effect */
-  box-shadow: 
-    0 2px 6px rgba(74, 144, 226, 0.25),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3);
-  
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.subject-desc {
-  font-family: var(--font-logo-en);
-  font-size: 14px;
-  font-weight: 500;
-  color: #495867;
-  line-height: 1.4;
+.admission-link:hover::after {
+  width: 100%;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .admission-section {
-    padding: 60px 20px;
+    padding: 35px 20px;
   }
   
-  .admission-heading {
-    font-size: 26px;
-    margin-bottom: 40px;
+  .admission-callout {
+    padding: 20px 24px;
   }
   
-  .admission-programs {
-    grid-template-columns: 1fr;
-    gap: 30px;
+  .admission-callout-title {
+    font-size: 16px;
   }
   
-  .admission-card {
-    padding: 28px 24px;
-  }
-  
-  .admission-icon {
-    width: 48px;
-    height: 48px;
-  }
-  
-  .admission-title {
-    font-size: 20px;
-  }
-  
-  .subject-item {
-    padding: 12px 14px;
-  }
-  
-  .subject-code {
+  .admission-callout-content p {
     font-size: 14px;
-    min-width: 46px;
-  }
-  
-  .subject-desc {
-    font-size: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .admission-heading {
-    font-size: 22px;
-  }
-  
-  .admission-card-header {
-    gap: 12px;
-  }
-  
-  .admission-icon {
-    width: 44px;
-    height: 44px;
-  }
-  
-  .admission-title {
-    font-size: 18px;
   }
 }

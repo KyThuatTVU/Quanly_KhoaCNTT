@@ -37,7 +37,7 @@ class InfographicListComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -53,62 +53,18 @@ class InfographicListComponent extends HTMLElement {
    * Initialize data flow
    */
   async init() {
-    // 1. Instantly paint mock data
-    this.loadMockData();
+    await this.fetchData();
+  }
+
+  /**
+   * Fetch live data
+   */
+  async fetchData() {
+    const data = await InfographicService.getInfographics();
+    this.infographics = data || [];
     this.render();
     this.initLightbox();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
-  }
-
-  /**
-   * Populate mock data corresponding to 'infographic_items' table
-   */
-  loadMockData() {
-    this.infographics = [
-      {
-        id: 1,
-        ten_infographic: 'Đại học - Ngành Khoa học Máy tính',
-        file_anh_url: 'assets/infographic/info_khmt.png',
-        file_pdf_url: 'assets/infographic/info_khmt.png',
-        thu_tu: 1
-      },
-      {
-        id: 2,
-        ten_infographic: 'Đại học - Ngành Trí tuệ Nhân tạo',
-        file_anh_url: 'assets/infographic/info_ttnt.png',
-        file_pdf_url: 'assets/infographic/info_ttnt.png',
-        thu_tu: 2
-      },
-      {
-        id: 3,
-        ten_infographic: 'Sau Đại học - Thạc sĩ Khoa học Máy tính',
-        file_anh_url: 'assets/infographic/info_thacsi.png',
-        file_pdf_url: 'assets/infographic/info_thacsi.png',
-        thu_tu: 3
-      },
-      {
-        id: 4,
-        ten_infographic: 'Sau Đại học - Tiến sĩ Khoa học Máy tính',
-        file_anh_url: 'assets/infographic/info_tiensi.png',
-        file_pdf_url: 'assets/infographic/info_tiensi.png',
-        thu_tu: 4
-      }
-    ];
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
-    const data = await InfographicService.getInfographics();
-    if (data && data.length > 0) {
-      this.infographics = data;
-      this.render();
-      this.initLightbox();
-      console.log('Cập nhật dữ liệu infographic từ API thành công.');
-    }
+    console.log('Tải dữ liệu infographic thành công.');
   }
 
   /**
@@ -120,8 +76,18 @@ class InfographicListComponent extends HTMLElement {
     let cardsHtml = '';
 
     this.infographics.forEach(item => {
-      const imgPath = `${this.assetPrefix}${item.file_anh_url}`;
-      const pdfPath = `${this.assetPrefix}${item.file_pdf_url}`;
+      const isAbsoluteImg = item.file_anh_url && (item.file_anh_url.startsWith('http://') || item.file_anh_url.startsWith('https://') || item.file_anh_url.startsWith('data:'));
+      const isAbsolutePdf = item.file_pdf_url && (item.file_pdf_url.startsWith('http://') || item.file_pdf_url.startsWith('https://'));
+
+      const placeholderSvg = `data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 300 420%22><rect width=%22300%22 height=%22420%22 fill=%22%23eef2f6%22/><text x=%2250%25%22 y=%2250%25%22 font-family=%22sans-serif%22 font-size=%2216%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%2394a3b8%22>Infographic Tuyển Sinh</text></svg>`;
+
+      const imgPath = item.file_anh_url
+        ? (isAbsoluteImg ? item.file_anh_url : `${this.assetPrefix}${item.file_anh_url}`)
+        : placeholderSvg;
+
+      const pdfPath = item.file_pdf_url
+        ? (isAbsolutePdf ? item.file_pdf_url : `${this.assetPrefix}${item.file_pdf_url}`)
+        : '#';
 
       cardsHtml += `
         <div class="info-card">

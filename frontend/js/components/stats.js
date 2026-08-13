@@ -35,70 +35,19 @@ class StatsCounterComponent extends HTMLElement {
    * Initialize data flow and trigger IntersectionObserver
    */
   async init() {
-    // 1. Instantly paint mock structure
-    this.loadMockData();
+    await this.fetchData();
+  }
+
+  /**
+   * Fetch live data
+   */
+  async fetchData() {
+    const data = await StatsService.getStats();
+    this.statsData = data || [];
+    this.hasAnimated = false; // Allow re-animation on new data fetch
     this.render();
     this.initObserver();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
-  }
-
-  /**
-   * Populate mock data corresponding to 'thong_ke_noi_bat' table
-   */
-  loadMockData() {
-    this.statsData = [
-      {
-        id: 1,
-        ten_chi_so: 'Sinh viên',
-        so_lieu_thong_ke: 1063,
-        don_vi: '+',
-        ghi_chu_thoi_gian: 'Số liệu thống kê đến tháng 12/2025'
-      },
-      {
-        id: 2,
-        ten_chi_so: 'Học viên sau đại học',
-        so_lieu_thong_ke: 234,
-        don_vi: '+',
-        ghi_chu_thoi_gian: 'Số liệu thống kê đến tháng 12/2025'
-      },
-      {
-        id: 3,
-        ten_chi_so: 'Đề tài NCKH',
-        so_lieu_thong_ke: 15,
-        don_vi: '+',
-        ghi_chu_thoi_gian: 'Số liệu thống kê đến tháng 12/2025'
-      },
-      {
-        id: 4,
-        ten_chi_so: 'Bài báo',
-        so_lieu_thong_ke: 60,
-        don_vi: '+',
-        ghi_chu_thoi_gian: 'Số liệu thống kê đến tháng 12/2025'
-      },
-      {
-        id: 5,
-        ten_chi_so: 'Dự án quốc tế',
-        so_lieu_thong_ke: 3,
-        don_vi: '+',
-        ghi_chu_thoi_gian: 'Số liệu thống kê đến tháng 12/2025'
-      }
-    ];
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
-    const data = await StatsService.getStats();
-    if (data && data.length > 0) {
-      this.statsData = data;
-      this.hasAnimated = false; // Allow re-animation on new data fetch
-      this.render();
-      this.initObserver();
-      console.log('Cập nhật dữ liệu thống kê từ API thành công.');
-    }
+    console.log('Tải dữ liệu thống kê thành công.');
   }
 
   /**

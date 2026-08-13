@@ -84,6 +84,7 @@ CREATE TABLE `nhan_vien` (
   `aria_label_anh`    VARCHAR(200) DEFAULT NULL COMMENT 'Aria label cho accessibility',
   `thu_tu_trong_nhom` INT NOT NULL DEFAULT 0 COMMENT 'Thứ tự vị trí trong nhóm',
   `an_hien`           TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1: Hiện, 0: Ẩn',
+  `an_hien_email`     TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1: Hiện, 0: Ẩn',
   `ngay_tao`          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ngay_cap_nhat`     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT `fk_nhanvien_nhom` FOREIGN KEY (`nhom_id`) REFERENCES `nhom_nhan_su` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -269,8 +270,10 @@ CREATE TABLE `sinh_vien_tieu_bieu` (
   `nganh_hoc`            VARCHAR(200) NOT NULL COMMENT 'Ngành Khoa học máy tính...',
   `thanh_tich`            TEXT NOT NULL COMMENT 'Chi tiết giải thưởng thành tích',
   `giang_vien_huong_dan` VARCHAR(200) DEFAULT NULL COMMENT 'Tên GVHD nếu có',
+  `chuyen_muc`           VARCHAR(100) NOT NULL DEFAULT 'Sinh viên tiêu biểu' COMMENT 'Phân loại: Sinh viên tiêu biểu, Nghiên cứu khoa học sinh viên, Dự án AI nổi bật',
   `hinh_anh_url`         VARCHAR(500) DEFAULT NULL,
-  `thu_tu`               INT NOT NULL DEFAULT 0
+  `thu_tu`               INT NOT NULL DEFAULT 0,
+  `an_hien`              TINYINT(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Sinh viên và đội nhóm thành tích tiêu biểu';
 
 -- 3.9 Bảng Gương mặt & Trích dẫn Cựu sinh viên tiêu biểu
@@ -281,7 +284,8 @@ CREATE TABLE `cuu_sinh_vien_tieu_bieu` (
   `chuc_danh_cong_ty`  VARCHAR(300) NOT NULL COMMENT 'Vị trí công tác & Tên công ty',
   `trich_dan_cam_nhan` TEXT NOT NULL COMMENT 'Trích dẫn phát biểu cảm nhận',
   `hinh_anh_avatar_url` VARCHAR(500) DEFAULT NULL COMMENT 'Ảnh đại diện cựu SV',
-  `thu_tu`             INT NOT NULL DEFAULT 0
+  `thu_tu`             INT NOT NULL DEFAULT 0,
+  `an_hien`            TINYINT(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Gương mặt cựu sinh viên tiêu biểu';
 
 -- 3.10 Bảng Thư viện ảnh hoạt động Trang chủ
@@ -564,6 +568,9 @@ CREATE TABLE `danh_sach_nghien_cuu_sinh` (
   `huong_nghien_cuu`   TEXT NOT NULL COMMENT 'Tên đề tài luận án / Hướng nghiên cứu',
   `nguoi_huong_dan`    VARCHAR(300) NOT NULL COMMENT 'Cán bộ hướng dẫn khoa học',
   `trang_thai`         VARCHAR(100) NOT NULL DEFAULT 'Đang học',
+  `an_hien`            TINYINT(1) NOT NULL DEFAULT 1,
+  `an_hien_ma_ncs`     TINYINT(1) NOT NULL DEFAULT 1,
+  `an_hien_email`      TINYINT(1) NOT NULL DEFAULT 1,
   `ngay_tao`           DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Danh sách 7 Nghiên cứu sinh Tiến sĩ KHMT';
 

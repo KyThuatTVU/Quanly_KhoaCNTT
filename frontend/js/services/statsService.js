@@ -8,7 +8,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_URL = '/api/stats';
+const API_URL = 'http://localhost:5000/api/v1/admin/stats';
 
 export const StatsService = {
   /**
@@ -21,8 +21,11 @@ export const StatsService = {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      return data;
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        return result.data;
+      }
+      throw new Error(result.error || 'Dữ liệu không hợp lệ');
     } catch (error) {
       console.warn('API /api/stats chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu thống kê.', error.message);
       return null;

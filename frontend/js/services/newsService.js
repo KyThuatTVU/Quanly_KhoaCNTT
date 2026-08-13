@@ -8,7 +8,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_URL = '/api/news';
+const API_URL = 'http://localhost:5000/api/v1/admin/news';
 
 export const NewsService = {
   /**
@@ -21,8 +21,20 @@ export const NewsService = {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      return data;
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        return result.data.map(item => ({
+          id: item.id,
+          tieu_de: item.tieu_de,
+          slug: item.slug,
+          ngay_dang: item.ngay_dang,
+          nhan_lon: item.nhan_lon || new Date(item.ngay_dang).toLocaleDateString('vi-VN'),
+          nhan_nho: item.nhan_nho || 'Tin tức',
+          tom_tat: item.tom_tat || '',
+          anh_chinh: item.anh_chinh || 'assets/images/news/default.jpg'
+        }));
+      }
+      throw new Error(result.error || 'Dữ liệu không hợp lệ');
     } catch (error) {
       console.warn('API /api/news chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu tin tức.', error.message);
       return null;

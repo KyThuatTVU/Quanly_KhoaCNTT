@@ -8,7 +8,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_URL = '/api/banners';
+const API_URL = 'http://localhost:5000/api/v1/admin/sliders';
 
 export const BannerService = {
   /**
@@ -21,10 +21,23 @@ export const BannerService = {
       if (!response.ok) {
         throw new Error(`Lỗi HTTP! Trạng thái: ${response.status}`);
       }
-      const data = await response.json();
-      return data;
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        return result.data
+          .sort((a, b) => (a.thu_tu || 0) - (b.thu_tu || 0))
+          .map(item => ({
+            id: item.id,
+            titleVn: item.ten_slide || '',
+            // bgImage: store the path exactly as returned from DB
+            // slider component will prepend assetPrefix (./ or ../) itself
+            bgImage: item.hinh_anh_url || '',
+            actionUrl: item.link_lien_ket || '#',
+            actionText: 'Khám phá ngay',
+          }));
+      }
+      throw new Error(result.error || 'Dữ liệu không hợp lệ');
     } catch (error) {
-      console.warn('API /api/banners chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu.', error.message);
+      console.warn('API /api/sliders chưa sẵn sàng, sử dụng dữ liệu mặc định.', error.message);
       return null;
     }
   }

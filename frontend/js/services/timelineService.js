@@ -7,7 +7,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_TIMELINE_URL = '/api/timeline';
+const API_TIMELINE_URL = 'http://localhost:5000/api/v1/admin/timeline';
 
 export const TimelineService = {
   /**
@@ -20,13 +20,16 @@ export const TimelineService = {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      
-      // Sort data by order order ('thu_tu' or 'nam')
-      return data.sort((a, b) => {
-        if (a.thu_tu !== b.thu_tu) return a.thu_tu - b.thu_tu;
-        return parseInt(a.nam) - parseInt(b.nam);
-      });
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        const data = result.data;
+        // Sort data by order order ('thu_tu' or 'nam')
+        return data.sort((a, b) => {
+          if (a.thu_tu !== b.thu_tu) return a.thu_tu - b.thu_tu;
+          return parseInt(a.nam) - parseInt(b.nam);
+        });
+      }
+      throw new Error(result.error || 'Dữ liệu không hợp lệ');
     } catch (error) {
       console.warn('API /api/timeline chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu lịch sử khoa.', error.message);
       return null;

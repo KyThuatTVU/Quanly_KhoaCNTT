@@ -7,7 +7,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_PARTNERS_URL = '/api/partners';
+const API_PARTNERS_URL = 'http://localhost:5000/api/v1/admin/partners';
 
 export const PartnerService = {
   /**
@@ -20,12 +20,15 @@ export const PartnerService = {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      
-      // Filter for partners visible on "gioi_thieu" page and sort by 'thu_tu'
-      return data
-        .filter(item => item.hien_thi_o && item.hien_thi_o.includes('gioi_thieu'))
-        .sort((a, b) => a.thu_tu - b.thu_tu);
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        const data = result.data;
+        // Filter for partners visible on "gioi_thieu" page and sort by 'thu_tu'
+        return data
+          .filter(item => item.hien_thi_o && item.hien_thi_o.includes('gioi_thieu'))
+          .sort((a, b) => a.thu_tu - b.thu_tu);
+      }
+      throw new Error(result.error || 'Dữ liệu không hợp lệ');
     } catch (error) {
       console.warn('API /api/partners chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu đối tác.', error.message);
       return null;

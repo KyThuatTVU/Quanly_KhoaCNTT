@@ -33,67 +33,17 @@ class TimelineHistoryComponent extends HTMLElement {
    * Initialize data flow
    */
   async init() {
-    // 1. Instantly paint mock data
-    this.loadMockData();
-    this.render();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
+    await this.fetchData();
   }
 
   /**
-   * Populate mock data corresponding to Tra Vinh University (SIT)
+   * Fetch live data
    */
-  loadMockData() {
-    this.timelineData = [
-      {
-        id: 1,
-        nam: '2001',
-        ngay_cu_the: '2001-09-05',
-        so_quyet_dinh: '112/QĐ-UBND',
-        noi_dung: 'Thành lập <strong>Bộ môn Công nghệ thông tin</strong> thuộc Khoa Kỹ thuật và Công nghệ - tiền thân của Khoa Công nghệ thông tin ngày nay, đặt nền móng cho đào tạo lĩnh vực kỹ thuật số.'
-      },
-      {
-        id: 2,
-        nam: '2006',
-        ngay_cu_the: '2006-06-19',
-        so_quyet_dinh: '141/2006/QĐ-TTg',
-        noi_dung: 'Trường <strong>Đại học Trà Vinh</strong> chính thức được thành lập. Bộ môn CNTT mở rộng chương trình đào tạo đại học chính quy nhằm cung ứng nhân lực số vùng Đồng bằng sông Cửu Long.'
-      },
-      {
-        id: 3,
-        nam: '2014',
-        ngay_cu_the: null,
-        so_quyet_dinh: null,
-        noi_dung: 'Bắt đầu tuyển sinh và đào tạo trình độ <strong>Thạc sĩ ngành Công nghệ thông tin</strong>, đánh dấu bước phát triển đột phá trong đào tạo sau đại học và nghiên cứu khoa học chuyên sâu.'
-      },
-      {
-        id: 4,
-        nam: '2019',
-        ngay_cu_the: null,
-        so_quyet_dinh: null,
-        noi_dung: 'Chương trình đào tạo ngành Công nghệ thông tin hệ Đại học đạt chuẩn <strong>kiểm định chất lượng quốc tế AUN-QA / FIBAA</strong>, khẳng định thương hiệu đào tạo chất lượng cao.'
-      },
-      {
-        id: 5,
-        nam: '2023',
-        ngay_cu_the: null,
-        so_quyet_dinh: null,
-        noi_dung: 'Đầu tư đồng bộ hệ thống <strong>phòng Lab trí tuệ nhân tạo (AI), IoT và an toàn thông tin</strong> hiện đại, thúc đẩy công tác nghiên cứu khoa học ứng dụng và chuyển giao công nghệ.'
-      }
-    ];
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
+  async fetchData() {
     const data = await TimelineService.getTimeline();
-    if (data && data.length > 0) {
-      this.timelineData = data;
-      this.render();
-      console.log('Cập nhật dữ liệu lịch sử từ API thành công.');
-    }
+    this.timelineData = data || [];
+    this.render();
+    console.log('Tải dữ liệu lịch sử thành công.');
   }
 
   /**

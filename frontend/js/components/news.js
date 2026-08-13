@@ -36,7 +36,7 @@ class NewsEventsComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -52,62 +52,17 @@ class NewsEventsComponent extends HTMLElement {
    * Initialize data flow
    */
   async init() {
-    // 1. Instantly paint mock data
-    this.loadMockData();
-    this.render();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
+    await this.fetchData();
   }
 
   /**
-   * Populate mock data corresponding to 'tin_tuc' and 'hinh_anh_tin_tuc' tables
+   * Fetch live data
    */
-  loadMockData() {
-    this.newsData = [
-      {
-        id: 1,
-        tieu_de: 'Tham dự hội thảo quốc tế CITA 2026 tại Vịnh Hạ Long, Quảng Ninh',
-        slug: 'cita-2026',
-        ngay_dang: '2026-07-19',
-        nhan_lon: '19-07-2026',
-        nhan_nho: 'CITA 2026, Vịnh Hạ Long',
-        tom_tat: 'Khoa Công nghệ Thông tin - Trường Đại học Trà Vinh đã tham gia và trình bày báo cáo nghiên cứu tại Hội thảo quốc tế về Điện toán và Công nghệ thông tin (CITA 2026) được tổ chức tại thành phố du lịch biển Vịnh Hạ Long, Quảng Ninh.',
-        anh_chinh: 'assets/news/news_cita.png'
-      },
-      {
-        id: 2,
-        tieu_de: 'Tham dự hội thảo quốc tế ISDS 2026 tại Yuan Ze University, Taiwan',
-        slug: 'isds-2026',
-        ngay_dang: '2026-11-14',
-        nhan_lon: '14-11-2026',
-        nhan_nho: 'ISDS 2026, Taiwan',
-        tom_tat: 'Đoàn cán bộ nghiên cứu của Khoa đã có chuyến công tác tham gia trình bày báo cáo khoa học tại Hội thảo Quốc tế về Hệ thống Thông tin và Phát triển Dữ liệu (ISDS 2026) diễn ra tại trường Đại học Nguyên Bản (Yuan Ze University), Đài Loan.',
-        anh_chinh: 'assets/news/news_isds.png'
-      },
-      {
-        id: 3,
-        tieu_de: 'Tham dự hội thảo quốc tế IUKM 2026 tại Quy Nhơn, Bình Định',
-        slug: 'iukm-2026',
-        ngay_dang: '2026-11-14',
-        nhan_lon: '14-11-2026',
-        nhan_nho: 'IUKM 2026, Quy Nhơn',
-        tom_tat: 'Đại diện giảng viên bộ môn của Khoa tham gia đóng góp chuyên môn và giao lưu trao đổi học thuật tại Hội thảo Khoa học Quốc tế IUKM 2026 tổ chức tại trung tâm hội nghị quốc tế Quy Nhơn, Bình Định.',
-        anh_chinh: 'assets/news/news_iukm.png'
-      }
-    ];
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
+  async fetchData() {
     const data = await NewsService.getNews();
-    if (data && data.length > 0) {
-      this.newsData = data;
-      this.render();
-      console.log('Cập nhật dữ liệu tin tức từ API thành công.');
-    }
+    this.newsData = data || [];
+    this.render();
+    console.log('Tải dữ liệu tin tức thành công.');
   }
 
   /**

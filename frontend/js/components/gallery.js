@@ -37,7 +37,7 @@ class ActivityGalleryComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -53,57 +53,17 @@ class ActivityGalleryComponent extends HTMLElement {
    * Initialize data flow
    */
   async init() {
-    // 1. Instantly paint mock data (15 elements grid)
-    this.loadMockData();
-    this.render();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
+    await this.fetchData();
   }
 
   /**
-   * Populate mock data corresponding to 'gallery_hoat_dong_trang_chu' table
+   * Fetch live data
    */
-  loadMockData() {
-    this.photoData = [];
-    const titles = [
-      'Lễ bảo vệ Đồ án tốt nghiệp đại học',
-      'Đồng nghiệp gặp gỡ thảo luận sinh hoạt khoa',
-      'Ngày Seminar trao đổi học thuật chuyên đề',
-      'Trải nghiệm gian hàng tuyển sinh & tư vấn công nghệ',
-      'Khen thưởng đội tuyển thi lập trình ICPC đạt giải cao',
-      'Lễ khai mạc Olympic Trí tuệ nhân tạo Việt Nam miền Nam',
-      'Họp mặt hội đồng phản biện luận văn sau đại học',
-      'Ký kết biên bản ghi nhớ hợp tác doanh nghiệp (MOU)',
-      'Học sinh THPT tham quan phòng thí nghiệm khoa',
-      'Sinh viên báo cáo nghiên cứu và bảo vệ luận án Tiến sĩ',
-      'Lễ bảo vệ luận văn Thạc sĩ ngành Khoa học máy tính',
-      'Triển lãm robot và sản phẩm Trí tuệ nhân tạo',
-      'Sinh hoạt tập thể chào đón Tân sinh viên khóa mới',
-      'Khuôn viên tòa nhà công nghệ thông tin truyền thông',
-      'Hội đồng đánh giá nghiệm thu đề tài NCKH cấp cơ sở'
-    ];
-
-    for (let i = 1; i <= 15; i++) {
-      this.photoData.push({
-        id: i,
-        tieu_de_anh: titles[i - 1] || 'Ảnh hoạt động Khoa Khoa học máy tính',
-        hinh_anh_url: `assets/gallery/gallery_${i}.png`,
-        thu_tu: i
-      });
-    }
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
+  async fetchData() {
     const data = await GalleryService.getActivityPhotos();
-    if (data && data.length > 0) {
-      this.photoData = data;
-      this.render();
-      console.log('Cập nhật dữ liệu ảnh hoạt động từ API thành công.');
-    }
+    this.photoData = data || [];
+    this.render();
+    console.log('Tải dữ liệu ảnh hoạt động thành công.');
   }
 
   /**

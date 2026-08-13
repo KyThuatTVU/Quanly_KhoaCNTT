@@ -21,7 +21,7 @@ class FooterComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -75,7 +75,7 @@ class FooterComponent extends HTMLElement {
               <li><a href="${nghienCuuLink}">Nghiên Cứu Khoa Học</a></li>
               <li><a href="${daiHocLink}">Đại Học</a></li>
               <li><a href="${sauDaiHocLink}">Sau Đại Học</a></li>
-            </ul>
+              
           </div>
 
           <!-- Column 3: Contact Details -->
@@ -100,7 +100,7 @@ class FooterComponent extends HTMLElement {
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                <span>Email: fit@tvu.edu.vn</span>
+                <span>Email: CNTT@tvu.edu.vn</span>
               </li>
             </ul>
           </div>

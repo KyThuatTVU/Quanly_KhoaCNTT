@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cổng Quản Trị Admin | Khoa Công nghệ Thông tin - Đại học Trà Vinh</title>
+    <!-- Dedicated Admin Stylesheet -->
+    <link rel="stylesheet" href="./css/admin.css" />
+    <!-- Site Icon -->
+    <link rel="icon" type="image/jpeg" href="../assets/images/sit.jpg" />
+    <!-- Global Debug Error Logger -->
+    <script>
+      window.onerror = function(message, source, lineno, colno, error) {
+        const div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.top = '0';
+        div.style.left = '0';
+        div.style.width = '100vw';
+        div.style.background = '#ef4444';
+        div.style.color = '#ffffff';
+        div.style.padding = '24px';
+        div.style.zIndex = '999999';
+        div.style.fontFamily = 'monospace';
+        div.style.fontSize = '14px';
+        div.style.lineHeight = '1.6';
+        div.style.whiteSpace = 'pre-wrap';
+        div.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+        div.innerText = '🚨 LỖI RUNTIME JAVASCRIPT:\n\n' + message + '\n\nTại: ' + source + ' (Dòng: ' + lineno + ', Cột: ' + colno + ')\n\nStack Trace:\n' + (error && error.stack || 'Không có stack trace');
+        document.body.appendChild(div);
+        return false;
+      };
+      window.addEventListener('unhandledrejection', function(event) {
+        const div = document.createElement('div');
+        div.style.position = 'fixed';
+        div.style.top = '0';
+        div.style.left = '0';
+        div.style.width = '100vw';
+        div.style.background = '#f59e0b';
+        div.style.color = '#ffffff';
+        div.style.padding = '24px';
+        div.style.zIndex = '999999';
+        div.style.fontFamily = 'monospace';
+        div.style.fontSize = '14px';
+        div.style.lineHeight = '1.6';
+        div.style.whiteSpace = 'pre-wrap';
+        div.style.boxShadow = '0 10px 30px rgba(0,0,0,0.5)';
+        div.innerText = '⚠️ LỖI UNHANDLED PROMISE REJECTION:\n\n' + event.reason + '\n\nStack Trace:\n' + (event.reason && event.reason.stack || 'Không có stack trace');
+        document.body.appendChild(div);
+      });
+    </script>
+  </head>
+  <body class="admin-body">
+    
+    <!-- 1. GOOGLE OAUTH LOGIN SCREEN OVERLAY (UI ONLY) -->
+    <div class="google-login-overlay hidden" id="googleLoginOverlay">
+      <div class="google-login-card">
+        <div class="login-brand-header">
+          <img src="../assets/images/sit.jpg" alt="FIT Logo" class="login-brand-logo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23ffffff%22 stroke=%22%232563eb%22 stroke-width=%225%22/><text x=%2250%25%22 y=%2255%25%22 font-family=%22sans-serif%22 font-size=%2222%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%232563eb%22>SIT</text></svg>'">
+          <h1 class="login-brand-title">KHOA CÔNG NGHỆ THÔNG TIN</h1>
+          <div class="login-brand-sub">ĐẠI HỌC TRÀ VINH</div>
+          <div class="login-portal-tag">Cổng Quản Trị Nội Bộ</div>
+        </div>
+
+        <div class="login-action-box">
+          <button type="button" class="btn-google-login" id="btnGoogleSignIn">
+            <svg class="google-icon-svg" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            Đăng nhập với Google
+          </button>
+        </div>
+
+        <div class="demo-account-picker">
+          <div class="demo-picker-label">Hoặc chọn tài khoản Google OAuth Demo:</div>
+          
+          <div class="demo-account-item" data-email="lamnn@tvu.edu.vn">
+            <img src="../assets/images/deans/lamnn.jpg" alt="LamNN" class="demo-account-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Nguyen+Nhut+Lam&background=0D8ABC&color=fff'">
+            <div class="demo-account-info">
+              <div class="demo-account-name">TS. Nguyễn Nhứt Lam</div>
+              <div class="demo-account-email">lamnn@tvu.edu.vn</div>
+            </div>
+            <span class="demo-account-badge">SUPER_ADMIN</span>
+          </div>
+
+          <div class="demo-account-item" data-email="oane@tvu.edu.vn">
+            <img src="../assets/images/deans/oane.jpg" alt="Oane" class="demo-account-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Thach+Kong+Saoane&background=2563eb&color=fff'">
+            <div class="demo-account-info">
+              <div class="demo-account-name">TS. Thạch Kọng Saoane</div>
+              <div class="demo-account-email">oane@tvu.edu.vn</div>
+            </div>
+            <span class="demo-account-badge">SUPER_ADMIN</span>
+          </div>
+
+          <div class="demo-account-item" data-email="lpdu@tvu.edu.vn">
+            <img src="../assets/images/deans/lpdu.jpg" alt="Lpdu" class="demo-account-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Le+Phong+Du&background=10b981&color=fff'">
+            <div class="demo-account-info">
+              <div class="demo-account-name">ThS. Lê Phong Dũ</div>
+              <div class="demo-account-email">lpdu@tvu.edu.vn</div>
+            </div>
+            <span class="demo-account-badge">STAFF_EDITOR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. MAIN ADMIN PORTAL SPA WRAPPER -->
+    <div class="admin-wrapper" id="adminAppWrapper">
+      
+      <!-- CATEGORIZED SIDEBAR CONTAINER -->
+      <aside class="admin-sidebar" id="adminSidebar">
+        <!-- Rendered dynamically by adminSidebar.js -->
+      </aside>
+
+      <!-- MAIN CONTENT CONTAINER -->
+      <main class="admin-main">
+        <!-- HEADER BAR -->
+        <header class="admin-header" id="adminHeader">
+          <div class="header-left">
+            <button type="button" class="mobile-sidebar-toggle" id="mobileSidebarToggle" aria-label="Toggle Sidebar">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <h1 class="header-page-title" id="adminPageTitle">Tổng quan Dashboard</h1>
+          </div>
+
+          <div class="header-right">
+            <a href="../trang-chu/" class="btn-secondary" style="display:flex; align-items:center; gap:6px; text-decoration:none; font-size:0.82rem;" target="_blank">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              <span class="hide-mobile">Xem trang public</span>
+            </a>
+
+            <button type="button" class="theme-toggle-btn" id="themeToggleBtn" title="Chuyển chế độ Sáng / Tối">
+              🌙
+            </button>
+
+            <div class="admin-user-profile" id="adminUserProfile">
+              <img src="../assets/images/deans/lamnn.jpg" alt="Admin Avatar" class="user-avatar" id="headerUserAvatar" onerror="this.src='https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff'">
+              <div class="user-details">
+                <span class="user-name" id="headerUserName">TS. Nguyễn Nhứt Lam</span>
+                <span class="user-role" id="headerUserRole">SUPER_ADMIN</span>
+              </div>
+              <button type="button" class="btn-logout" id="btnLogoutAdmin" title="Đăng xuất">
+                Đăng xuất
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- DYNAMIC PANEL AREA -->
+        <div class="admin-content" id="adminContentArea">
+          <!-- Rendered dynamically by adminApp.js -->
+        </div>
+      </main>
+    </div>
+
+    <!-- 3. DYNAMIC FORM MODAL OVERLAY -->
+    <div class="admin-modal-overlay hidden" id="adminModalOverlay">
+      <form class="admin-modal-card" id="adminDynamicForm" onsubmit="return false;">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalTitle">Thêm mới bản ghi</h3>
+          <button type="button" class="modal-close-btn" id="btnCloseModal">✕</button>
+        </div>
+        <div class="modal-body" id="modalFormBody">
+          <!-- Dynamic Form Inputs -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="btnCancelModal">Hủy bỏ</button>
+          <button type="button" class="btn-admin-primary" id="btnSubmitModal">Lưu thay đổi</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 4. FLOATING TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- DEDICATED ADMIN JS ENTRY MODULE -->
+    <script type="module" src="./js/pages/adminApp.js"></script>
+  </body>
+</html>

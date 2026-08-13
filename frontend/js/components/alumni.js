@@ -36,7 +36,7 @@ class AlumniShowcaseComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -52,53 +52,17 @@ class AlumniShowcaseComponent extends HTMLElement {
    * Initialize data flow
    */
   async init() {
-    // 1. Instantly paint mock data
-    this.loadMockData();
-    this.render();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
+    await this.fetchData();
   }
 
   /**
-   * Populate mock data corresponding to 'cuu_sinh_vien_tieu_bieu' table
+   * Fetch live data
    */
-  loadMockData() {
-    this.alumniData = [
-      {
-        id: 1,
-        ho_ten: 'Trần Hoàng Thảo Nguyên',
-        chuc_danh_cong_ty: 'Data Engineer @ PTN Global\nMEng. in Human Computer Interaction @ KIT',
-        trich_dan_cam_nhan: 'Những kiến thức nền tảng và kỹ năng nghiên cứu tại Khoa đã giúp tôi tự tin phát triển trong môi trường công nghệ.',
-        hinh_anh_avatar_url: 'assets/alumni/alumni_nguyen.png'
-      },
-      {
-        id: 2,
-        ho_ten: 'Tạ Đặng Vĩnh Phúc',
-        chuc_danh_cong_ty: 'Co-Founder @ Flux Astromesh\nDoanh nghiệp chuyển đổi số',
-        trich_dan_cam_nhan: 'Chương trình học giúp tôi có nền tảng tốt về dữ liệu, lập trình và tư duy giải quyết vấn đề.',
-        hinh_anh_avatar_url: 'assets/alumni/alumni_phuc.png'
-      },
-      {
-        id: 3,
-        ho_ten: 'Trần Quốc Khang',
-        chuc_danh_cong_ty: 'Trợ giảng @ Khoa Khoa học máy tính\nĐại học Cần Thơ',
-        trich_dan_cam_nhan: 'Môi trường học thuật tại Khoa là nền tảng quan trọng giúp tôi tiếp tục theo đuổi nghiên cứu và ứng dụng AI.',
-        hinh_anh_avatar_url: 'assets/alumni/alumni_khang.png'
-      }
-    ];
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
+  async fetchData() {
     const data = await AlumniService.getAlumni();
-    if (data && data.length > 0) {
-      this.alumniData = data;
-      this.render();
-      console.log('Cập nhật dữ liệu cựu sinh viên từ API thành công.');
-    }
+    this.alumniData = data || [];
+    this.render();
+    console.log('Tải dữ liệu cựu sinh viên thành công.');
   }
 
   /**
@@ -119,7 +83,7 @@ class AlumniShowcaseComponent extends HTMLElement {
       `<div class="alumni-svg-avatar blue-male-theme"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="45" fill="rgba(0,180,216,0.02)"/><circle cx="50" cy="38" r="16"/><path d="M22 80 c0-14 12-24 28-25 s28 10 28 25"/><path d="M34 26 c10-6 22-6 32 0" stroke-width="1.8" stroke-opacity="0.8"/></svg></div>`
     ];
 
-    this.alumniData.forEach((item, idx) => {
+    this.alumniData.filter(item => item.an_hien !== 0).forEach((item, idx) => {
       const imgPath = `${this.assetPrefix}${item.hinh_anh_avatar_url}`;
       
       // Parse the double role lines

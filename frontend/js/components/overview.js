@@ -36,7 +36,7 @@ class AboutOverviewComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -52,69 +52,22 @@ class AboutOverviewComponent extends HTMLElement {
    * Initialize data flow
    */
   async init() {
-    // 1. Instantly paint mock data
-    this.loadMockData();
+    await this.fetchData();
+  }
+
+  /**
+   * Fetch live data
+   */
+  async fetchData() {
+    const [overview, highlights] = await Promise.all([
+      OverviewService.getOverview(),
+      OverviewService.getHighlights()
+    ]);
+
+    this.overviewData = overview || null;
+    this.highlightsData = highlights || [];
     this.render();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
-  }
-
-  /**
-   * Populate mock data corresponding to Tra Vinh University (SIT)
-   */
-  loadMockData() {
-    this.overviewData = {
-      badge_text: 'GIỚI THIỆU TỔNG QUAN',
-      tieu_de: 'KHOA CÔNG NGHỆ THÔNG TIN',
-      mo_ta_chi_tiet: 'Khoa Công nghệ thông tin thuộc Trường Đại học Trà Vinh. Khoa được thành lập với nhiệm vụ đào tạo nguồn nhân lực chất lượng cao, nghiên cứu khoa học và chuyển giao công nghệ hàng đầu trong lĩnh vực Công nghệ thông tin, phục vụ đắc lực cho sự nghiệp công nghiệp hóa, hiện đại hóa của tỉnh Trà Vinh nói riêng và cả nước nói chung.',
-      hinh_anh_tap_the_url: 'assets/images/gvCNTT.jpg',
-      caption_anh: 'Khoa Công nghệ thông tin - Đại học Trà Vinh'
-    };
-
-    this.highlightsData = [
-      {
-        id: 1,
-        icon_class: 'graduation-cap',
-        tieu_de: 'Chương trình đào tạo',
-        mo_ta: 'Chương trình chuẩn, cung ứng nhân lực chất lượng cao.'
-      },
-      {
-        id: 2,
-        icon_class: 'flask',
-        tieu_de: 'Nghiên cứu khoa học',
-        mo_ta: 'Đẩy mạnh nghiên cứu và các công bố khoa học quốc tế.'
-      },
-      {
-        id: 3,
-        icon_class: 'share-2',
-        tieu_de: 'Chuyển giao công nghệ',
-        mo_ta: 'Ứng dụng công nghệ thực tiễn phục vụ cộng đồng.'
-      }
-    ];
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
-    const overview = await OverviewService.getOverview();
-    const highlights = await OverviewService.getHighlights();
-    
-    let updated = false;
-    if (overview) {
-      this.overviewData = overview;
-      updated = true;
-    }
-    if (highlights && highlights.length > 0) {
-      this.highlightsData = highlights;
-      updated = true;
-    }
-    
-    if (updated) {
-      this.render();
-      console.log('Cập nhật dữ liệu tổng quan từ API thành công.');
-    }
+    console.log('Tải dữ liệu tổng quan thành công.');
   }
 
   /**

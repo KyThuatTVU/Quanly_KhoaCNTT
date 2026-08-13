@@ -144,6 +144,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   height: 100%;
   padding: 0 4px;
   margin: 0 10px;
@@ -167,6 +168,19 @@ body {
   user-select: none;
 }
 
+/* Nav Icon Styles */
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+  transition: all 0.3s ease;
+}
+
+.nav-link span {
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
 /* Hover State */
 .nav-link:hover {
   color: #ffffff;
@@ -175,12 +189,20 @@ body {
   background: transparent;
 }
 
+.nav-link:hover .nav-icon {
+  transform: translateY(-2px) scale(1.1);
+}
+
 /* Active State - Current Page - Solid thick white underline as in CTU image */
 .nav-link.active {
   color: #ffffff;
   border-bottom-color: #ffffff;
   background: transparent;
   font-weight: 800;
+}
+
+.nav-link.active .nav-icon {
+  stroke-width: 3;
 }
 
 /* Mobile Toggler (Hamburger) */
@@ -295,6 +317,7 @@ body {
   .nav-link {
     display: flex;
     justify-content: flex-start;
+    gap: 12px;
     height: auto;
     padding: 14px 20px;
     margin: 0;
@@ -307,10 +330,19 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
+  .nav-icon {
+    width: 20px;
+    height: 20px;
+  }
+
   .nav-link:hover {
     color: #ffffff;
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-link:hover .nav-icon {
+    transform: scale(1.08);
   }
   
   .nav-link.active {

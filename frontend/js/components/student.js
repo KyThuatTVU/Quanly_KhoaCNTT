@@ -36,7 +36,7 @@ class StudentShowcaseComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -52,64 +52,17 @@ class StudentShowcaseComponent extends HTMLElement {
    * Initialize data flow
    */
   async init() {
-    // 1. Instantly paint mock data
-    this.loadMockData();
-    this.render();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
+    await this.fetchData();
   }
 
   /**
-   * Populate mock data corresponding to 'sinh_vien_tieu_bieu' table
+   * Fetch live data
    */
-  loadMockData() {
-    this.studentData = [
-      {
-        id: 1,
-        ten_doi_ca_nhan: 'Đội CTU-LinguTechies',
-        nganh_hoc: 'Ngành Khoa học máy tính',
-        thanh_tich: 'Vô địch cuộc thi phần mềm nguồn mở năm 2023 tại OLP Tin học sinh viên toàn quốc với sản phẩm VNLawAdvisor',
-        giang_vien_huong_dan: 'PGS. TS. Phạm Nguyên Khang',
-        hinh_anh_url: 'assets/students/student_olp2023.png'
-      },
-      {
-        id: 2,
-        ten_doi_ca_nhan: 'Đội CAAS',
-        nganh_hoc: 'Ngành Khoa học máy tính',
-        thanh_tich: 'Xuất sắc đạt giải Nhì cuộc thi Nghiên cứu khoa học dành cho Sinh viên năm 2025',
-        giang_vien_huong_dan: 'TS. Mã Trường Thành',
-        hinh_anh_url: 'assets/students/student_nckh2025.png'
-      },
-      {
-        id: 3,
-        ten_doi_ca_nhan: 'Đội CTU Team 1 và CTU Team 2',
-        nganh_hoc: 'Nhóm sinh viên ngành Khoa học máy tính và Trí tuệ nhân tạo',
-        thanh_tich: 'Giải Nhì và Khuyến khích OLP Trí tuệ nhân tạo miền Nam và hai giải Khuyến khích OLP Trí tuệ nhân tạo toàn quốc 2025',
-        giang_vien_huong_dan: null,
-        hinh_anh_url: 'assets/students/student_olpai2025.png'
-      },
-      {
-        id: 4,
-        ten_doi_ca_nhan: 'Thái Phú An',
-        nganh_hoc: 'Ngành Khoa học máy tính',
-        thanh_tich: 'Công báo bài báo tại nhiều hội nghị khoa học trong nước và quốc tế như ACIIDS (rank B), FJCAI, CITA, ISDS. Đặc biệt, giải Ba bài báo xuất sắc tại FJCAI 2026',
-        giang_vien_huong_dan: null,
-        hinh_anh_url: 'assets/students/student_thaiphuan.png'
-      }
-    ];
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
+  async fetchData() {
     const data = await StudentService.getStudents();
-    if (data && data.length > 0) {
-      this.studentData = data;
-      this.render();
-      console.log('Cập nhật dữ liệu sinh viên từ API thành công.');
-    }
+    this.studentData = data || [];
+    this.render();
+    console.log('Tải dữ liệu sinh viên tiêu biểu thành công.');
   }
 
   /**
@@ -118,59 +71,112 @@ class StudentShowcaseComponent extends HTMLElement {
   render() {
     if (!this.studentData || this.studentData.length === 0) return;
 
-    let cardsHtml = '';
+    // Filter active records
+    const activeData = this.studentData.filter(item => item.an_hien !== 0);
 
-    // Modern academic vectors for SVGs placeholders
+    // Group by chuyen_muc
+    const groups = {
+      'Sinh viên tiêu biểu': [],
+      'Nghiên cứu khoa học sinh viên': [],
+      'Dự án AI nổi bật': []
+    };
+
+    activeData.forEach(item => {
+      const cat = item.chuyen_muc || 'Sinh viên tiêu biểu';
+      if (!groups[cat]) {
+        groups[cat] = [];
+      }
+      groups[cat].push(item);
+    });
+
+    // We only render groups that have at least one record
+    let sectionsHtml = '';
+    
+    // Fallback vector arrays for placeholders
     const svgPlaceholders = [
-      // 0: Programming Award / Open Source (Laptop & Trophy Cup)
       `<div class="student-svg-placeholder theme-1"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="24" width="64" height="42" rx="3" fill="rgba(15,111,255,0.03)"/><path d="M12 66 h76 v4 a2 2 0 0 1 -2 2 H14 a2 2 0 0 1 -2 -2 z"/><circle cx="50" cy="44" r="12" stroke-dasharray="3 3"/><path d="M44 36 h12 v9 c0 3-2.5 5.5-6 5.5 s-6-2.5-6-5.5 z M50 51.5 v8 M44 59.5 h12" stroke-width="2.5"/></svg></div>`,
-      // 1: Scientific Research / NCKH (Scroll & Medal)
       `<div class="student-svg-placeholder theme-2"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 20 h36 l16 16 v44 a4 4 0 0 1 -4 4 h-48 a4 4 0 0 1 -4 -4 v-56 a4 4 0 0 1 4 -4 z"/><path d="M64 20 v16 h16"/><path d="M38 40 h16 M38 48 h26 M38 56 h26"/><circle cx="50" cy="69" r="7" fill="none" stroke-width="2"/><path d="M46 63.5 l-4-7.5 h16 l-4 7.5" stroke-width="1.5"/></svg></div>`,
-      // 2: AI / OLP AI Team (Neural Net AI brain)
-      `<div class="student-svg-placeholder theme-3"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="22" stroke-dasharray="2 2"/><path d="M50 16 v68 M16 50 h68" stroke-opacity="0.15"/><circle cx="50" cy="50" r="10" fill="none"/><circle cx="50" cy="18" r="4" fill="currentColor"/><circle cx="50" cy="82" r="4" fill="currentColor"/><circle cx="18" cy="50" r="4" fill="currentColor"/><circle cx="82" cy="50" r="4" fill="currentColor"/><circle cx="28" cy="28" r="4" fill="currentColor"/><circle cx="72" cy="72" r="4" fill="currentColor"/><circle cx="72" cy="28" r="4" fill="currentColor"/><circle cx="28" cy="72" r="4" fill="currentColor"/></svg></div>`,
-      // 3: Scientific Publications / Book (Open Book & Star Medal)
-      `<div class="student-svg-placeholder theme-4"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 25 c10-4 26-4 36 0 c10-4 26-4 36 0 v48 c-10-4-26-4-36 0 c-10-4-26-4-36 0 z"/><path d="M50 25 v48"/><path d="M22 38 h18 M22 46 h18 M22 54 h10 M60 38 h18 M60 46 h18 M60 54 h10"/><path d="M50 73 l2.5 5.5 l6 1 l-4.5 4.5 l1 6 l-5 -3.5 l-5 3.5 l1 -6 l-4.5 -4.5 l6 -1 z" fill="rgba(16,185,129,0.1)"/></svg></div>`
+      `<div class="student-svg-placeholder theme-3"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="22" stroke-dasharray="2 2"/><path d="M50 16 v68 M16 50 h68" stroke-opacity="0.15"/><circle cx="50" cy="50" r="10" fill="none"/><circle cx="50" cy="18" r="4" fill="currentColor"/><circle cx="50" cy="82" r="4" fill="currentColor"/><circle cx="18" cy="50" r="4" fill="currentColor"/><circle cx="82" cy="50" r="4" fill="currentColor"/><circle cx="28" cy="28" r="4" fill="currentColor"/><circle cx="72" cy="72" r="4" fill="currentColor"/><circle cx="72" cy="28" r="4" fill="currentColor"/><circle cx="28" cy="72" r="4" fill="currentColor"/></svg></div>`
     ];
 
-    this.studentData.forEach((item, idx) => {
-      const imgPath = `${this.assetPrefix}${item.hinh_anh_url}`;
-      
-      // Dynamic rendering of advisor if exists
-      const advisorText = item.giang_vien_huong_dan 
-        ? `, giảng viên hướng dẫn: <strong>${item.giang_vien_huong_dan}</strong>.`
-        : '.';
+    let overallIdx = 0;
 
-      cardsHtml += `
-        <article class="student-card">
-          <!-- Card Image area with data-index for event listener based fallbacks -->
-          <div class="student-image-wrapper">
-            <img class="student-image" src="${imgPath}" alt="${item.ten_doi_ca_nhan}" data-index="${idx}">
+    const groupMeta = {
+      'Sinh viên tiêu biểu': {
+        title: 'Sinh Viên Tiêu Biểu',
+        icon: '🏆',
+        themeClass: 'showcase-achievement'
+      },
+      'Nghiên cứu khoa học sinh viên': {
+        title: 'Nghiên cứu khoa học sinh viên',
+        icon: '🔬',
+        themeClass: 'showcase-research'
+      },
+      'Dự án AI nổi bật': {
+        title: 'Dự án AI nổi bật',
+        icon: '🤖',
+        themeClass: 'showcase-ai'
+      }
+    };
+
+    Object.keys(groups).forEach(catKey => {
+      const list = groups[catKey];
+      if (list.length === 0) return; // Skip if no data for this group
+
+      const meta = groupMeta[catKey] || { title: catKey, icon: '🌟', themeClass: 'showcase-generic' };
+      
+      let cardsHtml = '';
+      list.forEach((item) => {
+        const imgPath = `${this.assetPrefix}${item.hinh_anh_url}`;
+        
+        // Dynamic rendering of advisor if exists, matching original inline style
+        const advisorText = item.giang_vien_huong_dan 
+          ? `, giảng viên hướng dẫn: <strong>${item.giang_vien_huong_dan}</strong>.`
+          : '.';
+
+        cardsHtml += `
+          <article class="student-card ${meta.themeClass}">
+            <!-- Card Image Area -->
+            <div class="student-image-wrapper">
+              <img class="student-image" src="${imgPath}" alt="${item.ten_doi_ca_nhan}" data-index="${overallIdx}">
+            </div>
+            
+            <!-- Card Content Body -->
+            <div class="student-card-body">
+              <h3 class="student-card-title">${item.ten_doi_ca_nhan}</h3>
+              <div class="student-card-major">${item.nganh_hoc}</div>
+              <p class="student-card-desc">
+                ${item.thanh_tich}${advisorText}
+              </p>
+            </div>
+          </article>
+        `;
+        overallIdx++;
+      });
+
+      sectionsHtml += `
+        <div class="student-group-container">
+          <div class="student-group-header">
+            <span class="student-group-icon">${meta.icon}</span>
+            <h3 class="student-group-title-text">${meta.title}</h3>
           </div>
-          
-          <!-- Card Content Body -->
-          <div class="student-card-body">
-            <h3 class="student-card-title">${item.ten_doi_ca_nhan}</h3>
-            <div class="student-card-major">${item.nganh_hoc}</div>
-            <p class="student-card-desc">
-              ${item.thanh_tich}${advisorText}
-            </p>
+          <div class="student-grid">
+            ${cardsHtml}
           </div>
-        </article>
+        </div>
       `;
     });
 
     this.innerHTML = `
       <section class="student-section">
         <div class="student-container">
-          <h2 class="student-heading">Sinh Viên Tiêu Biểu</h2>
-          <div class="student-grid">
-            ${cardsHtml}
-          </div>
+          <h2 class="student-heading">Gương mặt Tiêu biểu & Thành tích Nổi bật</h2>
+          ${sectionsHtml}
         </div>
       </section>
     `;
 
-    // Initialize event-based image fallbacks to prevent quoting syntax errors
+    // Initialize event-based image fallbacks
     this.initImageFallbacks(svgPlaceholders);
   }
 

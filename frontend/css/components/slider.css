@@ -56,21 +56,7 @@ hero-slider-component {
   background-position: center;
 }
 
-.slide-bg::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Solid professional gradient for readability */
-  background: linear-gradient(90deg, 
-    rgba(8, 30, 68, 0.94) 0%, 
-    rgba(15, 78, 172, 0.78) 50%, 
-    rgba(8, 30, 68, 0.94) 100%
-  );
-  z-index: 1;
-}
+
 
 /* Base layout grid */
 .slide-container {

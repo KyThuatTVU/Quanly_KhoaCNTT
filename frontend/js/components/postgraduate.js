@@ -87,7 +87,7 @@ class PostgraduatePageComponent extends HTMLElement {
                 </tr>
               </thead>
               <tbody>
-                ${this.phdStudents.map(student => `
+                ${this.phdStudents.filter(student => student.an_hien !== 0).map(student => `
                   <tr>
                     <td class="stt-col">${student.stt}</td>
                     <td class="student-profile-col">
@@ -97,9 +97,11 @@ class PostgraduatePageComponent extends HTMLElement {
                       <div class="student-info">
                         <h4 class="student-name">${student.ho_ten}</h4>
                         <p class="student-role">${student.chuc_vu_co_quan}</p>
-                        <a href="mailto:${student.email}" class="student-email">
-                          <span class="email-icon">M</span> ${student.email}
-                        </a>
+                        ${student.an_hien_email !== 0 ? `
+                          <a href="mailto:${student.email}" class="student-email">
+                            <span class="email-icon">M</span> ${student.email}
+                          </a>
+                        ` : ''}
                         ${student.google_scholar_url ? `
                           <a href="${student.google_scholar_url}" target="_blank" rel="noopener" class="scholar-link">
                             <svg class="scholar-icon" width="12" height="12" viewBox="0 0 24 24" fill="#0f6fff"><path d="M12 24a12 12 0 1 1 12-12 12.013 12.013 0 0 1-12 12zm0-22a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2z"/><path d="M12 5l-7 4 7 4 7-4-7-4zm-4 6.5v3c0 1.5 1.8 2.5 4 2.5s4-1 4-2.5v-3l-4 2-4-2z"/></svg>
@@ -108,7 +110,7 @@ class PostgraduatePageComponent extends HTMLElement {
                         ` : ''}
                       </div>
                     </td>
-                    <td class="code-col"><strong>${student.ma_ncs}</strong></td>
+                    <td class="code-col"><strong>${student.an_hien_ma_ncs !== 0 ? student.ma_ncs : '*******'}</strong></td>
                     <td class="topic-col">${student.huong_nghien_cuu}</td>
                     <td class="advisor-col">${student.nguoi_huong_dan.split(',').map(adv => `<div>${adv.trim()}</div>`).join('')}</td>
                     <td class="status-col">

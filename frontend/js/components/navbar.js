@@ -64,25 +64,63 @@ class NavbarComponent extends HTMLElement {
             <span></span>
           </button>
 
-          <!-- Navigation Links (Plain text with active underlines style) -->
+          <!-- Navigation Links with Icons -->
           <ul class="navbar-nav" id="navbarNav">
             <li class="nav-item">
-              <a href="${homeLink}" class="nav-link" data-page="home">Trang Chủ</a>
+              <a href="${homeLink}" class="nav-link" data-page="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Trang Chủ</span>
+              </a>
             </li>
             <li class="nav-item">
-              <a href="${gioiThieuLink}" class="nav-link" data-page="gioi-thieu">Giới Thiệu</a>
+              <a href="${gioiThieuLink}" class="nav-link" data-page="gioi-thieu">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>Giới Thiệu</span>
+              </a>
             </li>
             <li class="nav-item">
-              <a href="${nhanSuLink}" class="nav-link" data-page="nhan-su">Nhân Sự</a>
+              <a href="${nhanSuLink}" class="nav-link" data-page="nhan-su">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>Nhân Sự</span>
+              </a>
             </li>
             <li class="nav-item">
-              <a href="${nghienCuuLink}" class="nav-link" data-page="nghien-cuu">Nghiên Cứu</a>
+              <a href="${nghienCuuLink}" class="nav-link" data-page="nghien-cuu">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+                <span>Nghiên Cứu</span>
+              </a>
             </li>
             <li class="nav-item">
-              <a href="${daiHocLink}" class="nav-link" data-page="dai-hoc">Đại Học</a>
+              <a href="${daiHocLink}" class="nav-link" data-page="dai-hoc">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                  <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                </svg>
+                <span>Ban Đại Học</span>
+              </a>
             </li>
             <li class="nav-item">
-              <a href="${sauDaiHocLink}" class="nav-link" data-page="sau-dai-hoc">Sau Đại Học</a>
+              <a href="${sauDaiHocLink}" class="nav-link" data-page="sau-dai-hoc">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                <span>Ban Sau Đại Học</span>
+              </a>
             </li>
           </ul>
         </div>

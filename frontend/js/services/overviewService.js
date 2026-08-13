@@ -8,8 +8,8 @@
  */
 
 // API Endpoints (Change these when backend is ready)
-const API_OVERVIEW_URL = '/api/overview';
-const API_HIGHLIGHTS_URL = '/api/overview/highlights';
+const API_OVERVIEW_URL = 'http://localhost:5000/api/v1/admin/aboutOverview';
+const API_HIGHLIGHTS_URL = 'http://localhost:5000/api/v1/admin/aboutHighlights';
 
 export const OverviewService = {
   /**
@@ -22,8 +22,11 @@ export const OverviewService = {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      return data;
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+        return result.data[0];
+      }
+      throw new Error(result.error || 'Dữ liệu trống hoặc không hợp lệ');
     } catch (error) {
       console.warn('API /api/overview chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu tổng quan.', error.message);
       return null;
@@ -40,8 +43,11 @@ export const OverviewService = {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      return data;
+      const result = await response.json();
+      if (result.success && Array.isArray(result.data)) {
+        return result.data;
+      }
+      throw new Error(result.error || 'Dữ liệu không hợp lệ');
     } catch (error) {
       console.warn('API /api/overview/highlights chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu highlight.', error.message);
       return null;

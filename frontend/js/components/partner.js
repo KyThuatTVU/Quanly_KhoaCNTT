@@ -36,7 +36,7 @@ class InternationalPartnersComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -52,62 +52,17 @@ class InternationalPartnersComponent extends HTMLElement {
    * Initialize data flow
    */
   async init() {
-    // 1. Instantly paint mock data
-    this.loadMockData();
-    this.render();
-
-    // 2. Fetch live data in the background (non-blocking)
-    await this.fetchDataInBackground();
+    await this.fetchData();
   }
 
   /**
-   * Populate mock data matching the screenshot partners
+   * Fetch live data
    */
-  loadMockData() {
-    this.partnersData = [
-      {
-        id: 1,
-        ten_doi_tac: 'CNRS',
-        logo_url: 'assets/images/partners/cnrs.png'
-      },
-      {
-        id: 2,
-        ten_doi_tac: 'FPT',
-        logo_url: 'assets/images/partners/fpt.png'
-      },
-      {
-        id: 3,
-        ten_doi_tac: 'PTN Global',
-        logo_url: 'assets/images/PTN_Logo-01-Khanh-Kieu.png'
-      },
-      {
-        id: 4,
-        ten_doi_tac: 'ULB',
-        logo_url: 'assets/images/partners/ulb.png'
-      },
-      {
-        id: 5,
-        ten_doi_tac: 'VNPT',
-        logo_url: 'assets/images/partners/vnpt.png'
-      },
-      {
-        id: 6,
-        ten_doi_tac: 'Inria',
-        logo_url: 'assets/images/partners/inria.png'
-      }
-    ];
-  }
-
-  /**
-   * Fetch live data in background, updates UI if found
-   */
-  async fetchDataInBackground() {
+  async fetchData() {
     const data = await PartnerService.getPartners();
-    if (data && data.length > 0) {
-      this.partnersData = data;
-      this.render();
-      console.log('Cập nhật danh sách đối tác từ API thành công.');
-    }
+    this.partnersData = data || [];
+    this.render();
+    console.log('Tải danh sách đối tác thành công.');
   }
 
   /**
