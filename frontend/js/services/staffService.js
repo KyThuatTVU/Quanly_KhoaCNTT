@@ -27,6 +27,24 @@ export const StaffService = {
   },
 
   /**
+   * Fetch all staff groups from CSDL nhom_nhan_su
+   */
+  async getStaffGroups() {
+    try {
+      const response = await fetch('http://localhost:5000/api/v1/admin/staffGroups');
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && Array.isArray(result.data)) {
+          return result.data;
+        }
+      }
+    } catch (e) {
+      console.error('Lỗi API /api/staffGroups:', e);
+    }
+    return [];
+  },
+
+  /**
    * Fetch a lecturer's general profile page overview (trang_ca_nhan) by staff ID
    */
   async getStaffProfile(staffId) {

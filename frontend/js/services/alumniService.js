@@ -60,7 +60,7 @@ the exact schema below. This ensures a clean mapping with the frontend.
   {
     "id": 3,
     "ho_ten": "Trần Quốc Khang",
-    "chuc_danh_cong_ty": "Trợ giảng @ Khoa Khoa học máy tính\nĐại học Cần Thơ",
+    "chuc_danh_cong_ty": "Trợ giảng @ Khoa Khoa học máy tính\nĐại học Trà Vinh",
     "trich_dan_cam_nhan": "Môi trường học thuật tại Khoa là nền tảng quan trọng giúp tôi tiếp tục theo đuổi nghiên cứu và ứng dụng AI.",
     "hinh_anh_avatar_url": "assets/alumni/alumni_khang.png",
     "thu_tu": 3

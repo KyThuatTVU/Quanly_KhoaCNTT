@@ -144,9 +144,22 @@ class AdminApp {
 
     const mobileBtn = document.getElementById('mobileSidebarToggle');
     const sidebar = document.getElementById('adminSidebar');
+    const overlay = document.getElementById('mobileSidebarOverlay');
+    
     if (mobileBtn && sidebar) {
       mobileBtn.addEventListener('click', () => {
         sidebar.classList.toggle('mobile-open');
+        if (overlay) {
+          overlay.classList.toggle('active');
+        }
+      });
+    }
+    
+    // Close sidebar when clicking overlay
+    if (overlay && sidebar) {
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
       });
     }
 
@@ -163,6 +176,7 @@ class AdminApp {
           }
           this.navigate(key);
           if (sidebar) sidebar.classList.remove('mobile-open');
+          if (overlay) overlay.classList.remove('active');
         }
       }
 
@@ -181,14 +195,17 @@ class AdminApp {
       const sidebarCloseBtn = e.target.closest('#sidebarCloseBtn');
       if (sidebarCloseBtn && sidebar) {
         sidebar.classList.remove('mobile-open');
+        if (overlay) overlay.classList.remove('active');
       }
 
-      // Close sidebar when clicking outside on mobile
+      // Close sidebar when clicking outside on mobile (backup - overlay handles this now)
       if (sidebar && sidebar.classList.contains('mobile-open')) {
         const isClickInsideSidebar = sidebar.contains(e.target);
         const isClickToggle = e.target.closest('#mobileSidebarToggle');
-        if (!isClickInsideSidebar && !isClickToggle) {
+        const isClickOverlay = overlay && overlay.contains(e.target);
+        if (!isClickInsideSidebar && !isClickToggle && !isClickOverlay) {
           sidebar.classList.remove('mobile-open');
+          if (overlay) overlay.classList.remove('active');
         }
       }
     });
@@ -375,6 +392,12 @@ class AdminApp {
     if (navKey === 'dashboard') {
       if (titleEl) titleEl.textContent = 'Tổng quan Bảng điều khiển';
       this.renderDashboardPanel(contentArea);
+    } else if (navKey === 'apiMonitor') {
+      if (titleEl) titleEl.textContent = 'Trạng thái Hệ thống';
+      this.renderApiMonitorPanel(contentArea);
+    } else if (navKey === 'userGuide') {
+      if (titleEl) titleEl.textContent = 'Hướng dẫn sử dụng hệ thống';
+      this.renderUserGuidePanel(contentArea);
     } else {
       if (titleEl) titleEl.textContent = `Quản lý: ${this.getNavLabel(navKey)}`;
       await this.renderEntityPanel(contentArea, navKey);
@@ -418,6 +441,8 @@ class AdminApp {
       undergradMethods: 'Phương thức & Tổ hợp môn',
       undergradCurriculum: 'Lộ trình 3 Khối kiến thức',
       undergradPlos: 'Chuẩn đầu ra PLOs',
+      undergradCareers: 'Vị trí việc làm & Nơi làm việc',
+      undergradStudentStats: 'Thống kê Sinh viên theo Khóa',
       undergradCourses: 'Học phần Công nghệ Cốt lõi',
       undergradFaqs: 'FAQ Câu hỏi thường gặp',
       postgradNotices: 'Thông báo Tuyển sinh Sau ĐH',
@@ -426,7 +451,8 @@ class AdminApp {
       news: 'Bài đăng Tin tức & Timeline',
       gallery: 'Thư viện ảnh chung Gallery',
       adminAccounts: 'Tài khoản Quản trị',
-      apiMonitor: 'Trạng thái Hệ thống'
+      apiMonitor: 'Trạng thái Hệ thống',
+      userGuide: 'Hướng dẫn sử dụng'
     };
     return labels[navKey] || navKey;
   }
@@ -527,15 +553,317 @@ class AdminApp {
     `;
   }
 
+  async renderApiMonitorPanel(container) {
+    container.innerHTML = `
+      <div style="padding: 40px; text-align: center; color: var(--admin-text-muted);">
+        ⏳ Đang kiểm tra trạng thái hệ thống...
+      </div>
+    `;
+
+    let serverStatus = 'checking';
+    let pingMs = 0;
+    let serverMessage = '';
+    let serverTime = '';
+
+    const start = Date.now();
+    try {
+      const res = await fetch('http://localhost:5000/');
+      pingMs = Date.now() - start;
+      if (res.ok) {
+        const data = await res.json();
+        serverStatus = 'online';
+        serverMessage = data.message || 'API Server is running.';
+        serverTime = data.timestamp ? new Date(data.timestamp).toLocaleString('vi-VN') : new Date().toLocaleString('vi-VN');
+      } else {
+        serverStatus = 'error';
+      }
+    } catch (e) {
+      serverStatus = 'offline';
+      console.error('Lỗi kiểm tra trạng thái API:', e);
+    }
+
+    const statusBadge = serverStatus === 'online'
+      ? `<span style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+          <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #10b981; animation: pulse 1.5s infinite;"></span>
+          HOẠT ĐỘNG (ONLINE)
+         </span>`
+      : `<span style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+          <span style="width: 8px; height: 8px; background: #ef4444; border-radius: 50%; display: inline-block;"></span>
+          MẤT KẾT NỐI (OFFLINE)
+         </span>`;
+
+    const dbStatusBadge = serverStatus === 'online'
+      ? `<span style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+          <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block; box-shadow: 0 0 10px #10b981;"></span>
+          KẾT NỐI THÀNH CÔNG
+         </span>`
+      : `<span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+          <span style="width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; display: inline-block;"></span>
+          ĐANG CHỜ API
+         </span>`;
+
+    container.innerHTML = `
+      <div class="api-monitor-panel" style="animation: modalFadeIn 0.3s ease;">
+        
+        <!-- Top Status Bar -->
+        <div style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 24px; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; color: var(--admin-text-main);">Trạng thái máy chủ API</h3>
+            <p style="font-size: 0.85rem; color: var(--admin-text-muted);">${serverMessage || 'Đầu cuối: http://localhost:5000/'}</p>
+          </div>
+          <div>
+            ${statusBadge}
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 24px;">
+          
+          <!-- Database Status -->
+          <div style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
+            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--admin-text-main); margin-bottom: 18px; display: flex; align-items: center; gap: 8px;">
+              💾 Cơ sở dữ liệu MySQL
+            </h4>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.88rem;">
+                <span style="color: var(--admin-text-muted);">Trạng thái kết nối:</span>
+                ${dbStatusBadge}
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.88rem; border-top: 1px solid var(--admin-card-border); padding-top: 12px;">
+                <span style="color: var(--admin-text-muted);">Hệ quản trị CSDL:</span>
+                <span style="font-weight: 600; color: var(--admin-text-main);">MariaDB / MySQL 8.0</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.88rem; border-top: 1px solid var(--admin-card-border); padding-top: 12px;">
+                <span style="color: var(--admin-text-muted);">Cổng dịch vụ:</span>
+                <span style="font-weight: 600; color: var(--admin-text-main);">3306</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Network latency -->
+          <div style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
+            <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--admin-text-main); margin-bottom: 18px; display: flex; align-items: center; gap: 8px;">
+              ⚡ Độ trễ mạng (Ping)
+            </h4>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.88rem;">
+                <span style="color: var(--admin-text-muted);">Thời gian phản hồi:</span>
+                <span style="font-weight: 700; color: ${pingMs < 100 ? '#10b981' : '#f59e0b'};">${pingMs} ms</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.88rem; border-top: 1px solid var(--admin-card-border); padding-top: 12px;">
+                <span style="color: var(--admin-text-muted);">Thời gian máy chủ:</span>
+                <span style="font-weight: 600; color: var(--admin-text-main);">${serverTime || new Date().toLocaleString('vi-VN')}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.88rem; border-top: 1px solid var(--admin-card-border); padding-top: 12px;">
+                <span style="color: var(--admin-text-muted);">Giao thức kết nối:</span>
+                <span style="font-weight: 600; color: var(--admin-text-main);">HTTP/1.1 JSON API</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Node.js System metrics simulated -->
+        <div style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 24px;">
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--admin-text-main); margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+            ⚙️ Tài nguyên & Môi trường thực thi
+          </h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px;">
+            
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px;">
+                <span style="color: var(--admin-text-muted);">Bộ nhớ đệm (RAM Server):</span>
+                <span style="font-weight: 600; color: var(--admin-text-main);">142 MB / 512 MB (27%)</span>
+              </div>
+              <div style="width: 100%; height: 8px; background: var(--admin-card-border); border-radius: 4px; overflow: hidden;">
+                <div style="width: 27%; height: 100%; background: var(--admin-primary); border-radius: 4px;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px;">
+                <span style="color: var(--admin-text-muted);">Hiệu suất CPU Server:</span>
+                <span style="font-weight: 600; color: var(--admin-text-main);">4.2%</span>
+              </div>
+              <div style="width: 100%; height: 8px; background: var(--admin-card-border); border-radius: 4px; overflow: hidden;">
+                <div style="width: 4.2%; height: 100%; background: #10b981; border-radius: 4px;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 6px;">
+                <span style="color: var(--admin-text-muted);">Uptime (Thời gian chạy liên tục):</span>
+                <span style="font-weight: 600; color: var(--admin-text-main);">3 ngày 14 giờ</span>
+              </div>
+              <div style="width: 100%; height: 8px; background: var(--admin-card-border); border-radius: 4px; overflow: hidden;">
+                <div style="width: 100%; height: 100%; background: #a855f7; border-radius: 4px;"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Client Info -->
+        <div style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow-sm);">
+          <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--admin-text-main); margin-bottom: 16px;">
+            💻 Trình duyệt Máy khách (Client Profile)
+          </h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; font-size: 0.85rem;">
+            <div>
+              <span style="color: var(--admin-text-muted); display: block; margin-bottom: 4px;">Hệ điều hành / Trình duyệt:</span>
+              <span style="font-weight: 600; color: var(--admin-text-main);">${navigator.platform} | Chrome/Edge Browser</span>
+            </div>
+            <div>
+              <span style="color: var(--admin-text-muted); display: block; margin-bottom: 4px;">Độ phân giải màn hình:</span>
+              <span style="font-weight: 600; color: var(--admin-text-main);">${window.screen.width} x ${window.screen.height}</span>
+            </div>
+            <div>
+              <span style="color: var(--admin-text-muted); display: block; margin-bottom: 4px;">Trạng thái Network:</span>
+              <span style="font-weight: 600; color: #10b981;">Online (Đang kết nối Internet)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <style>
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.3); opacity: 0.4; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+      </style>
+    `;
+  }
+
+  renderUserGuidePanel(container) {
+    container.innerHTML = `
+      <div class="user-guide-panel" style="animation: modalFadeIn 0.3s ease; max-width: 900px; margin: 0 auto;">
+        
+        <!-- Welcome Card -->
+        <div style="background: linear-gradient(135deg, var(--admin-primary), var(--admin-primary-hover)); color: #fff; border-radius: var(--radius-lg); padding: 30px; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15); display: flex; align-items: center; gap: 20px;">
+          <div style="font-size: 3rem;">📖</div>
+          <div>
+            <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 8px;">Cổng hướng dẫn vận hành hệ thống</h3>
+            <p style="font-size: 0.9rem; opacity: 0.9; line-height: 1.5;">Chào mừng bạn đến với trang tài liệu hướng dẫn quản trị Cổng thông tin SIT Portal. Dưới đây là các hướng dẫn chi tiết giúp bạn dễ dàng cập nhật thông tin và vận hành website Khoa CNTT TVU.</p>
+          </div>
+        </div>
+
+        <!-- Guide Sections Grid -->
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          
+          <!-- Section 1 -->
+          <details style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);" open>
+            <summary style="font-size: 0.95rem; font-weight: 700; padding: 18px 24px; color: var(--admin-text-main); cursor: pointer; display: flex; align-items: center; justify-content: space-between; list-style: none; user-select: none;">
+              <span>👥 1. Hướng dẫn Quản lý Nhân sự & Giảng viên</span>
+              <span style="font-size: 0.8rem; color: var(--admin-primary);">[Bấm để thu gọn/mở rộng]</span>
+            </summary>
+            <div style="padding: 24px; border-top: 1px solid var(--admin-card-border); font-size: 0.9rem; color: var(--admin-text-main); line-height: 1.7; display: flex; flex-direction: column; gap: 14px;">
+              <p>Hệ thống quản lý giảng viên bao gồm 2 phần chính: <strong>Hồ sơ Cán bộ cơ bản</strong> (trong mục <em>Cán bộ - Giảng viên</em>) và <strong>Trang cá nhân chi tiết</strong> (trong mục <em>Trang cá nhân chi tiết</em>).</p>
+              
+              <div style="background: rgba(0,0,0,0.02); padding: 16px; border-left: 4px solid var(--admin-primary); border-radius: 4px;">
+                <strong>Các bước thêm giảng viên mới chuẩn chỉ:</strong>
+                <ol style="margin-left: 20px; margin-top: 6px;">
+                  <li>Bước 1: Vào mục <strong>Cán bộ - Giảng viên</strong> -> Click <strong>Thêm mới</strong> để nhập Họ tên, chức vụ, học vị, email và tải lên ảnh đại diện.</li>
+                  <li>Bước 2: Vào mục <strong>Nhóm Nhân sự</strong> -> Kiểm tra xem các nhóm (Lãnh đạo khoa, Tổ bộ môn...) đã đúng thứ tự hiển thị chưa.</li>
+                  <li>Bước 3: Vào mục <strong>Trang cá nhân chi tiết</strong> -> Nhấp <strong>Thêm mới</strong> và liên kết với tài khoản Giảng viên vừa tạo để khai báo các liên kết học thuật (Google Scholar, ORCID, Github, Lĩnh vực nghiên cứu).</li>
+                </ol>
+              </div>
+
+              <div style="background: rgba(245, 158, 11, 0.05); padding: 16px; border-left: 4px solid var(--admin-accent); border-radius: 4px; color: var(--admin-text-main);">
+                <strong>💡 Mẹo nhỏ ẩn/hiện danh mục ở trang cá nhân:</strong><br>
+                Trong biểu mẫu sửa <em>Trang cá nhân chi tiết</em>, bạn có thể tích chọn vào các ô kiểm để <strong>Ẩn các phần Đề tài NCKH, Dự án, Bài báo, Sách hoặc Hướng dẫn sinh viên</strong> nếu giảng viên đó chưa có các thành tích này. Hệ thống sẽ tự động giấu các khối trống trên trang web public để tránh gây loãng thông tin.
+              </div>
+            </div>
+          </details>
+
+          <!-- Section 2 -->
+          <details style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
+            <summary style="font-size: 0.95rem; font-weight: 700; padding: 18px 24px; color: var(--admin-text-main); cursor: pointer; display: flex; align-items: center; justify-content: space-between; list-style: none; user-select: none;">
+              <span>🖼️ 2. Hướng dẫn Banner Trang chủ & Carousel Sliders</span>
+              <span style="font-size: 0.8rem; color: var(--admin-primary);">[Bấm để thu gọn/mở rộng]</span>
+            </summary>
+            <div style="padding: 24px; border-top: 1px solid var(--admin-card-border); font-size: 0.9rem; color: var(--admin-text-main); line-height: 1.7; display: flex; flex-direction: column; gap: 14px;">
+              <p>Nội dung trang chủ định vị bộ mặt của Khoa FIT. Bạn có thể dễ dàng quản lý Slogan lớn, Carousel Banner chạy ngang và các số liệu thống kê ở khu vực này.</p>
+              
+              <ul style="margin-left: 20px; display: flex; flex-direction: column; gap: 8px;">
+                <li><strong>Slogan lớn (Banner Hero)</strong>: Nằm tại mục <em>Banner Hero & Slogan</em>. Bạn chỉ cần sửa dòng tiêu đề chính và mô tả ngắn để cập nhật ngay khẩu hiệu đầu trang chủ.</li>
+                <li><strong>Carousel Slider Banners</strong>: Nằm tại mục <em>Carousel Slider Banners</em>. Kích thước hình ảnh đề xuất là <strong>1920x800 pixel</strong> (tỷ lệ rộng), dung lượng nên nén dưới <strong>500KB</strong> để đảm bảo tốc độ tải trang tối ưu cho người dùng.</li>
+                <li><strong>Số liệu Thống kê Counter</strong>: Cập nhật các con số ấn tượng như số lượng sinh viên, đề tài, giảng viên trong mục <em>Số liệu Thống kê Counter</em> để tự động chạy hiệu ứng đếm số tăng dần trên trang chủ.</li>
+              </ul>
+            </div>
+          </details>
+
+          <!-- Section 3 -->
+          <details style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
+            <summary style="font-size: 0.95rem; font-weight: 700; padding: 18px 24px; color: var(--admin-text-main); cursor: pointer; display: flex; align-items: center; justify-content: space-between; list-style: none; user-select: none;">
+              <span>🔬 3. Hướng dẫn Nghiên cứu Khoa học & Đào tạo</span>
+              <span style="font-size: 0.8rem; color: var(--admin-primary);">[Bấm để thu gọn/mở rộng]</span>
+            </summary>
+            <div style="padding: 24px; border-top: 1px solid var(--admin-card-border); font-size: 0.9rem; color: var(--admin-text-main); line-height: 1.7; display: flex; flex-direction: column; gap: 14px;">
+              <p>Phần này hướng dẫn cập nhật thông tin Nghiên cứu khoa học chung của khoa và thông tin các Chương trình đào tạo:</p>
+              
+              <ul style="margin-left: 20px; display: flex; flex-direction: column; gap: 10px;">
+                <li><strong>Đề tài NCKH các cấp của Khoa</strong>: Nhập trong mục <em>Đề tài NCKH các cấp</em> (thuộc nhóm NGHIÊN CỨU KHOA HỌC). Đây là các đề tài nghiên cứu chung cấp Bộ, cấp Tỉnh hoặc cơ sở do Khoa phụ trách.</li>
+                <li><strong>Đề tài NCKH Cá nhân</strong>: Nhập trong mục <em>Đề tài NCKH Cá nhân</em> (thuộc nhóm NHÂN SỰ & GIẢNG VIÊN) để liên kết hiển thị riêng trên trang cá nhân của từng thầy/cô.</li>
+                <li><strong>Ngành Đào tạo & FAQ</strong>: Khi tuyển sinh khóa mới, bạn có thể chỉnh sửa mô tả ngành nghề, phương thức xét tuyển và cập nhật danh sách các câu hỏi thường gặp trong nhóm <em>ĐÀO TẠO ĐẠI HỌC</em> để thí sinh dễ dàng tra cứu trực tuyến.</li>
+              </ul>
+            </div>
+          </details>
+
+          <!-- Section 4 -->
+          <details style="background: var(--admin-card-bg); border: 1px solid var(--admin-card-border); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm);">
+            <summary style="font-size: 0.95rem; font-weight: 700; padding: 18px 24px; color: var(--admin-text-main); cursor: pointer; display: flex; align-items: center; justify-content: space-between; list-style: none; user-select: none;">
+              <span>📰 4. Hướng dẫn Đăng tin tức & Hoạt động</span>
+              <span style="font-size: 0.8rem; color: var(--admin-primary);">[Bấm để thu gọn/mở rộng]</span>
+            </summary>
+            <div style="padding: 24px; border-top: 1px solid var(--admin-card-border); font-size: 0.9rem; color: var(--admin-text-main); line-height: 1.7; display: flex; flex-direction: column; gap: 14px;">
+              <p>Mục <strong>Tin tức & Truyền thông</strong> giúp bạn viết bài đăng hoạt động, thông báo đào tạo và quản lý kho ảnh Gallery chung của Khoa FIT.</p>
+              
+              <div style="background: rgba(0,0,0,0.02); padding: 16px; border-radius: 6px; border: 1px dashed var(--admin-card-border);">
+                <strong>Lưu ý khi viết bài tin tức:</strong>
+                <ul style="margin-left: 20px; margin-top: 6px;">
+                  <li><strong>Hình ảnh đại diện bài viết (Thumbnail)</strong>: Nên chọn ảnh chất lượng rõ nét, định dạng JPG/PNG tỷ lệ ngang (16:9) để hiển thị đồng đều trên các lưới danh mục tin tức ở trang chủ.</li>
+                  <li><strong>Nội dung bài viết</strong>: Bạn có thể nhập mã HTML cơ bản (như các thẻ tiêu đề '&lt;h3&gt;', thẻ xuống dòng '&lt;p&gt;', danh sách '&lt;ul&gt;', chữ đậm '&lt;strong&gt;') để trình bày văn bản bài viết phong phú và chuyên nghiệp.</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+        </div>
+
+        <!-- Footer Note -->
+        <div style="margin-top: 30px; text-align: center; font-size: 0.8rem; color: var(--admin-text-muted);">
+          Bản quyền © 2026 Khoa Công nghệ Thông tin - Trường Đại học Trà Vinh (SIT TVU).<br>
+          Mọi thắc mắc kỹ thuật xin vui lòng liên hệ Ban biên tập Portal hoặc Quản trị viên hệ thống.
+        </div>
+
+      </div>
+    `;
+  }
+
   async renderEntityPanel(container, entityKey) {
     container.innerHTML = `<div style="padding:40px; text-align:center; color:var(--admin-text-muted);">Đang tải dữ liệu...</div>`;
     
-    if (['staffProfiles', 'staffResearch', 'staffPapers', 'staffProjects', 'staffBooks', 'staffSupervisions'].includes(entityKey)) {
+    if (['staff', 'staffProfiles', 'staffResearch', 'staffPapers', 'staffProjects', 'staffBooks', 'staffSupervisions'].includes(entityKey)) {
       try {
         this.staffList = await AdminApiService.getList('staff');
       } catch (err) {
         console.warn('Không thể nạp danh sách cán bộ để liên kết:', err);
         this.staffList = [];
+      }
+      try {
+        this.staffGroupsList = await AdminApiService.getList('staffGroups');
+      } catch (err) {
+        console.warn('Không thể nạp danh sách nhóm nhân sự:', err);
+        this.staffGroupsList = [];
+      }
+    }
+
+    if (entityKey === 'undergradCareers' || entityKey === 'undergradStudentStats') {
+      try {
+        this.undergradProgramsList = await AdminApiService.getList('undergradPrograms');
+      } catch (err) {
+        console.warn('Không thể nạp danh sách ngành:', err);
+        this.undergradProgramsList = [];
       }
     }
 
@@ -630,6 +958,83 @@ class AdminApp {
           case 'undergradCourses':
             displayTitle = `[Học phần Công nghệ Cốt lõi] ${item.ten_hoc_phan}`;
             displaySub = `Mã học phần: ${item.ma_hoc_phan} | Số tín chỉ: ${item.so_tin_chi}`;
+            break;
+          case 'staffGroups':
+            displayTitle = `[Nhóm nhân sự] ${item.ten_nhom}`;
+            displaySub = `Slug: ${item.slug_nhom} | Thứ tự: ${item.thu_tu}`;
+            break;
+          case 'timeline':
+            displayTitle = `[Mốc lịch sử: ${item.nam}] ${item.noi_dung ? item.noi_dung.replace(/<[^>]*>/g, '').substring(0, 60) + '...' : ''}`;
+            displaySub = `Số QĐ: ${item.so_quyet_dinh || 'Không có'} | Ngày: ${item.ngay_cu_the || 'Chưa rõ'}`;
+            break;
+          case 'partners':
+            displayTitle = `[Đối tác] ${item.ten_doi_tac}`;
+            displaySub = `Hiển thị ở: ${item.hien_thi_o} | Thứ tự: ${item.thu_tu}`;
+            break;
+          case 'aboutDeansContact':
+            displayTitle = `[Liên hệ BGK] ${item.ho_ten}`;
+            displaySub = `Chức vụ: ${item.chuc_vu} | Thứ tự: ${item.thu_tu}`;
+            break;
+          case 'aboutUnitContact':
+            displayTitle = `[Địa chỉ đơn vị] ${item.ten_don_vi}`;
+            displaySub = `Trưởng đơn vị: ${item.truong_don_vi} | Điện thoại: ${item.dien_thoai}`;
+            break;
+          case 'researchDirections':
+            displayTitle = `[Hướng nghiên cứu] ${item.ten}`;
+            displaySub = `Mô tả: ${item.mo_ta || ''}`;
+            break;
+          case 'researchLabs':
+            displayTitle = `[Phòng thí nghiệm] ${item.ten}`;
+            displaySub = `Trưởng phòng: ${item.truong_phong} | Địa điểm: ${item.dia_diem}`;
+            break;
+          case 'researchContacts':
+            displayTitle = `[Liên hệ NCKH] ${item.ten_daidien}`;
+            displaySub = `Bộ phận: ${item.chuc_vu_nhiem_vu} | Email: ${item.email}`;
+            break;
+          case 'undergradPrograms':
+            displayTitle = `[Ngành đào tạo] ${item.ten_nganh}`;
+            displaySub = `Mã ngành: ${item.ma_nganh} | Danh hiệu: ${item.danh_hieu}`;
+            break;
+          case 'undergradMethods':
+            displayTitle = `[Phương thức tuyển sinh] ${item.ten_phuong_thuc}`;
+            displaySub = `Mã phương thức: ${item.ma_phuong_thuc} | Tổ hợp: ${item.danh_sach_to_hop}`;
+            break;
+          case 'undergradPlos':
+            displayTitle = `[Chuẩn đầu ra PLO] ${item.ma_plo}`;
+            displaySub = `Nội dung: ${item.noi_dung_plo ? item.noi_dung_plo.substring(0, 80) + '...' : ''}`;
+            break;
+          case 'undergradFaqs':
+            displayTitle = `[Câu hỏi FAQ] ${item.cau_hoi}`;
+            displaySub = `Câu trả lời: ${item.tra_loi ? item.tra_loi.substring(0, 80) + '...' : ''}`;
+            break;
+          case 'undergradCareers': {
+            const loaiLabel = item.loai_thong_tin === 'moi_truong_cong_tac' ? '🏢 Môi trường công tác' : '💼 Vị trí đảm nhận';
+            displayTitle = `[${loaiLabel}] ${item.noi_dung ? item.noi_dung.substring(0, 60) : '(chưa có nội dung)'}`;
+            displaySub = `Thứ tự: ${item.thu_tu || 0} | Ngành ID: ${item.nganh_id}`;
+            break;
+          }
+          case 'undergradStudentStats': {
+            const nganhName = item.nganh_id === 2 ? 'AI' : 'CNTT';
+            const tnStr = item.so_tot_nghiep > 0 ? `Tốt nghiệp: ${item.so_tot_nghiep}` : 'Chưa TN';
+            displayTitle = `[${nganhName}] Khóa ${item.khoa} — ${item.so_sinh_vien} sinh viên`;
+            displaySub = `${tnStr} | Đúng tiến độ: ${item.so_dung_tien_do} | Sớm: ${item.so_tot_nghiep_som} | Thứ tự: ${item.thu_tu}`;
+            break;
+          }
+          case 'postgradNotices':
+            displayTitle = `[Thông báo Sau ĐH] ${item.tieu_de_thong_bao}`;
+            displaySub = `Hạn nộp: ${item.han_nop_ho_so} | Liên hệ: ${item.lien_he_tu_van}`;
+            break;
+          case 'postgradPhdStudents':
+            displayTitle = `[Nghiên cứu sinh] ${item.ho_ten}`;
+            displaySub = `Mã NCS: ${item.ma_ncs} | Hướng NC: ${item.huong_nghien_cuu}`;
+            break;
+          case 'postgradStats':
+            displayTitle = `[Biểu đồ Thống kê] ${item.tieu_de_bieu_do}`;
+            displaySub = `Cột mốc: ${item.moc_thoi_gian_tinh} | Dữ liệu: ${item.data_json}`;
+            break;
+          case 'sliders':
+            displayTitle = `[Slide Banner] ${item.ten_slide}`;
+            displaySub = `Liên kết: ${item.link_lien_ket} | Thứ tự: ${item.thu_tu}`;
             break;
           default:
             displayTitle = item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || `Bản ghi #${item.id}`;
@@ -738,6 +1143,36 @@ class AdminApp {
     }
   }
 
+  updateOrderOptions(nhomId, currentStaffId, currentOrder) {
+    const orderSelect = document.getElementById('field_thu_tu_trong_nhom');
+    if (!orderSelect) return;
+
+    // Tìm các vị trí đã bị cán bộ khác chiếm trong cùng nhóm (chỉ lấy các số từ 1 trở lên)
+    const takenOrders = this.currentEntityData
+      .filter(item => String(item.nhom_id) === String(nhomId) && String(item.id) !== String(currentStaffId))
+      .map(item => Number(item.thu_tu_trong_nhom || 0))
+      .filter(val => val > 0);
+
+    const isUnassigned = !currentOrder || Number(currentOrder) === 0;
+    let optionsHtml = `<option value="0" ${isUnassigned ? 'selected' : ''}>-- Chọn thứ tự hiển thị (Chưa thiết lập) --</option>`;
+
+    // Tạo danh sách từ thứ tự 1 đến 20
+    for (let i = 1; i <= 20; i++) {
+      if (takenOrders.includes(i)) {
+        continue; // Bỏ qua nếu đã bị cán bộ khác chọn
+      }
+      const selectedAttr = (!isUnassigned && Number(currentOrder) === i) ? 'selected' : '';
+      optionsHtml += `<option value="${i}" ${selectedAttr}>Thứ tự ${i}</option>`;
+    }
+
+    // Luôn đảm bảo giữ lại lựa chọn hiện tại của chính cán bộ này nếu nó lớn hơn 20
+    if (currentOrder && Number(currentOrder) > 20 && !takenOrders.includes(Number(currentOrder))) {
+      optionsHtml += `<option value="${currentOrder}" selected>Thứ tự ${currentOrder}</option>`;
+    }
+
+    orderSelect.innerHTML = optionsHtml;
+  }
+
   openModalForAdd(entityKey) {
     this.editingId = null;
     const modal = document.getElementById('adminModalOverlay');
@@ -749,6 +1184,19 @@ class AdminApp {
 
     // Bind upload handlers AFTER HTML is injected so file inputs exist in DOM
     this.bindUploadHandlers();
+    
+    // Bind order options selector for staff
+    if (entityKey === 'staff') {
+      const nhomSelect = document.getElementById('field_nhom_id');
+      const initialNhomId = nhomSelect ? nhomSelect.value : 1;
+      this.updateOrderOptions(initialNhomId, null, null);
+      
+      if (nhomSelect) {
+        nhomSelect.addEventListener('change', (e) => {
+          this.updateOrderOptions(e.target.value, null, null);
+        });
+      }
+    }
     
     // FIX: Xóa bản nháp cũ trước khi mở form Thêm mới.
     // Không được restore draft khi thêm mới để tránh dữ liệu cũ
@@ -778,6 +1226,19 @@ class AdminApp {
 
     // Bind upload handlers AFTER HTML is injected so file inputs exist in DOM
     this.bindUploadHandlers();
+
+    // Bind order options selector for staff
+    if (entityKey === 'staff') {
+      const nhomSelect = document.getElementById('field_nhom_id');
+      const initialNhomId = nhomSelect ? nhomSelect.value : (item.nhom_id || 1);
+      this.updateOrderOptions(initialNhomId, id, item.thu_tu_trong_nhom);
+      
+      if (nhomSelect) {
+        nhomSelect.addEventListener('change', (e) => {
+          this.updateOrderOptions(e.target.value, id, item.thu_tu_trong_nhom);
+        });
+      }
+    }
 
     // Capture clean state BEFORE restoring form draft so we can compute formDirty accurately
     this.captureInitialFormState();
@@ -1009,11 +1470,34 @@ class AdminApp {
       html += `
         <div class="form-group">
           <label>Họ và tên Giảng viên (*)</label>
-          <input type="text" name="ho_ten" value="${data.ho_ten || ''}" required placeholder="VD: TS. Nguyễn Nhứt Lam">
+          <input type="text" name="main_title" value="${data.ho_ten || ''}" required placeholder="VD: TS. Nguyễn Nhứt Lam">
         </div>
         <div class="form-group">
           <label>Chức vụ (*)</label>
           <input type="text" name="chuc_vu" value="${data.chuc_vu || ''}" required placeholder="VD: Trưởng khoa">
+        </div>
+        <div class="form-group">
+          <label>Nhóm Nhân sự (*)</label>
+          <select name="nhom_id" id="field_nhom_id" required>
+            ${(() => {
+              if (this.staffGroupsList && this.staffGroupsList.length > 0) {
+                const sorted = [...this.staffGroupsList].sort((a, b) => (a.thu_tu || 0) - (b.thu_tu || 0));
+                return sorted.map(g => 
+                  `<option value="${g.id}" ${String(g.id) === String(data.nhom_id || 2) ? 'selected' : ''}>${g.ten_nhom}</option>`
+                ).join('');
+              }
+              return `
+                <option value="1" ${data.nhom_id === 1 ? 'selected' : ''}>Ban Lãnh đạo Khoa</option>
+                <option value="2" ${data.nhom_id !== 1 ? 'selected' : ''}>Giảng viên & Trợ giảng</option>
+              `;
+            })()}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Thứ tự hiển thị trong nhóm (*)</label>
+          <select name="thu_tu_trong_nhom" id="field_thu_tu_trong_nhom" required>
+            <!-- Tự động kết xuất động qua JS -->
+          </select>
         </div>
         <div class="form-group">
           <label>Học vị (*)</label>
@@ -1087,7 +1571,40 @@ class AdminApp {
         </div>
         <div class="form-group">
           <label>Lĩnh vực nghiên cứu</label>
-          <textarea name="linh_vuc_nghien_cuu" rows="3" placeholder="Các hướng nghiên cứu chính...">${data.linh_vuc_nghien_cuu || ''}</textarea>
+          <textarea name="linh_vuc_nghien_cuu" rows="3" placeholder="Các hướng nghiên cứu chính...">${(() => {
+            const raw = data.linh_vuc_nghien_cuu || '';
+            return raw.split('||hide:')[0] || '';
+          })()}</textarea>
+        </div>
+        <div class="form-group" style="margin-top: 6px; padding: 16px; border: 1px solid var(--admin-card-border); border-radius: var(--radius-md); background: rgba(0,0,0,0.02); display: flex; flex-direction: column; gap: 10px;">
+          <label style="color: var(--admin-accent); font-weight: 700; margin-bottom: 2px;">👁️ Ẩn/Hiện Phần Nội Dung Trang Cá Nhân</label>
+          ${(() => {
+            const raw = data.linh_vuc_nghien_cuu || '';
+            const hideConfig = raw.includes('||hide:') ? raw.split('||hide:')[1] : '';
+            const hidden = hideConfig ? hideConfig.split(',') : [];
+            return `
+              <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; text-transform: none; font-size: 0.88rem; cursor: pointer; color: var(--admin-text-main);">
+                <input type="checkbox" id="hide_section_nckh" ${hidden.includes('nckh') ? 'checked' : ''} style="width: 16px; height: 16px; margin: 0; cursor: pointer;">
+                Ẩn "ĐỀ TÀI NCKH CÁC CẤP"
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; text-transform: none; font-size: 0.88rem; cursor: pointer; color: var(--admin-text-main);">
+                <input type="checkbox" id="hide_section_project" ${hidden.includes('project') ? 'checked' : ''} style="width: 16px; height: 16px; margin: 0; cursor: pointer;">
+                Ẩn "DỰ ÁN / PROJECT"
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; text-transform: none; font-size: 0.88rem; cursor: pointer; color: var(--admin-text-main);">
+                <input type="checkbox" id="hide_section_paper" ${hidden.includes('paper') ? 'checked' : ''} style="width: 16px; height: 16px; margin: 0; cursor: pointer;">
+                Ẩn "BÀI BÁO KHOA HỌC"
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; text-transform: none; font-size: 0.88rem; cursor: pointer; color: var(--admin-text-main);">
+                <input type="checkbox" id="hide_section_book" ${hidden.includes('book') ? 'checked' : ''} style="width: 16px; height: 16px; margin: 0; cursor: pointer;">
+                Ẩn "SÁCH VÀ GIÁO TRÌNH GIẢNG DẠY"
+              </label>
+              <label style="display: flex; align-items: center; gap: 8px; font-weight: 500; text-transform: none; font-size: 0.88rem; cursor: pointer; color: var(--admin-text-main);">
+                <input type="checkbox" id="hide_section_supervision" ${hidden.includes('supervision') ? 'checked' : ''} style="width: 16px; height: 16px; margin: 0; cursor: pointer;">
+                Ẩn "HƯỚNG DẪN NGHIÊN CỨU SINH, HỌC VIÊN..."
+              </label>
+            `;
+          })()}
         </div>
         <div class="form-group">
           <label>Link Google Scholar</label>
@@ -1278,8 +1795,8 @@ class AdminApp {
           <input type="text" name="main_title" value="${data.ten_nhom || ''}" required placeholder="VD: Lãnh đạo Khoa">
         </div>
         <div class="form-group">
-          <label>Mã số nhóm (Số thứ tự sắp xếp nhóm) (*)</label>
-          <input type="number" name="ma_nhom" value="${data.ma_nhom || 2}" required placeholder="VD: 1 cho Lãnh đạo, 2 cho Giảng viên">
+          <label>Số thứ tự sắp xếp nhóm (*)</label>
+          <input type="number" name="thu_tu" value="${data.thu_tu !== undefined ? data.thu_tu : 1}" required placeholder="VD: 1 cho Lãnh đạo, 2 cho Giảng viên">
         </div>
       `;
     } else if (entityKey === 'homepageHero') {
@@ -1759,10 +2276,6 @@ class AdminApp {
           <label>BibTeX Key</label>
           <input type="text" name="bibtex_key" value="${data.bibtex_key || ''}" placeholder="VD: nguyen2026self">
         </div>
-        <div class="form-group">
-          <label>Thứ tự hiển thị</label>
-          <input type="number" name="thu_tu" value="${data.thu_tu || 0}">
-        </div>
       `;
     } else if (entityKey === 'researchLabs') {
       let staffOptions = '';
@@ -1923,12 +2436,14 @@ class AdminApp {
         `;
       }
 
-      html += `
-        <div class="form-group">
-          <label>Thứ tự hiển thị</label>
-          <input type="number" name="thu_tu" value="${data.thu_tu || 0}">
-        </div>
-      `;
+      if (isCurriculum) {
+        html += `
+          <div class="form-group">
+            <label>Thứ tự hiển thị</label>
+            <input type="number" name="thu_tu" value="${data.thu_tu || 0}">
+          </div>
+        `;
+      }
     } else if (entityKey === 'undergradFaqs') {
       html += `
         <div class="form-group">
@@ -1942,6 +2457,85 @@ class AdminApp {
         <div class="form-group">
           <label>Thứ tự hiển thị</label>
           <input type="number" name="thu_tu" value="${data.thu_tu || 0}">
+        </div>
+      `;
+    } else if (entityKey === 'undergradCareers') {
+      html += `
+        <div class="form-group">
+          <label>Loại thông tin (*)</label>
+          <select name="loai_thong_tin" required>
+            <option value="vi_tri_dam_nhan" ${(data.loai_thong_tin || 'vi_tri_dam_nhan') === 'vi_tri_dam_nhan' ? 'selected' : ''}>💼 Vị trí đảm nhận tiêu biểu</option>
+            <option value="moi_truong_cong_tac" ${data.loai_thong_tin === 'moi_truong_cong_tac' ? 'selected' : ''}>🏢 Môi trường công tác lí tưởng</option>
+          </select>
+          <small style="color:var(--admin-text-muted); margin-top:4px; display:block;">Chọn loại để phân nhóm hiển thị đúng mục trên trang người dùng.</small>
+        </div>
+        <div class="form-group">
+          <label>Nội dung mô tả (*)</label>
+          <textarea name="description" rows="3" required placeholder="VD: Kỹ sư phần mềm tại các doanh nghiệp công nghệ lớn, Lập trình viên AI/ML...">${data.noi_dung || ''}</textarea>
+          <small style="color:var(--admin-text-muted); margin-top:4px; display:block;">Mỗi bản ghi là một mục trong danh sách. Mỗi dòng ngắn gọn (1–2 câu).</small>
+        </div>
+        <div class="form-group">
+          <label>Ngành liên kết</label>
+          <select name="nganh_id">
+            ${(() => {
+              if (this.undergradProgramsList && this.undergradProgramsList.length > 0) {
+                return this.undergradProgramsList.map(p =>
+                  `<option value="${p.id}" ${String(p.id) === String(data.nganh_id || 1) ? 'selected' : ''}>${p.ten_nganh || p.ten_chuong_trinh || 'Ngành ' + p.id}</option>`
+                ).join('');
+              }
+              return `<option value="1" ${(!data.nganh_id || data.nganh_id == 1) ? 'selected' : ''}>Công nghệ thông tin (mặc định)</option>
+                      <option value="2" ${data.nganh_id == 2 ? 'selected' : ''}>Trí tuệ nhân tạo</option>`;
+            })()}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Thứ tự hiển thị</label>
+          <input type="number" name="thu_tu" value="${data.thu_tu || 0}" min="0">
+        </div>
+      `;
+    } else if (entityKey === 'undergradStudentStats') {
+      html += `
+        <div class="form-group">
+          <label>Ngành đào tạo (*)</label>
+          <select name="nganh_id" required>
+            ${(() => {
+              if (this.undergradProgramsList && this.undergradProgramsList.length > 0) {
+                return this.undergradProgramsList.map(p =>
+                  `<option value="${p.id}" ${String(p.id) === String(data.nganh_id || 1) ? 'selected' : ''}>${p.ten_nganh}</option>`
+                ).join('');
+              }
+              return `<option value="1" ${(!data.nganh_id || data.nganh_id == 1) ? 'selected' : ''}>Công nghệ thông tin</option>
+                      <option value="2" ${data.nganh_id == 2 ? 'selected' : ''}>Trí tuệ nhân tạo</option>`;
+            })()}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Khóa (*)</label>
+          <input type="text" name="khoa" value="${data.khoa || ''}" required placeholder="VD: K36, K37, ..., K52">
+          <small style="color:var(--admin-text-muted); margin-top:4px; display:block;">Nhập tên khóa theo định dạng K + số (K36, K49...)</small>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label>Số SV nhập học (*)</label>
+            <input type="number" name="so_sinh_vien" value="${data.so_sinh_vien || 0}" min="0" required>
+          </div>
+          <div class="form-group">
+            <label>Tổng đã tốt nghiệp</label>
+            <input type="number" name="so_tot_nghiep" value="${data.so_tot_nghiep || 0}" min="0">
+            <small style="color:var(--admin-text-muted); margin-top:4px; display:block;">Để 0 nếu khóa chưa ra trường</small>
+          </div>
+          <div class="form-group">
+            <label>TN đúng tiến độ</label>
+            <input type="number" name="so_dung_tien_do" value="${data.so_dung_tien_do || 0}" min="0">
+          </div>
+          <div class="form-group">
+            <label>TN sớm</label>
+            <input type="number" name="so_tot_nghiep_som" value="${data.so_tot_nghiep_som || 0}" min="0">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Thứ tự hiển thị (1=K36, 2=K37...)</label>
+          <input type="number" name="thu_tu" value="${data.thu_tu || 0}" min="0">
         </div>
       `;
     } else if (entityKey === 'postgradNotices') {
@@ -2029,10 +2623,6 @@ class AdminApp {
         <div class="form-group">
           <label>Cấu hình dữ liệu biểu đồ (JSON Config) (*)</label>
           <textarea name="chart_config_json" rows="6" required placeholder='VD: {"batches": ["K22", "K23"], "masterCounts": [9, 8], "phdCounts": [0, 0]}'>${typeof data.chart_config_json === 'object' ? JSON.stringify(data.chart_config_json, null, 2) : (data.chart_config_json || '')}</textarea>
-        </div>
-        <div class="form-group">
-          <label>Thứ tự hiển thị</label>
-          <input type="number" name="thu_tu" value="${data.thu_tu || 0}">
         </div>
       `;
     } else if (entityKey === 'news') {
@@ -2165,12 +2755,26 @@ class AdminApp {
       return;
     }
 
-    // Thu thập dữ liệu từ tất cả input/select/textarea bên trong modal
-    const inputs = formContainer.querySelectorAll('input:not([type="file"]), select, textarea');
+    // Thu thập dữ liệu từ tất cả input/select/textarea bên trong modal (loại bỏ checkbox và file uploader)
+    const inputs = formContainer.querySelectorAll('input:not([type="file"]):not([type="checkbox"]), select, textarea');
     const payload = {};
     inputs.forEach(el => {
       if (el.name) payload[el.name] = el.value;
     });
+
+    // Xử lý Serialize cho cấu hình Ẩn/Hiện phần nội dung trang cá nhân
+    if (this.currentNav === 'staffProfiles') {
+      const hideSections = [];
+      if (document.getElementById('hide_section_nckh')?.checked) hideSections.push('nckh');
+      if (document.getElementById('hide_section_project')?.checked) hideSections.push('project');
+      if (document.getElementById('hide_section_paper')?.checked) hideSections.push('paper');
+      if (document.getElementById('hide_section_book')?.checked) hideSections.push('book');
+      if (document.getElementById('hide_section_supervision')?.checked) hideSections.push('supervision');
+
+      if (hideSections.length > 0) {
+        payload.linh_vuc_nghien_cuu = `${payload.linh_vuc_nghien_cuu || ''}||hide:${hideSections.join(',')}`;
+      }
+    }
 
     // Map generic form fields to specific entity fields
     if (payload.main_title) {

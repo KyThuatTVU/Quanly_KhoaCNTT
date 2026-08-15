@@ -15,6 +15,7 @@ class StaffDirectoryComponent extends HTMLElement {
     this.staffList = [];
     this.currentView = 'directory'; // 'directory' or 'profile'
     this.activeStaffId = null;
+    this.staffGroups = [];
     
     // Details cached states
     this.profileData = null;
@@ -50,7 +51,31 @@ class StaffDirectoryComponent extends HTMLElement {
   }
 
   async init() {
-    this.staffList = await StaffService.getStaffList();
+    try {
+      const [groups, staff] = await Promise.all([
+        StaffService.getStaffGroups(),
+        StaffService.getStaffList()
+      ]);
+      this.staffGroups = groups || [];
+      this.staffList = staff || [];
+      
+      // Fallback if groups are empty
+      if (!this.staffGroups || this.staffGroups.length === 0) {
+        this.staffGroups = [
+          { id: 1, ten_nhom: 'BAN LÃNH ĐẠO KHOA', thu_tu: 1 },
+          { id: 2, ten_nhom: 'GIẢNG VIÊN & TRỢ GIẢNG', thu_tu: 2 }
+        ];
+      } else {
+        // Sort groups by display order (thu_tu)
+        this.staffGroups.sort((a, b) => (a.thu_tu || 0) - (b.thu_tu || 0));
+      }
+    } catch (e) {
+      console.error('Lỗi khi nạp dữ liệu nhân sự/nhóm:', e);
+      this.staffGroups = [
+        { id: 1, ten_nhom: 'BAN LÃNH ĐẠO KHOA', thu_tu: 1 },
+        { id: 2, ten_nhom: 'GIẢNG VIÊN & TRỢ GIẢNG', thu_tu: 2 }
+      ];
+    }
     this.render();
   }
 
@@ -134,9 +159,10 @@ class StaffDirectoryComponent extends HTMLElement {
    * Renders the directory list grouped by groups
    */
   renderDirectory() {
-    const visibleStaff = this.staffList.filter(item => item.an_hien !== 0);
-    const leaders = visibleStaff.filter(item => item.nhom_id === 1);
-    const lecturers = visibleStaff.filter(item => item.nhom_id !== 1);
+    // Sắp xếp cán bộ giảng viên theo thứ tự trong nhóm (tăng dần)
+    const visibleStaff = this.staffList
+      .filter(item => item.an_hien !== 0)
+      .sort((a, b) => (a.thu_tu_trong_nhom || 0) - (b.thu_tu_trong_nhom || 0));
 
     const renderCard = (item) => {
       // Làm sạch đường dẫn trong DB nếu lỡ lưu có '../' ở đầu
@@ -147,7 +173,10 @@ class StaffDirectoryComponent extends HTMLElement {
       const imgPath = `${this.assetPrefix}${rawPath}`;
       const avatarHtml = `
         <div class="staff-card-img-container">
-          <img src="${imgPath}" alt="${item.ho_ten}" class="staff-card-img" onerror="this.onerror=null; this.parentNode.innerHTML='${this.getFallbackAvatar()}'">
+          <img src="${imgPath}" alt="${item.ho_ten}" class="staff-card-img" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+          <div class="staff-fallback-avatar-wrapper" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center;">
+            ${this.getFallbackAvatar()}
+          </div>
         </div>
       `;
 
@@ -155,7 +184,7 @@ class StaffDirectoryComponent extends HTMLElement {
       const subtitle = item.chuc_vu;
 
       return `
-        <div class="staff-card-3d-wrap" onclick="this.parentNode.parentNode.parentNode.parentNode.showProfile(${item.id})">
+        <div class="staff-card-3d-wrap" onclick="this.closest('staff-directory-component').showProfile(${item.id})">
           <div class="staff-card-3d">
             ${avatarHtml}
             <div class="staff-card-info">
@@ -167,6 +196,25 @@ class StaffDirectoryComponent extends HTMLElement {
       `;
     };
 
+    let groupsHtml = '';
+    this.staffGroups.forEach(group => {
+      const groupStaff = visibleStaff.filter(item => item.nhom_id === group.id);
+      
+      // Render the section if there is staff inside it, or if it is one of the main groups (1 or 2)
+      if (groupStaff.length > 0 || group.id === 1 || group.id === 2) {
+        groupsHtml += `
+          <div class="staff-group-section">
+            <h2 class="staff-group-title">${group.ten_nhom}</h2>
+            <div class="staff-grid">
+              ${groupStaff.length > 0 
+                ? groupStaff.map(renderCard).join('') 
+                : '<div style="color:#64748b; padding:20px; font-size:0.95rem; font-weight:500;">Chưa cập nhật cán bộ/giảng viên trong nhóm này.</div>'}
+            </div>
+          </div>
+        `;
+      }
+    });
+
     this.innerHTML = `
       <div class="staff-directory-section">
         <div class="staff-banner-container">
@@ -174,19 +222,7 @@ class StaffDirectoryComponent extends HTMLElement {
           <p class="staff-main-desc">Đội ngũ cán bộ, viên chức và người lao động thuộc Khoa Công nghệ thông tin - Đại học Trà Vinh</p>
         </div>
 
-        <div class="staff-group-section">
-          <h2 class="staff-group-title">Lãnh Đạo Khoa</h2>
-          <div class="staff-grid">
-            ${leaders.map(renderCard).join('')}
-          </div>
-        </div>
-
-        <div class="staff-group-section">
-          <h2 class="staff-group-title">Giảng Viên & Trợ Giảng</h2>
-          <div class="staff-grid">
-            ${lecturers.map(renderCard).join('')}
-          </div>
-        </div>
+        ${groupsHtml}
       </div>
     `;
   }
@@ -196,7 +232,26 @@ class StaffDirectoryComponent extends HTMLElement {
    */
   renderProfile() {
     const staff = this.staffList.find(item => item.id === this.activeStaffId);
-    if (!staff || !this.profileData) return;
+    if (!staff) return;
+
+    const pData = this.profileData || {
+      nhan_vien_id: staff.id,
+      email: staff.email,
+      ngach_vien_chuc: staff.ngach_vien_chuc || 'Giảng viên',
+      hoc_vi: staff.hoc_vi || 'Cử nhân',
+      hoc_ham: staff.hoc_ham || '',
+      don_vi_cong_tac: staff.don_vi_cong_tac || 'Khoa Công nghệ thông tin',
+      linh_vuc_nghien_cuu: 'Chưa cập nhật',
+      google_scholar_url: '#',
+      orcid_url: '#',
+      github_url: '#',
+      website_ca_nhan: '#'
+    };
+
+    const rawResearchField = pData.linh_vuc_nghien_cuu || '';
+    const cleanResearchField = rawResearchField.split('||hide:')[0] || 'Chưa cập nhật';
+    const hideConfig = rawResearchField.includes('||hide:') ? rawResearchField.split('||hide:')[1] : '';
+    const hiddenSections = hideConfig ? hideConfig.split(',') : [];
 
     let rawPath = staff.anh_ca_nhan_url || '';
     if (rawPath.startsWith('../')) {
@@ -204,7 +259,10 @@ class StaffDirectoryComponent extends HTMLElement {
     }
     const imgPath = `${this.assetPrefix}${rawPath}`;
     const avatarHtml = `
-      <img src="${imgPath}" alt="${staff.ho_ten}" class="profile-avatar-img" onerror="this.onerror=null; this.parentNode.innerHTML='${this.getFallbackAvatar()}'">
+      <img src="${imgPath}" alt="${staff.ho_ten}" class="profile-avatar-img" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+      <div class="staff-fallback-avatar-wrapper" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center;">
+        ${this.getFallbackAvatar()}
+      </div>
     `;
 
     // 1. Table of Research Projects
@@ -378,13 +436,13 @@ class StaffDirectoryComponent extends HTMLElement {
                 ${avatarHtml}
               </div>
               <h2 class="profile-name">${staff.ho_ten}</h2>
-              <p class="profile-title">${staff.hoc_vi}, ${this.profileData.ngach_vien_chuc}</p>
+              <p class="profile-title">${staff.hoc_vi}, ${pData.ngach_vien_chuc}</p>
               <p class="profile-faculty-desc">Giảng viên Khoa Công nghệ thông tin</p>
               
               <!-- Contact social row -->
               <div class="profile-social-row">
                 ${staff.an_hien_email !== 0 ? `
-                  <a href="mailto:${this.profileData.email || staff.email}" class="social-icon-btn" title="Gửi Email">
+                  <a href="mailto:${pData.email || staff.email}" class="social-icon-btn" title="Gửi Email">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                   </a>
                 ` : ''}
@@ -406,44 +464,44 @@ class StaffDirectoryComponent extends HTMLElement {
                 ${staff.an_hien_email !== 0 ? `
                   <li>
                     <span class="info-label">📧 Email:</span>
-                    <span class="info-val"><a href="mailto:${this.profileData.email || staff.email}">${this.profileData.email || staff.email}</a></span>
+                    <span class="info-val"><a href="mailto:${pData.email || staff.email}">${pData.email || staff.email}</a></span>
                   </li>
                 ` : ''}
                 <li>
                   <span class="info-label">🏛️ Ngạch viên chức:</span>
-                  <span class="info-val">${this.profileData.ngach_vien_chuc}</span>
+                  <span class="info-val">${pData.ngach_vien_chuc}</span>
                 </li>
                 <li>
                   <span class="info-label">🎓 Trình độ chuyên môn:</span>
-                  <span class="info-val">${this.profileData.hoc_vi}</span>
+                  <span class="info-val">${pData.hoc_vi}</span>
                 </li>
                 <li>
                   <span class="info-label">🎖️ Học hàm:</span>
-                  <span class="info-val">${this.profileData.hoc_ham || 'Chưa phong'}</span>
+                  <span class="info-val">${pData.hoc_ham || 'Chưa phong'}</span>
                 </li>
                 <li>
                   <span class="info-label">🏢 Đơn vị công tác:</span>
-                  <span class="info-val">${this.profileData.don_vi_cong_tac}</span>
+                  <span class="info-val">${pData.don_vi_cong_tac}</span>
                 </li>
                 <li>
                   <span class="info-label">🔬 Lĩnh vực nghiên cứu:</span>
-                  <span class="info-val">${this.profileData.linh_vuc_nghien_cuu}</span>
+                  <span class="info-val">${cleanResearchField}</span>
                 </li>
                 <li>
                   <span class="info-label">📊 Google Scholar:</span>
-                  <span class="info-val"><a href="${this.profileData.google_scholar_url}" target="_blank">Xem Link</a></span>
+                  <span class="info-val"><a href="${pData.google_scholar_url}" target="_blank">Xem Link</a></span>
                 </li>
                 <li>
                   <span class="info-label">🆔 ORCID ID:</span>
-                  <span class="info-val"><a href="${this.profileData.orcid_url}" target="_blank">Xem Link</a></span>
+                  <span class="info-val"><a href="${pData.orcid_url}" target="_blank">Xem Link</a></span>
                 </li>
                 <li>
                   <span class="info-label">💻 Github:</span>
-                  <span class="info-val"><a href="${this.profileData.github_url}" target="_blank">Xem Link</a></span>
+                  <span class="info-val"><a href="${pData.github_url}" target="_blank">Xem Link</a></span>
                 </li>
                 <li>
                   <span class="info-label">🌐 Website cá nhân:</span>
-                  <span class="info-val"><a href="${this.profileData.website_ca_nhan}" target="_blank">Xem Link</a></span>
+                  <span class="info-val"><a href="${pData.website_ca_nhan}" target="_blank">Xem Link</a></span>
                 </li>
               </ul>
             </div>
@@ -454,34 +512,44 @@ class StaffDirectoryComponent extends HTMLElement {
         <div class="profile-details-sections">
           
           <!-- 1. Research Projects (Đề tài NCKH các cấp) -->
-          <div class="profile-section-card-3d">
-            <h3 class="section-title-3d">🧪 Đề tài NCKH các cấp</h3>
-            ${researchTableHtml}
-          </div>
+          ${hiddenSections.includes('nckh') ? '' : `
+            <div class="profile-section-card-3d">
+              <h3 class="section-title-3d">🧪 Đề tài NCKH các cấp</h3>
+              ${researchTableHtml}
+            </div>
+          `}
 
           <!-- 2. Projects (Dự án) -->
-          <div class="profile-section-card-3d">
-            <h3 class="section-title-3d">💼 Dự án / Project</h3>
-            ${projectsHtml}
-          </div>
+          ${hiddenSections.includes('project') ? '' : `
+            <div class="profile-section-card-3d">
+              <h3 class="section-title-3d">💼 Dự án / Project</h3>
+              ${projectsHtml}
+            </div>
+          `}
 
           <!-- 3. Scientific Papers (Bài báo khoa học) -->
-          <div class="profile-section-card-3d">
-            <h3 class="section-title-3d">📘 Bài báo khoa học</h3>
-            ${publicationsHtml}
-          </div>
+          ${hiddenSections.includes('paper') ? '' : `
+            <div class="profile-section-card-3d">
+              <h3 class="section-title-3d">📘 Bài báo khoa học</h3>
+              ${publicationsHtml}
+            </div>
+          `}
 
           <!-- 4. Books and Teaching Syllabus (Sách và giáo trình) -->
-          <div class="profile-section-card-3d">
-            <h3 class="section-title-3d">📚 Sách và Giáo trình giảng dạy</h3>
-            ${booksHtml}
-          </div>
+          ${hiddenSections.includes('book') ? '' : `
+            <div class="profile-section-card-3d">
+              <h3 class="section-title-3d">📚 Sách và Giáo trình giảng dạy</h3>
+              ${booksHtml}
+            </div>
+          `}
 
           <!-- 5. Thesis Supervision (Hướng dẫn học viên) -->
-          <div class="profile-section-card-3d">
-            <h3 class="section-title-3d">👨‍🎓 Hướng dẫn Nghiên cứu sinh, Học viên cao học, SV NCKH</h3>
-            ${supervisionsHtml}
-          </div>
+          ${hiddenSections.includes('supervision') ? '' : `
+            <div class="profile-section-card-3d">
+              <h3 class="section-title-3d">👨‍🎓 Hướng dẫn Nghiên cứu sinh, Học viên cao học, SV NCKH</h3>
+              ${supervisionsHtml}
+            </div>
+          `}
 
         </div>
       </div>

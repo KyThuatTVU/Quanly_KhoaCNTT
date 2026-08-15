@@ -47,8 +47,8 @@ hero-events-component {
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 32px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 /* 3D Volumetric News Card */
@@ -89,7 +89,7 @@ hero-events-component {
 .news-image-wrapper {
   position: relative;
   width: 100%;
-  height: 210px;
+  height: 150px;
   overflow: hidden;
   background: #081a36;
 }
@@ -128,7 +128,7 @@ hero-events-component {
 
 /* Card Body */
 .news-card-body {
-  padding: 24px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -154,10 +154,10 @@ hero-events-component {
 /* Title links */
 .news-card-title {
   font-family: var(--font-logo-vn);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
   color: #132238;
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   line-height: 1.4;
   transition: color 0.3s ease;
 }
@@ -177,13 +177,13 @@ hero-events-component {
 
 /* Summary text with multi-line clamping */
 .news-card-summary {
-  font-size: 13.5px;
+  font-size: 12.5px;
   color: #5c6b7b;
-  line-height: 1.65;
-  margin: 0 0 20px;
+  line-height: 1.55;
+  margin: 0 0 16px;
   flex-grow: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -220,6 +220,13 @@ hero-events-component {
    RESPONSIVE DESIGN FOR NEWS GRID
    ========================================================================== */
 
+@media (max-width: 1200px) {
+  .news-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
 @media (max-width: 991px) {
   .news-section {
     padding: 60px 20px;
@@ -231,7 +238,8 @@ hero-events-component {
   }
   
   .news-grid {
-    gap: 24px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
   
   .news-card {
@@ -239,7 +247,13 @@ hero-events-component {
   }
   
   .news-image-wrapper {
-    height: 180px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 600px) {
+  .news-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -249,10 +263,10 @@ hero-events-component {
   }
   
   .news-card-body {
-    padding: 20px;
+    padding: 16px;
   }
   
   .news-card-title {
-    font-size: 16px;
+    font-size: 15px;
   }
 }

@@ -400,8 +400,8 @@ class AdminApp {
       rowsHtml = `<tr><td colspan="6" style="text-align:center; color:var(--admin-text-muted); padding:30px;">Chưa có bản ghi nào trong danh mục này.</td></tr>`;
     } else {
       this.currentEntityData.forEach((item, idx) => {
-        const title = item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || `Bản ghi #${item.id}`;
-        const sub = item.chuc_vu || item.nam_hoan_thanh || item.ngay_dang || item.ma_tuyen_sinh || item.email || item.vai_tro || item.cap_de_tai || item.danh_sach_to_hop || '';
+        const title = item.ten_nhom || item.ten_doi_tac || item.ten_don_vi || item.ten_daidien || item.ten_phuong_thuc || item.ma_plo || item.cau_hoi || item.tieu_de_thong_bao || item.tieu_de_bieu_do || item.nam || item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || `Bản ghi #${item.id}`;
+        const sub = item.slug_nhom || item.truong_don_vi || item.chuc_vu_nhiem_vu || item.chuc_vu || item.nam_hoan_thanh || item.ngay_dang || item.ma_tuyen_sinh || item.email || item.vai_tro || item.cap_de_tai || item.danh_sach_to_hop || '';
         const img = item.anh_ca_nhan_url || item.hinh_anh_url || item.file_anh_url || item.logo_url || item.src_chinh || item.avatar_url || null;
         
         rowsHtml += `

@@ -34,6 +34,7 @@ export function mapCreatePayload(entityKey, payload) {
       data.anh_ca_nhan_url= img                     || 'assets/images/lecturers/default.jpg';
       data.nhom_id        = safeInt(payload.nhom_id, 2);
       data.slug_ca_nhan   = uniqueSlug(data.ho_ten);
+      data.thu_tu_trong_nhom = safeInt(payload.thu_tu_trong_nhom, 0);
       data.an_hien        = safeInt(payload.an_hien, 1);
       data.an_hien_email  = safeInt(payload.an_hien_email, 1);
       break;
@@ -190,7 +191,6 @@ export function mapCreatePayload(entityKey, payload) {
       data.mo_ta_chi_tiet    = desc || '';
       data.hinh_anh_tap_the_url = img || 'assets/images/about/default.jpg';
       data.caption_anh       = payload.caption_anh || '';
-      data.an_hien           = safeInt(payload.an_hien, 1);
       break;
 
     case 'aboutHighlights':
@@ -226,6 +226,7 @@ export function mapCreatePayload(entityKey, payload) {
       data.chuc_vu_phu_trach  = sub || '';
       data.email              = payload.email || '';
       data.nhan_vien_id       = safeInt(payload.nhan_vien_id) || null;
+      data.thu_tu             = safeInt(payload.thu_tu, 0);
       break;
 
     case 'aboutUnitContact':
@@ -262,7 +263,6 @@ export function mapCreatePayload(entityKey, payload) {
       data.loai_hinh_cong_bo   = payload.loai_hinh_cong_bo || 'Journal Article';
       data.ten_tap_chi_hoi_nghi= payload.ten_tap_chi_hoi_nghi || 'Hội nghị Khoa học TVU';
       data.bibtex_key          = payload.bibtex_key || null;
-      data.thu_tu              = safeInt(payload.thu_tu, 0);
       break;
 
     case 'researchLabs':
@@ -296,7 +296,6 @@ export function mapCreatePayload(entityKey, payload) {
       data.ten_phuong_thuc = title;
       data.danh_sach_to_hop= sub || '';
       data.nganh_id        = safeInt(payload.nganh_id, 1);
-      data.thu_tu          = safeInt(payload.thu_tu, 0);
       break;
 
     case 'undergradCurriculum':
@@ -311,7 +310,6 @@ export function mapCreatePayload(entityKey, payload) {
       data.ma_plo      = title;
       data.noi_dung_plo= desc || '';
       data.nganh_id    = safeInt(payload.nganh_id, 1);
-      data.thu_tu      = safeInt(payload.thu_tu, 0);
       break;
 
     case 'undergradCourses':
@@ -320,13 +318,29 @@ export function mapCreatePayload(entityKey, payload) {
       data.nang_luc_hinh_thanh = desc || '';
       data.so_tin_chi      = safeInt(payload.so_tin_chi, 3);
       data.nganh_id        = safeInt(payload.nganh_id, 1);
-      data.thu_tu          = safeInt(payload.thu_tu, 0);
       break;
 
     case 'undergradFaqs':
       data.cau_hoi = title;
       data.tra_loi = desc || '';
       data.thu_tu  = safeInt(payload.thu_tu, 0);
+      break;
+
+    case 'undergradCareers':
+      data.loai_thong_tin = payload.loai_thong_tin || 'vi_tri_dam_nhan';
+      data.noi_dung       = desc || title || '';
+      data.nganh_id       = safeInt(payload.nganh_id, 1);
+      data.thu_tu         = safeInt(payload.thu_tu, 0);
+      break;
+
+    case 'undergradStudentStats':
+      data.nganh_id          = safeInt(payload.nganh_id, 1);
+      data.khoa              = payload.khoa || '';
+      data.so_sinh_vien      = safeInt(payload.so_sinh_vien, 0);
+      data.so_tot_nghiep     = safeInt(payload.so_tot_nghiep, 0);
+      data.so_dung_tien_do   = safeInt(payload.so_dung_tien_do, 0);
+      data.so_tot_nghiep_som = safeInt(payload.so_tot_nghiep_som, 0);
+      data.thu_tu            = safeInt(payload.thu_tu, 0);
       break;
 
     // ── Sau Đại học ────────────────────────────────────────────────────────────
@@ -355,7 +369,6 @@ export function mapCreatePayload(entityKey, payload) {
       data.tieu_de_bieu_do   = title;
       data.moc_thoi_gian_tinh= sub || '';
       data.chart_config_json = payload.chart_config_json || '{}';
-      data.thu_tu            = safeInt(payload.thu_tu, 0);
       break;
 
     // ── Tin tức & Gallery ──────────────────────────────────────────────────────

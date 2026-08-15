@@ -89,23 +89,42 @@ class CurriculumProgramComponent extends HTMLElement {
     await this.loadProgramDetails(programId);
   }
 
-  /**
-   * Helper to render admission combination tags
-   */
   renderSubjectTags(subjectsString) {
-    // E.g. "A00 (Toán, Lý, Hóa) | A01 (Toán, Lý, Anh)"
-    const parts = subjectsString.split(' | ');
-    return parts.map(part => {
-      const match = part.match(/^([A-Z0-9]+)\s*\((.+)\)$/);
-      if (match) {
-        return `
-          <div class="comb-badge" title="${match[2]}">
-            <span class="comb-code">${match[1]}</span>
-            <span class="comb-desc">${match[2]}</span>
-          </div>
-        `;
+    if (!subjectsString) return '';
+    
+    let parts = [];
+    let match;
+    
+    // Pattern 1: Paren format - A00 (Toán, Lý, Hóa) | A01 (Toán, Lý, Anh)
+    const parenRegex = /([A-Z0-9]{3})\s*\(([^)]+)\)/g;
+    while ((match = parenRegex.exec(subjectsString)) !== null) {
+      parts.push({ code: match[1].trim(), desc: match[2].trim() });
+    }
+    
+    // Pattern 2: Dash format - A00 - Toán, Lý, Hóa A01 - ...
+    if (parts.length === 0) {
+      const dashRegex = /([A-Z0-9]{3})\s*[-–]\s*([^-–|]+?)(?=\s*[A-Z0-9]{3}\s*[-–]|$|\|)/g;
+      while ((match = dashRegex.exec(subjectsString)) !== null) {
+        const descClean = match[2].trim().replace(/,\s*$/, '');
+        parts.push({ code: match[1].trim(), desc: descClean });
       }
-      return `<div class="comb-badge"><span class="comb-code">${part}</span></div>`;
+    }
+    
+    // Fallback: If no matches were found, just split by space or comma
+    if (parts.length === 0) {
+      const simpleParts = subjectsString.split(/[\s,|]+/);
+      return simpleParts.filter(p => p.trim()).map(p => {
+        return `<div class="comb-badge"><span class="comb-code">${p.trim()}</span></div>`;
+      }).join('');
+    }
+    
+    return parts.map(p => {
+      return `
+        <div class="comb-badge">
+          <span class="comb-code">${p.code}</span>
+          <span class="comb-desc">(${p.desc})</span>
+        </div>
+      `;
     }).join('');
   }
 
@@ -141,14 +160,8 @@ class CurriculumProgramComponent extends HTMLElement {
       <!-- Program Main Header Banner (Full Width) -->
       <div class="curr-banner">
         <div class="curr-banner-container">
-          <div class="curr-banner-kicker">Frontend đại diện theo CSDL hiện tại</div>
           <h2 class="curr-banner-title">Chương Trình Đào Tạo Đại Học</h2>
           <p class="curr-banner-subtitle">${programName} · Mã tuyển sinh ${code} · ${degree} · ${duration}</p>
-          <div class="curr-banner-chip-row">
-            <span class="curr-banner-chip">Dữ liệu mô phỏng trước backend</span>
-            <span class="curr-banner-chip">Tách lớp theo CSDL hiện tại</span>
-            <span class="curr-banner-chip">Responsive cho mobile</span>
-          </div>
           
           <!-- Tabs container -->
           <div class="curr-tabs-wrapper">
@@ -253,7 +266,7 @@ class CurriculumProgramComponent extends HTMLElement {
               ${this.admissions.map(method => `
                 <div class="method-item">
                   <div class="method-header">
-                    <span class="method-dot-icon">🔵</span>
+                    <span class="method-dot-icon">i</span>
                     <span class="method-title">${method.ten_phuong_thuc}</span>
                   </div>
                   <div class="method-combinations-badges">
@@ -327,9 +340,12 @@ class CurriculumProgramComponent extends HTMLElement {
                   <h4>Vị trí đảm nhận tiêu biểu</h4>
                 </div>
                 <ul class="career-list">
-                  ${this.careers.filter(c => c.loai_thong_tin === 'vi_tri_dam_nhan').map(c => `
-                    <li>${c.noi_dung}</li>
-                  `).join('')}
+                  ${this.careers.filter(c => c.loai_thong_tin === 'vi_tri_dam_nhan').flatMap(c =>
+                    c.noi_dung
+                      .split(/\n|;/)
+                      .map(s => s.trim())
+                      .filter(s => s.length > 0)
+                  ).map(item => `<li>${item}</li>`).join('')}
                 </ul>
               </div>
 
@@ -348,9 +364,12 @@ class CurriculumProgramComponent extends HTMLElement {
                   <h4>Môi trường công tác lí tưởng</h4>
                 </div>
                 <ul class="career-list">
-                  ${this.careers.filter(c => c.loai_thong_tin === 'moi_truong_cong_tac').map(c => `
-                    <li>${c.noi_dung}</li>
-                  `).join('')}
+                  ${this.careers.filter(c => c.loai_thong_tin === 'moi_truong_cong_tac').flatMap(c =>
+                    c.noi_dung
+                      .split(/\n|;/)
+                      .map(s => s.trim())
+                      .filter(s => s.length > 0)
+                  ).map(item => `<li>${item}</li>`).join('')}
                 </ul>
               </div>
 

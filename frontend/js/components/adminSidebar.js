@@ -116,7 +116,7 @@ export function renderAdminSidebar(activeKey = 'dashboard') {
       <img src="./assets/images/sit.jpg" alt="Logo" class="sidebar-logo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23ffffff%22 stroke=%22%232563eb%22 stroke-width=%225%22/><text x=%2250%25%22 y=%2255%25%22 font-family=%22sans-serif%22 font-size=%2222%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%232563eb%22>SIT</text></svg>'">
       <div>
         <div class="sidebar-brand-title">KHOA CNTT TVU</div>
-        <div class="sidebar-brand-sub">FIT TVU Portal</div>
+        <div class="sidebar-brand-sub">SIT</div>
       </div>
     </div>
     <nav class="sidebar-nav">

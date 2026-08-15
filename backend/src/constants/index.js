@@ -49,7 +49,9 @@ export const TABLE_MAP = {
   undergradMethods:   'phuong_thuc_tuyen_sinh',
   undergradCurriculum:'cau_truc_khoi_kien_thuc',
   undergradPlos:      'chuan_dau_ra_plo',
+  undergradCareers:   'co_hoi_nghe_nghiep',
   undergradCourses:   'hoc_phan_cong_nghe_cot_loi',
+  undergradStudentStats: 'thong_ke_sinh_vien_dai_hoc',
   undergradFaqs:      'faq_dai_hoc',
 
   // ── Sau Đại học ──────────────────────────────────────────────────────────────

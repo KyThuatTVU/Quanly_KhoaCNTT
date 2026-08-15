@@ -310,7 +310,7 @@ CREATE TABLE `gioi_thieu_tong_quan` (
   `tieu_de`              VARCHAR(255) NOT NULL DEFAULT 'Khoa KHOA HỌC MÁY TÍNH',
   `mo_ta_chi_tiet`       TEXT NOT NULL COMMENT 'Nội dung văn bản giới thiệu',
   `hinh_anh_tap_the_url` VARCHAR(500) NOT NULL COMMENT 'URL ảnh tập thể khoa',
-  `caption_anh`          VARCHAR(255) NOT NULL DEFAULT 'Khoa Khoa học máy tính - Đại học Cần Thơ'
+  `caption_anh`          VARCHAR(255) NOT NULL DEFAULT 'Khoa Khoa học máy tính - Đại học Trà Vinh'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tổng quan trang Giới thiệu';
 
 -- 4.2 Bảng 3 Thẻ Highlight trang Giới thiệu
@@ -382,7 +382,7 @@ CREATE TABLE `lien_he_don_vi` (
   `ten_don_vi`     VARCHAR(200) NOT NULL DEFAULT 'Khoa Khoa học máy tính',
   `truong_don_vi`  VARCHAR(200) NOT NULL DEFAULT 'Trường Công nghệ thông tin và Truyền thông',
   `khu`            VARCHAR(50) NOT NULL DEFAULT 'Khu II',
-  `dai_hoc`        VARCHAR(100) NOT NULL DEFAULT 'Đại học Cần Thơ',
+  `dai_hoc`        VARCHAR(100) NOT NULL DEFAULT 'Đại học Trà Vinh',
   `dia_chi_duong`  VARCHAR(200) NOT NULL DEFAULT 'Đường 3/2',
   `phuong`         VARCHAR(100) NOT NULL DEFAULT 'Phường Ninh Kiều',
   `thanh_pho`      VARCHAR(100) NOT NULL DEFAULT 'Thành phố Cần Thơ',
@@ -552,7 +552,7 @@ CREATE TABLE `tuyen_sinh_sau_dai_hoc_thong_bao` (
   `tieu_de_thong_bao` VARCHAR(500) NOT NULL COMMENT 'Thông báo tuyển sinh Tiến sĩ, Thạc sĩ...',
   `link_chi_tiet`     VARCHAR(500) DEFAULT NULL,
   `thu_tu`            INT NOT NULL DEFAULT 0,
-  `lien_he_tu_van`    VARCHAR(255) NOT NULL DEFAULT 'Khoa Sau Đại học, Đại học Cần Thơ hoặc qua Facebook của Khoa Sau Đại học'
+  `lien_he_tu_van`    VARCHAR(255) NOT NULL DEFAULT 'Khoa Sau Đại học, Đại học Trà Vinh hoặc qua Facebook của Khoa Sau Đại học'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Thông báo tuyển sinh Sau Đại học 2026';
 
 -- 7.2 Bảng Danh sách Nghiên cứu sinh (Tiến sĩ KHMT)
@@ -563,6 +563,7 @@ CREATE TABLE `danh_sach_nghien_cuu_sinh` (
   `ho_ten`             VARCHAR(200) NOT NULL COMMENT 'Họ tên Nghiên cứu sinh',
   `chuc_vu_co_quan`    VARCHAR(300) NOT NULL COMMENT 'Chức vụ và Đơn vị công tác',
   `email`              VARCHAR(200) NOT NULL COMMENT 'Email cá nhân NCS',
+  `avatar_url`         VARCHAR(500) DEFAULT NULL COMMENT 'Ảnh đại diện NCS',
   `google_scholar_url` VARCHAR(500) DEFAULT NULL COMMENT 'Link Google Scholar nếu có',
   `ma_ncs`             VARCHAR(50) NOT NULL UNIQUE COMMENT 'Mã số NCS (P2425004, P2426001...)',
   `huong_nghien_cuu`   TEXT NOT NULL COMMENT 'Tên đề tài luận án / Hướng nghiên cứu',

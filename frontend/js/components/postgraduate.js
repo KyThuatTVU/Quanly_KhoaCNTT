@@ -66,7 +66,7 @@ class PostgraduatePageComponent extends HTMLElement {
             </ul>
 
             <div class="admissions-card-footer">
-              Mọi thông tin chi tiết xin vui lòng liên hệ <a href="https://gs.ctu.edu.vn" target="_blank" rel="noopener">Khoa Sau Đại học, Đại học Cần Thơ</a> hoặc qua <a href="https://facebook.com" target="_blank" rel="noopener">Facebook của Khoa Sau Đại học</a>.
+              Mọi thông tin chi tiết xin vui lòng liên hệ <a href="https://gs.tvu.edu.vn" target="_blank" rel="noopener">Khoa Sau Đại học, Đại học Trà Vinh</a> hoặc qua <a href="https://facebook.com" target="_blank" rel="noopener">Facebook của Khoa Sau Đại học</a>.
             </div>
           </div>
         </div>

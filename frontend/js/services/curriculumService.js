@@ -12,11 +12,13 @@ const BACKEND_BASE = 'http://localhost:5000/api/v1/admin';
 
 const ENDPOINT_MAP = {
   'chuong-trinh-dao-tao-dai-hoc': 'undergradPrograms',
-  'cau-truc-khoi-kien-thuc': 'undergradCurriculum',
-  'phuong-thuc-tuyen-sinh': 'undergradMethods',
-  'chuan-dau-ra-plo': 'undergradPlos',
-  'hoc-phan-cong-nghe-cot-loi': 'undergradCourses',
-  'faq-dai-hoc': 'undergradFaqs'
+  'cau-truc-khoi-kien-thuc':      'undergradCurriculum',
+  'phuong-thuc-tuyen-sinh':       'undergradMethods',
+  'chuan-dau-ra-plo':             'undergradPlos',
+  'co-hoi-nghe-nghiep':           'undergradCareers',
+  'hoc-phan-cong-nghe-cot-loi':   'undergradCourses',
+  'thong-ke-sinh-vien-dai-hoc':   'undergradStudentStats',
+  'faq-dai-hoc':                  'undergradFaqs'
 };
 
 async function fetchCollection(endpoint) {
@@ -112,28 +114,31 @@ export const CurriculumService = {
   },
 
   /**
-   * Fetch student statistics datasets for chart rendering
+   * Fetch student statistics from DB (thong_ke_sinh_vien_dai_hoc) for chart rendering
    */
   async getStudentStats(programId) {
-    // Simulated database query results for student counts (retained as mock)
-    if (programId === 1) {
-      return {
-        batches: ['K42', 'K43', 'K44', 'K45', 'K46', 'K47', 'K48', 'K49', 'K50', 'K51', 'K52'],
-        studentCounts: [48, 85, 100, 72, 148, 70, 66, 64, 110, 80, 0],
-        gradBatches: ['K42', 'K43', 'K44', 'K45', 'K46'],
-        graduated: [45, 80, 95, 65, 120],
-        onTime: [20, 30, 45, 35, 75],
-        early: [0, 5, 12, 8, 10]
-      };
-    }
+    try {
+      const allRows = await fetchCollection(`${CURRICULUM_API_BASE}/thong-ke-sinh-vien-dai-hoc`);
+      const rows = allRows.filter(r => parseInt(r.nganh_id, 10) === parseInt(programId, 10));
 
-    return {
-      batches: ['K42', 'K43', 'K44', 'K45', 'K46', 'K47', 'K48', 'K49', 'K50', 'K51', 'K52'],
-      studentCounts: [0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0],
-      gradBatches: [],
-      graduated: [],
-      onTime: [],
-      early: []
-    };
+      if (rows.length === 0) {
+        return { batches: [], studentCounts: [], gradBatches: [], graduated: [], onTime: [], early: [] };
+      }
+
+      const batches       = rows.map(r => r.khoa);
+      const studentCounts = rows.map(r => parseInt(r.so_sinh_vien, 10) || 0);
+
+      const gradRows    = rows.filter(r => parseInt(r.so_tot_nghiep, 10) > 0);
+      const gradBatches = gradRows.map(r => r.khoa);
+      const graduated   = gradRows.map(r => parseInt(r.so_tot_nghiep,     10) || 0);
+      const onTime      = gradRows.map(r => parseInt(r.so_dung_tien_do,   10) || 0);
+      const early       = gradRows.map(r => parseInt(r.so_tot_nghiep_som, 10) || 0);
+
+      return { batches, studentCounts, gradBatches, graduated, onTime, early };
+    } catch (err) {
+      console.error('Lỗi tải thống kê sinh viên:', err);
+      return { batches: [], studentCounts: [], gradBatches: [], graduated: [], onTime: [], early: [] };
+    }
   }
 };
+

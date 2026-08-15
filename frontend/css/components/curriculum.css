@@ -215,6 +215,15 @@
   margin-bottom: 36px;
 }
 
+.curr-left-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.curr-left-col > .curr-card-3d {
+  flex: 1 1 auto;
+}
+
 /* General card wrapper */
 .curr-card-3d {
   background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
@@ -224,7 +233,7 @@
   border-radius: 26px;
   padding: 36px;
   box-shadow: 0 18px 40px rgba(15, 45, 89, 0.05);
-  height: calc(100% - 72px);
+  height: auto;
 }
 
 .curr-section-title {
@@ -474,16 +483,30 @@
 .method-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  margin-bottom: 4px;
 }
 
 .method-dot-icon {
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #00b4d8;
+  color: #ffffff;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 12.5px;
+  font-weight: 900;
+  font-family: 'Be Vietnam Pro', sans-serif;
+  line-height: 1;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0, 180, 216, 0.22);
 }
 
 .method-title {
   font-family: var(--font-logo-vn);
-  font-size: 15px;
+  font-size: 16.5px;
   font-weight: 850;
   color: #0f2d59;
 }
@@ -528,10 +551,9 @@
 }
 
 .comb-desc {
-  font-size: 12px;
-  color: #64748b;
-  border-left: 1px solid #cbd5e1;
-  padding-left: 6px;
+  font-size: 12.5px;
+  color: #4b5563;
+  margin-left: 4px;
 }
 
 /* --------------------------------------------------------------------------
@@ -670,7 +692,7 @@
   }
   
   .comb-desc {
-    display: none; /* Hide descriptions to fit small screens */
+    display: inline;
   }
 
   .comb-badge {

@@ -74,7 +74,38 @@ class AboutOverviewComponent extends HTMLElement {
    * Render HTML structure of the overview, group photo, and highlight cards
    */
   render() {
-    if (!this.overviewData || this.highlightsData.length === 0) return;
+    // Fallback mockup overview data if API returned null
+    const overview = this.overviewData || {
+      badge_text: 'GIỚI THIỆU TỔNG QUAN',
+      tieu_de: 'KHOA CÔNG NGHỆ THÔNG TIN',
+      mo_ta_chi_tiet: 'Khoa Công nghệ thông tin thuộc Trường Đại học Trà Vinh. Khoa được thành lập với nhiệm vụ đào tạo nguồn nhân lực chất lượng cao, nghiên cứu khoa học và chuyển giao công nghệ hàng đầu trong lĩnh vực Công nghệ thông tin, phục vụ đắc lực cho sự nghiệp công nghiệp hóa, hiện đại hóa của tỉnh Trà Vinh nói riêng và cả nước nói chung.',
+      hinh_anh_tap_the_url: 'assets/images/sit_group.png',
+      caption_anh: 'Tập thể giảng viên, cán bộ Khoa Công nghệ thông tin - Đại học Trà Vinh'
+    };
+
+    // Fallback mockup highlights if API returned empty array
+    const highlights = this.highlightsData && this.highlightsData.length > 0 
+      ? this.highlightsData 
+      : [
+          {
+            id: 1,
+            icon_class: 'graduation-cap',
+            tieu_de: 'Chương trình đào tạo',
+            mo_ta: 'Chương trình đào tạo tiên tiến, cung ứng nguồn nhân lực chất lượng cao cho doanh nghiệp.'
+          },
+          {
+            id: 2,
+            icon_class: 'flask',
+            tieu_de: 'Nghiên cứu khoa học',
+            mo_ta: 'Đẩy mạnh nghiên cứu ứng dụng, chuyển giao công nghệ và các công bố khoa học uy tín.'
+          },
+          {
+            id: 3,
+            icon_class: 'share-2',
+            tieu_de: 'Chuyển giao công nghệ',
+            mo_ta: 'Ứng dụng các giải pháp công nghệ số thực tiễn phục vụ sự phát triển của cộng đồng.'
+          }
+        ];
 
     let gridHtml = '';
 
@@ -85,7 +116,7 @@ class AboutOverviewComponent extends HTMLElement {
       'share-2': `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="overview-svg-icon"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>`
     };
 
-    this.highlightsData.forEach((item, idx) => {
+    highlights.forEach((item, idx) => {
       const svgIcon = icons[item.icon_class] || icons['graduation-cap'];
 
       gridHtml += `
@@ -102,35 +133,35 @@ class AboutOverviewComponent extends HTMLElement {
     });
 
     // Handle relative path resolution for the group photo
-    const photoPath = this.overviewData.hinh_anh_tap_the_url.startsWith('http')
-      ? this.overviewData.hinh_anh_tap_the_url
-      : `${this.assetPrefix}${this.overviewData.hinh_anh_tap_the_url}`;
+    const photoPath = overview.hinh_anh_tap_the_url.startsWith('http')
+      ? overview.hinh_anh_tap_the_url
+      : `${this.assetPrefix}${overview.hinh_anh_tap_the_url}`;
 
     this.innerHTML = `
       <section class="overview-section">
         <div class="overview-container">
           <!-- Eyebrow Badge -->
           <div class="overview-badge-wrapper">
-            <span class="overview-badge">${this.overviewData.badge_text}</span>
+            <span class="overview-badge">${overview.badge_text}</span>
           </div>
           
           <!-- Heading -->
-          <h2 class="overview-heading">${this.overviewData.tieu_de}</h2>
+          <h2 class="overview-heading">${overview.tieu_de}</h2>
           
           <!-- Detailed Paragraph -->
-          <p class="overview-desc">${this.overviewData.mo_ta_chi_tiet}</p>
+          <p class="overview-desc">${overview.mo_ta_chi_tiet}</p>
           
           <!-- Large Group Photo Container -->
           <div class="overview-photo-container">
-            <img src="${photoPath}" alt="${this.overviewData.caption_anh}" class="overview-photo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 600%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23e2e8f0%22/><text x=%2250%25%22 y=%2250%25%22 font-family=%22sans-serif%22 font-size=%2232%22 text-anchor=%22middle%22 fill=%22%2364748b%22>Hình ảnh tập thể Khoa CNTT - TVU</text></svg>'">
-            <div class="overview-photo-badge">
+            <img src="${photoPath}" alt="${overview.caption_anh}" class="overview-photo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 600%22><rect width=%22100%25%22 height=%22100%25%22 fill=%22%23e2e8f0%22/><text x=%2250%25%22 y=%2250%25%22 font-family=%22sans-serif%22 font-size=%2232%22 text-anchor=%22middle%22 fill=%22%2364748b%22>Hình ảnh tập thể Khoa CNTT - TVU</text></svg>'">
+            <div class="overview-photo-badge" style="${overview.caption_anh ? '' : 'display:none;'}">
               <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="badge-icon">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                 <circle cx="9" cy="7" r="4"></circle>
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
               </svg>
-              <span>${this.overviewData.caption_anh}</span>
+              <span>${overview.caption_anh}</span>
             </div>
           </div>
           

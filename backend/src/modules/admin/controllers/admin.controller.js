@@ -36,9 +36,11 @@ export const AdminController = {
   async createItem(req, res, next) {
     try {
       const { entity } = req.params;
+      console.log(`[AdminController] createItem for entity: ${entity}, body:`, req.body);
       const newItem = await AdminService.createItem(entity, req.body);
       res.status(HTTP_STATUS.CREATED).json({ success: true, data: newItem });
     } catch (err) {
+      console.error('[AdminController] Error in createItem:', err);
       next(err);
     }
   },
