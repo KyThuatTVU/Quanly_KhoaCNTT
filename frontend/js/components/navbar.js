@@ -111,7 +111,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
                   <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
                 </svg>
-                <span>Ban Đại Học</span>
+                <span>Đại Học</span>
               </a>
             </li>
             <li class="nav-item">
@@ -119,7 +119,7 @@ class NavbarComponent extends HTMLElement {
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                 </svg>
-                <span>Ban Sau Đại Học</span>
+                <span>Sau Đại Học</span>
               </a>
             </li>
           </ul>

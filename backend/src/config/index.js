@@ -19,6 +19,24 @@ const config = {
     name: process.env.DB_NAME || 'quanly_khoacntt_tvu',
     connectionLimit: 10
   },
+  session: {
+    secret: process.env.SESSION_SECRET || 'dev-session-secret',
+    maxAge: 24 * 60 * 60 * 1000 // 24 giờ
+  },
+  jwt: {
+    secret: process.env.JWT_SECRET || 'dev-jwt-secret',
+    expiresIn: process.env.JWT_EXPIRES_IN || '8h'
+  },
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackUrl: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:5000/auth/google/callback'
+  },
+  frontend: {
+    adminDashboard: process.env.ADMIN_DASHBOARD_URL || 'http://127.0.0.1:5500/frontend/admin/index.html',
+    adminLogin:     process.env.ADMIN_LOGIN_URL     || 'http://127.0.0.1:5500/frontend/admin-login.html',
+    lecturerDashboard: process.env.LECTURER_DASHBOARD_URL || 'http://127.0.0.1:5500/frontend/lecturer/dashboard.html'
+  },
   upload: {
     maxSizeBytes: 5 * 1024 * 1024, // 5 MB
     allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif']

@@ -8,8 +8,8 @@
  */
 
 // API Endpoints (Change these when backend is ready)
-const API_OVERVIEW_URL = 'http://localhost:5000/api/v1/admin/aboutOverview';
-const API_HIGHLIGHTS_URL = 'http://localhost:5000/api/v1/admin/aboutHighlights';
+const API_OVERVIEW_URL = 'http://localhost:5000/api/v1/public/aboutOverview';
+const API_HIGHLIGHTS_URL = 'http://localhost:5000/api/v1/public/aboutHighlights';
 
 export const OverviewService = {
   /**

@@ -8,6 +8,7 @@
  */
 import { slugify, uniqueSlug, timestampSlug } from '../../../common/utils/slugify.js';
 import { safeInt, todayDateString, currentYear } from '../../../common/helpers/index.js';
+import bcrypt from 'bcrypt';
 
 /**
  * Maps a raw form payload to the correct DB columns for a given entity (CREATE).
@@ -401,6 +402,19 @@ export function mapCreatePayload(entityKey, payload) {
       data.avatar_url = img || 'https://lh3.googleusercontent.com/a/default-user=s96-c';
       data.quyen_han  = payload.quyen_han || 'SUPER_ADMIN';
       data.trang_thai = safeInt(payload.trang_thai, 1);
+      break;
+
+    case 'lecturerAccounts':
+      data.nhan_vien_id = safeInt(payload.nhan_vien_id) || null;
+      data.email        = payload.email || sub;
+      const plainPw     = payload.mat_khau || data.email;
+      if (plainPw) {
+        data.mat_khau_hash = bcrypt.hashSync(plainPw, 12);
+      }
+      data.nguoi_tao_admin_id = safeInt(payload.nguoi_tao_admin_id, 1);
+      data.quyen_han    = payload.quyen_han || 'STAFF_EDITOR';
+      data.trang_thai   = safeInt(payload.trang_thai, 1);
+      data.phai_doi_mat_khau = safeInt(payload.phai_doi_mat_khau, 1);
       break;
 
     default:

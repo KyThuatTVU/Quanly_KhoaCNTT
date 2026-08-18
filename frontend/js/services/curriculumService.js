@@ -8,7 +8,7 @@
  */
 
 const CURRICULUM_API_BASE = '/api/curriculum';
-const BACKEND_BASE = 'http://localhost:5000/api/v1/admin';
+const BACKEND_BASE = 'http://localhost:5000/api/v1/public';
 
 const ENDPOINT_MAP = {
   'chuong-trinh-dao-tao-dai-hoc': 'undergradPrograms',

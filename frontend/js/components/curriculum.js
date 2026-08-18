@@ -296,7 +296,7 @@ class CurriculumProgramComponent extends HTMLElement {
         <!-- Core Technology Courses Table (Image 1) -->
         <div class="curr-courses-section" style="margin-top: 36px;">
           <div class="curr-card-3d">
-            <h3 class="curr-section-title">Một số học phần công nghệ cốt lõi tiêu biểu</h3>
+            <h3 class="curr-section-title">Các học phần trong chương trình</h3>
             <div class="courses-table-container">
               <table class="courses-table">
                 <thead>
@@ -304,7 +304,6 @@ class CurriculumProgramComponent extends HTMLElement {
                     <th style="width: 12%;">Mã HP</th>
                     <th style="width: 25%;">Tên học phần học thuật</th>
                     <th style="width: 10%;">Tín chỉ</th>
-                    <th>Năng lực công nghệ hình thành cho sinh viên</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -313,7 +312,6 @@ class CurriculumProgramComponent extends HTMLElement {
                       <td class="course-code">${course.ma_hoc_phan}</td>
                       <td class="course-name">${course.ten_hoc_phan}</td>
                       <td class="course-credits">${course.so_tin_chi}</td>
-                      <td class="course-desc">${course.nang_luc_hinh_thanh}</td>
                     </tr>
                   `).join('')}
                 </tbody>

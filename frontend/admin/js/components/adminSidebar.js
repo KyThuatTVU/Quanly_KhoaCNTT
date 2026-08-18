@@ -18,7 +18,9 @@ export const ADMIN_NAV_CATEGORIES = [
     id: 'staff_module',
     title: 'NHÂN SỰ & GIẢNG VIÊN',
     items: [
-      { key: 'staff', label: 'Cán bộ - Giảng viên' },
+      { key: 'deans', label: 'Ban Lãnh đạo Khoa' },
+      { key: 'lecturers', label: 'Giảng viên & Trợ giảng' },
+      { key: 'lecturerAccounts', label: 'Tài khoản Giảng viên' },
       { key: 'staffGroups', label: 'Nhóm Nhân sự' },
       { key: 'staffProfiles', label: 'Trang cá nhân chi tiết' },
       { key: 'staffResearch', label: 'Đề tài NCKH Cá nhân' },
@@ -124,6 +126,8 @@ function getNavIcon(key) {
       paths = '<rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect>';
       break;
     case 'staff':
+    case 'deans':
+    case 'lecturers':
       paths = '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>';
       break;
     case 'staffGroups':
@@ -227,6 +231,7 @@ function getNavIcon(key) {
       paths = '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2 3h12a2 2 0 0 1 2 2z"></path><path d="M12 11h6M12 15h6M6 11v4"></path>';
       break;
     case 'adminAccounts':
+    case 'lecturerAccounts':
       paths = '<rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path>';
       break;
     case 'apiMonitor':

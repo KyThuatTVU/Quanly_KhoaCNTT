@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đăng nhập Quản trị — Khoa CNTT TVU</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2d59 0%, #1b4d89 60%, #0077b6 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Segoe UI', system-ui, sans-serif; padding: 24px;
+    }
+    .login-card {
+      background: #fff; border-radius: 24px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.3);
+      padding: 52px 44px; width: 100%; max-width: 460px;
+      position: relative; overflow: hidden;
+    }
+    .login-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+      background: linear-gradient(90deg, #f37021, #0077b6, #0f6fff);
+    }
+    .logo-block { text-align: center; margin-bottom: 36px; }
+    .logo-img { height: 72px; margin-bottom: 14px; }
+    .logo-school { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+    .logo-faculty { font-size: 16px; font-weight: 900; color: #0f2d59; text-transform: uppercase; letter-spacing: 0.3px; }
+    .heading { font-size: 24px; font-weight: 900; color: #0f2d59; text-align: center; margin-bottom: 8px; }
+    .sub-desc { font-size: 14px; color: #64748b; text-align: center; margin-bottom: 36px; line-height: 1.6; }
+    .error-box {
+      background: #fef2f2; border: 1.5px solid #fecaca; color: #dc2626;
+      border-radius: 10px; padding: 12px 14px; font-size: 13.5px;
+      margin-bottom: 20px; display: none; line-height: 1.5;
+    }
+    .btn-google {
+      width: 100%; padding: 15px 20px;
+      background: #fff; border: 2px solid #e2e8f0; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; gap: 14px;
+      font-size: 15px; font-weight: 700; color: #1e293b;
+      cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06), inset 0 -2px 0 rgba(0,0,0,0.05);
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative; overflow: hidden;
+    }
+    .btn-google:hover {
+      border-color: #0f6fff; box-shadow: 0 8px 24px rgba(15,111,255,0.15), inset 0 -2px 0 rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    .btn-google:active { transform: translateY(0); }
+    .btn-google.loading { pointer-events: none; opacity: 0.8; }
+    .google-icon { flex-shrink: 0; }
+    .btn-text { flex: 1; text-align: center; }
+    .loading-dots { display: none; }
+    .btn-google.loading .btn-text { display: none; }
+    .btn-google.loading .loading-dots { display: inline; }
+    .notice {
+      text-align: center; margin-top: 24px;
+      font-size: 12.5px; color: #94a3b8; line-height: 1.6;
+    }
+    .notice strong { color: #64748b; }
+    .divider { height: 1px; background: #e2e8f0; margin: 28px 0; }
+    .lecturer-link { text-align: center; font-size: 13px; color: #64748b; }
+    .lecturer-link a { color: #0f6fff; text-decoration: none; font-weight: 600; }
+    .lecturer-link a:hover { text-decoration: underline; }
+    .badge-secure {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #f0fdf4; border: 1px solid #bbf7d0;
+      color: #16a34a; font-size: 11.5px; font-weight: 600;
+      padding: 4px 10px; border-radius: 20px; margin-top: 16px;
+    }
+    .admin-info-block {
+      margin-top: 28px; background: #f8fafc; border-radius: 12px;
+      padding: 16px; border: 1px solid #e2e8f0;
+    }
+    .admin-info-block h4 { font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 8px; }
+    .admin-info-block p { font-size: 12px; color: #64748b; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<div class="login-card">
+  <!-- Logo -->
+  <div class="logo-block">
+    <img src="assets/images/PTN_Logo-01-Khanh-Kieu.png" alt="TVU CNTT" class="logo-img"
+         onerror="this.style.display='none'">
+    <div class="logo-school">Trường Đại học Trà Vinh</div>
+    <div class="logo-faculty">Khoa Công nghệ Thông tin</div>
+  </div>
+
+  <h1 class="heading">Đăng nhập quản trị</h1>
+  <p class="sub-desc">Đăng nhập bằng tài khoản Google được cấp quyền quản trị</p>
+
+  <!-- Lỗi từ URL param -->
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- Nút Google Login -->
+  <a href="http://localhost:5000/auth/google" class="btn-google" id="btnGoogle"
+     onclick="this.classList.add('loading')">
+    <!-- Google Icon SVG -->
+    <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 48 48">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+    </svg>
+    <span class="btn-text">Tiếp tục với Google</span>
+    <span class="loading-dots">⟳ Đang xác thực...</span>
+  </a>
+
+  <div style="text-align:center; margin-top: 12px;">
+    <span class="badge-secure">🔒 Kết nối bảo mật qua Google OAuth 2.0</span>
+  </div>
+
+  <p class="notice" style="margin-top: 20px;">
+    <strong>Chỉ tài khoản quản trị được cấp quyền mới có thể truy cập hệ thống.</strong><br>
+    Nếu bạn không thể đăng nhập, vui lòng liên hệ Super Admin.
+  </p>
+
+  <div class="divider"></div>
+  <div class="lecturer-link">
+    Bạn là giảng viên? <a href="lecturer/login.html">Đăng nhập cổng giảng viên</a>
+  </div>
+
+  <div class="admin-info-block">
+    <h4>Lưu ý bảo mật</h4>
+    <p>
+      • Không chia sẻ tài khoản quản trị với người khác<br>
+      • Đăng xuất sau khi sử dụng xong<br>
+      • Chỉ đăng nhập trên thiết bị đáng tin cậy
+    </p>
+  </div>
+</div>
+
+<script>
+// Kiểm tra lỗi từ URL query param
+const params = new URLSearchParams(window.location.search);
+const error  = params.get('error');
+if (error) {
+  const box = document.getElementById('errorBox');
+  box.style.display = 'block';
+  const messages = {
+    'auth_failed':    'Xác thực thất bại. Tài khoản Google này không có quyền truy cập hệ thống quản trị.',
+    'session_error':  'Lỗi tạo phiên làm việc. Vui lòng thử lại.',
+    'account_blocked': 'Tài khoản quản trị của bạn đã bị khóa.',
+  };
+  box.textContent = messages[error] || decodeURIComponent(error);
+}
+
+// Kiểm tra nếu đã đăng nhập admin
+(async () => {
+  try {
+    const res = await fetch('http://localhost:5000/api/auth/admin/me', { credentials: 'include' });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.isLoggedIn) window.location.href = 'admin/index.html';
+    }
+  } catch {}
+})();
+</script>
+</body>
+</html>

@@ -584,6 +584,17 @@ CREATE TABLE `thong_ke_sau_dai_hoc_chartsy` (
   `chart_config_json`  JSON DEFAULT NULL COMMENT 'Cấu hình ApexCharts JSON'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Thống kê học viên và NCS qua các khóa (Chartsy)';
 
+-- 7.4 Bảng Gallery hoạt động Sau Đại học
+DROP TABLE IF EXISTS `hoat_dong_sau_dai_hoc`;
+CREATE TABLE `hoat_dong_sau_dai_hoc` (
+  `id`           INT AUTO_INCREMENT PRIMARY KEY,
+  `tieu_de`      VARCHAR(255) DEFAULT NULL COMMENT 'Tiêu đề/mô tả ảnh hoạt động',
+  `hinh_anh_url` VARCHAR(500) NOT NULL COMMENT 'Đường dẫn ảnh',
+  `thu_tu`       INT NOT NULL DEFAULT 0 COMMENT 'Thứ tự hiển thị',
+  `an_hien`      TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1=hiện, 0=ẩn',
+  `ngay_tao`     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Gallery ảnh hoạt động Sau Đại học';
+
 
 -- =============================================================================
 -- MODULE 8: CƠ SỞ VẬT CHẤT, TIN TỨC VÀ GALLERY (FACILITIES, NEWS & MEDIA)

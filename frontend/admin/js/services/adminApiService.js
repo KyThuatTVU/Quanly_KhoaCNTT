@@ -13,8 +13,14 @@ export const AdminApiService = {
    */
   async getList(entityKey) {
     try {
-      const response = await fetch(`${BASE_URL}/${entityKey}`);
+      const response = await fetch(`${BASE_URL}/${entityKey}`, {
+        credentials: 'include'
+      });
       if (!response.ok) {
+        if (response.status === 401) {
+          window.location.href = '../admin-login.html';
+          return;
+        }
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
       const result = await response.json();
@@ -38,13 +44,17 @@ export const AdminApiService = {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify(newItem)
       });
       
       const result = await response.json();
       
       if (!response.ok) {
-        // Lấy message lỗi từ backend
+        if (response.status === 401) {
+          window.location.href = '../admin-login.html';
+          return;
+        }
         const errorMsg = result.error || result.message || `HTTP Error! Status: ${response.status}`;
         throw new Error(errorMsg);
       }
@@ -69,13 +79,17 @@ export const AdminApiService = {
         headers: {
           'Content-Type': 'application/json'
         },
+        credentials: 'include',
         body: JSON.stringify(updatedFields)
       });
       
       const result = await response.json();
       
       if (!response.ok) {
-        // Lấy message lỗi từ backend
+        if (response.status === 401) {
+          window.location.href = '../admin-login.html';
+          return;
+        }
         const errorMsg = result.error || result.message || `HTTP Error! Status: ${response.status}`;
         throw new Error(errorMsg);
       }
@@ -96,9 +110,14 @@ export const AdminApiService = {
   async deleteItem(entityKey, id) {
     try {
       const response = await fetch(`${BASE_URL}/${entityKey}/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       });
       if (!response.ok) {
+        if (response.status === 401) {
+          window.location.href = '../admin-login.html';
+          return;
+        }
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
       const result = await response.json();

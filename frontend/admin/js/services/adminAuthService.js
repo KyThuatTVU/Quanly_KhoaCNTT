@@ -7,39 +7,8 @@
  */
 
 const STORAGE_KEY = 'tvu_admin_session';
-
-export const MOCK_GOOGLE_ADMINS = [
-  {
-    id: 1,
-    google_id: 'google_sub_109283741928347102938',
-    email: 'lamnn@tvu.edu.vn',
-    ho_ten: 'TS. Nguyễn Nhứt Lam',
-    chuc_vu: 'Trưởng khoa Công nghệ Thông tin',
-    quyen_han: 'SUPER_ADMIN',
-    avatar_url: '../assets/images/deans/lamnn.jpg',
-    lan_dang_nhap_cuoi: new Date().toISOString()
-  },
-  {
-    id: 2,
-    google_id: 'google_sub_109283741928347102939',
-    email: 'oane@tvu.edu.vn',
-    ho_ten: 'TS. Thạch Kọng Saoane',
-    chuc_vu: 'Phó Trưởng khoa Công nghệ Thông tin',
-    quyen_han: 'SUPER_ADMIN',
-    avatar_url: '../assets/images/deans/oane.jpg',
-    lan_dang_nhap_cuoi: new Date().toISOString()
-  },
-  {
-    id: 3,
-    google_id: 'google_sub_109283741928347102940',
-    email: 'lpdu@tvu.edu.vn',
-    ho_ten: 'ThS. Lê Phong Dũ',
-    chuc_vu: 'Phó Trưởng khoa Công nghệ Thông tin',
-    quyen_han: 'STAFF_EDITOR',
-    avatar_url: '../assets/images/deans/lpdu.jpg',
-    lan_dang_nhap_cuoi: new Date().toISOString()
-  }
-];
+// QUAN TRỌNG: Phải dùng localhost (không phải 127.0.0.1) để cookie session hoạt động
+const API_BASE = 'http://localhost:5000';
 
 export const AdminAuthService = {
   getCurrentUser() {
@@ -59,31 +28,46 @@ export const AdminAuthService = {
     return !!(user && user.email);
   },
 
-  async loginWithGoogle(accountEmail = 'lamnn@tvu.edu.vn') {
-    let selectedUser = MOCK_GOOGLE_ADMINS.find(u => u.email === accountEmail);
-    if (!selectedUser) {
-      selectedUser = {
-        id: Date.now(),
-        google_id: `google_sub_${Date.now()}`,
-        email: accountEmail,
-        ho_ten: accountEmail.split('@')[0].toUpperCase() + ' (Admin TVU)',
-        chuc_vu: 'Quản trị viên Khoa CNTT',
-        quyen_han: 'SUPER_ADMIN',
-        avatar_url: 'https://lh3.googleusercontent.com/a/default-user=s96-c',
-        lan_dang_nhap_cuoi: new Date().toISOString()
-      };
-    } else {
-      // Clone to avoid mutating read-only imported module objects
-      selectedUser = { ...selectedUser };
+  async verifySessionWithBackend() {
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/admin/me`, { credentials: 'include' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.isLoggedIn) {
+          const user = {
+            id: data.user.id,
+            google_id: data.user.googleId || data.user.google_id,
+            email: data.user.email,
+            ho_ten: data.user.hoTen || data.user.ho_ten,
+            quyen_han: data.user.quyenHan || data.user.quyen_han,
+            avatar_url: data.user.avatarUrl || data.user.avatar_url,
+            lan_dang_nhap_cuoi: data.user.lanDangNhapCuoi || data.user.lan_dang_nhap_cuoi
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+          return user;
+        }
+      }
+    } catch (e) {
+      console.error('Lỗi kiểm tra session với backend:', e);
     }
+    localStorage.removeItem(STORAGE_KEY);
+    return null;
+  },
 
-    selectedUser.lan_dang_nhap_cuoi = new Date().toLocaleString('vi-VN');
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(selectedUser));
-    return selectedUser;
+  async loginWithGoogle(accountEmail = 'lamnn@tvu.edu.vn') {
+    // Không dùng flow mock nữa, redirect thẳng tới Google OAuth của backend
+    window.location.href = `${API_BASE}/auth/google`;
+    return null;
   },
 
   logout() {
     localStorage.removeItem(STORAGE_KEY);
-    console.log('Đã đăng xuất tài khoản Admin Google.');
+    fetch(`${API_BASE}/api/auth/admin/logout`, { method: 'POST', credentials: 'include' })
+      .then(() => {
+        window.location.href = '../admin-login.html';
+      })
+      .catch(() => {
+        window.location.href = '../admin-login.html';
+      });
   }
 };

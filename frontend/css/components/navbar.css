@@ -3,9 +3,9 @@
    ========================================================================== */
 
 :root {
-  /* Solid, professional blue-to-cyan gradient matching Can Tho University reference style */
-  --nav-bg: linear-gradient(90deg, #1b4d89 0%, #1e6091 35%, #0077b6 70%, #0096c7 100%);
-  --nav-bg-scrolled: linear-gradient(90deg, #153c6d 0%, #1b537e 35%, #006094 70%, #007fa9 100%);
+  /* Vibrant solid brand blue gradient for unscrolled header, and transparent glass for scrolled header */
+  --nav-bg: linear-gradient(90deg, #1b4d89 0%, #1a5ca3 35%, #0077b6 70%, #0096c7 100%);
+  --nav-bg-scrolled: linear-gradient(90deg, rgba(27, 77, 137, 0.45) 0%, rgba(30, 96, 145, 0.4) 35%, rgba(2, 119, 182, 0.35) 70%, rgba(3, 150, 199, 0.4) 100%);
   
   /* Compact & professional heights */
   --nav-height-desktop: 76px;
@@ -29,7 +29,7 @@ body {
   }
 }
 
-/* Header Container */
+/* Header Container - 3D Solid Blue at top, transitions to Glassmorphism when scrolled */
 .main-header {
   position: fixed;
   top: 0;
@@ -37,17 +37,25 @@ body {
   width: 100%;
   height: var(--nav-height-desktop);
   background: var(--nav-bg);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 20px rgba(8, 26, 54, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.25), 
+    inset 0 -3px 0 rgba(0, 0, 0, 0.2), /* Solid 3D bottom edge */
+    0 4px 20px rgba(8, 26, 54, 0.12);
   z-index: 1000;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Scrolled state for Header */
+/* Scrolled state for Header - Highly transparent glass with blur */
 .main-header.scrolled {
   height: calc(var(--nav-height-desktop) - 6px);
   background: var(--nav-bg-scrolled);
-  box-shadow: 0 6px 24px rgba(8, 26, 54, 0.22);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 10px 30px rgba(8, 26, 54, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 /* Navbar Wrapper */
@@ -112,6 +120,7 @@ body {
   line-height: 1.2;
   color: #ffffff;
   text-transform: uppercase;
+  text-shadow: 0 1px 3px rgba(8, 26, 54, 0.4), 0 2px 8px rgba(8, 26, 54, 0.2);
 }
 
 .brand-subtitle {
@@ -122,6 +131,7 @@ body {
   line-height: 1.2;
   margin-top: 2px;
   letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(8, 26, 54, 0.4), 0 2px 6px rgba(8, 26, 54, 0.2);
 }
 
 /* Navigation Links - Flat text with active bottom underlines */
@@ -166,12 +176,14 @@ body {
   transition: all 0.2s ease;
   cursor: pointer;
   user-select: none;
+  text-shadow: 0 1px 3px rgba(8, 26, 54, 0.45);
 }
 
 /* Nav Icon Styles */
 .nav-icon {
   width: 18px;
   height: 18px;
+  stroke: currentColor;
   stroke-width: 2.5;
   transition: all 0.3s ease;
 }
@@ -284,14 +296,17 @@ body {
     left: 0;
     width: 100%;
     height: calc(100vh - var(--nav-height-mobile));
-    background: linear-gradient(180deg, #1b4d89 0%, #1e6091 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: linear-gradient(180deg, rgba(27, 77, 137, 0.8) 0%, rgba(30, 96, 145, 0.75) 100%);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     flex-direction: column;
     align-items: stretch;
     padding: 24px 20px;
     gap: 12px;
-    box-shadow: 0 10px 30px rgba(8, 26, 54, 0.3);
+    box-shadow: 
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      inset 0 -3px 0 rgba(2, 132, 199, 0.3),
+      0 10px 30px rgba(8, 26, 54, 0.25);
     
     opacity: 0;
     visibility: hidden;

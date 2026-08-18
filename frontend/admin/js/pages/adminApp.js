@@ -90,8 +90,8 @@ class AdminApp {
   }
 
   async checkAuthState() {
-    if (AdminAuthService.isLoggedIn()) {
-      const user = AdminAuthService.getCurrentUser();
+    const user = await AdminAuthService.verifySessionWithBackend();
+    if (user) {
       this.hideLoginOverlay();
       this.updateHeaderProfile(user);
       
@@ -105,8 +105,8 @@ class AdminApp {
       await this.navigate(this.currentNav);
       this.restoreUrlStateAndScroll();
     } else {
-      console.log('Bypassing Google login and automatically logging in as TS. Nguyễn Nhứt Lam...');
-      await this.handleLogin('lamnn@tvu.edu.vn');
+      console.log('Chưa đăng nhập Admin hoặc session hết hạn. Đang chuyển hướng...');
+      window.location.href = '../admin-login.html';
     }
   }
 
@@ -408,6 +408,8 @@ class AdminApp {
     const labels = {
       dashboard: 'Dashboard Tổng quan',
       staff: 'Cán bộ - Giảng viên',
+      deans: 'Ban Lãnh đạo Khoa',
+      lecturers: 'Giảng viên & Trợ giảng',
       staffGroups: 'Nhóm Nhân sự Khoa',
       staffProfiles: 'Trang cá nhân chi tiết',
       staffResearch: 'Đề tài NCKH Cá nhân',
@@ -451,10 +453,59 @@ class AdminApp {
       news: 'Bài đăng Tin tức & Timeline',
       gallery: 'Thư viện ảnh chung Gallery',
       adminAccounts: 'Tài khoản Quản trị',
+      lecturerAccounts: 'Tài khoản Giảng viên',
       apiMonitor: 'Trạng thái Hệ thống',
       userGuide: 'Hướng dẫn sử dụng'
     };
     return labels[navKey] || navKey;
+  }
+
+  getFallbackTitle(entityKey, item) {
+    const fallbacks = {
+      staff: 'Giảng viên',
+      staffGroups: 'Nhóm nhân sự',
+      staffProfiles: 'Trang cá nhân',
+      staffResearch: 'Đề tài NCKH',
+      staffPapers: 'Bài báo',
+      staffProjects: 'Dự án',
+      staffBooks: 'Sách/Giáo trình',
+      staffSupervisions: 'Hướng dẫn NCKH',
+      sliders: 'Banner Slide',
+      homepageAdmissions: 'Thông tin tuyển sinh',
+      homepagePrograms: 'Chương trình đào tạo',
+      infographics: 'Infographic',
+      homepageEvents: 'Sự kiện',
+      stats: 'Thống kê',
+      students: 'Sinh viên tiêu biểu',
+      alumni: 'Cựu sinh viên',
+      homepageGallery: 'Ảnh hoạt động',
+      aboutHighlights: 'Điểm nổi bật',
+      timeline: 'Mốc lịch sử',
+      partners: 'Đối tác',
+      aboutDeansContact: 'Liên hệ BGK',
+      researchDirections: 'Hướng nghiên cứu',
+      researchProjects: 'Đề tài NC',
+      researchPublications: 'Công bố KH',
+      researchLabs: 'Phòng thí nghiệm',
+      researchContacts: 'Liên hệ NC',
+      undergradPrograms: 'Ngành đào tạo',
+      undergradMethods: 'Phương thức TS',
+      undergradCurriculum: 'Khối kiến thức',
+      undergradPlos: 'Chuẩn đầu ra',
+      undergradCareers: 'Vị trí việc làm',
+      undergradStudentStats: 'Thống kê SV',
+      undergradCourses: 'Học phần',
+      undergradFaqs: 'Câu hỏi FAQ',
+      postgradNotices: 'Thông báo',
+      postgradPhdStudents: 'Nghiên cứu sinh',
+      postgradStats: 'Thống kê',
+      news: 'Tin tức',
+      gallery: 'Hình ảnh',
+      adminAccounts: 'Tài khoản',
+      lecturerAccounts: 'Tài khoản GV'
+    };
+    const prefix = fallbacks[entityKey] || 'Mục';
+    return `${prefix} #${item.id}`;
   }
 
   renderDashboardPanel(container) {
@@ -843,7 +894,7 @@ class AdminApp {
   async renderEntityPanel(container, entityKey) {
     container.innerHTML = `<div style="padding:40px; text-align:center; color:var(--admin-text-muted);">Đang tải dữ liệu...</div>`;
     
-    if (['staff', 'staffProfiles', 'staffResearch', 'staffPapers', 'staffProjects', 'staffBooks', 'staffSupervisions'].includes(entityKey)) {
+    if (['staff', 'deans', 'lecturers', 'staffProfiles', 'staffResearch', 'staffPapers', 'staffProjects', 'staffBooks', 'staffSupervisions', 'lecturerAccounts'].includes(entityKey)) {
       try {
         this.staffList = await AdminApiService.getList('staff');
       } catch (err) {
@@ -867,7 +918,18 @@ class AdminApp {
       }
     }
 
-    this.currentEntityData = await AdminApiService.getList(entityKey);
+    let fetchKey = entityKey;
+    if (entityKey === 'deans' || entityKey === 'lecturers') {
+      fetchKey = 'staff';
+    }
+    const rawData = await AdminApiService.getList(fetchKey);
+    if (entityKey === 'deans') {
+      this.currentEntityData = rawData.filter(item => Number(item.nhom_id) === 1);
+    } else if (entityKey === 'lecturers') {
+      this.currentEntityData = rawData.filter(item => Number(item.nhom_id) === 2);
+    } else {
+      this.currentEntityData = rawData;
+    }
 
     let rowsHtml = '';
     if (this.currentEntityData.length === 0) {
@@ -879,6 +941,8 @@ class AdminApp {
 
         switch (entityKey) {
           case 'staff':
+          case 'deans':
+          case 'lecturers':
             displayTitle = `[Cán bộ] ${item.ho_ten}`;
             displaySub = `Chức vụ: ${item.chuc_vu} | Học vị: ${item.hoc_vi} | Nhóm: ${item.nhom_id === 1 ? 'Lãnh đạo khoa' : 'Giảng viên & Trợ giảng'}`;
             break;
@@ -1036,12 +1100,20 @@ class AdminApp {
             displayTitle = `[Slide Banner] ${item.ten_slide}`;
             displaySub = `Liên kết: ${item.link_lien_ket} | Thứ tự: ${item.thu_tu}`;
             break;
+          case 'lecturerAccounts': {
+            const staffName = this.staffList.find(s => s.id === item.nhan_vien_id)?.ho_ten || `ID cán bộ: ${item.nhan_vien_id}`;
+            displayTitle = `[Tài khoản Giảng viên] ${staffName}`;
+            displaySub = `Email: ${item.email} | Trạng thái: ${item.trang_thai === 0 ? 'Bị khóa 🔒' : 'Hoạt động ✅'} | Đổi mật khẩu: ${item.phai_doi_mat_khau === 1 ? 'Bắt buộc đổi' : 'Đã đổi'}`;
+            break;
+          }
           default:
-            displayTitle = item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || `Bản ghi #${item.id}`;
+
+            displayTitle = item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || this.getFallbackTitle(entityKey, item);
             displaySub = item.chuc_vu || item.nam_hoan_thanh || item.ngay_dang || item.ma_tuyen_sinh || item.email || item.vai_tro || item.cap_de_tai || item.danh_sach_to_hop || '';
         }
 
-        const rawImg = item.anh_ca_nhan_url || item.hinh_anh_url || item.file_anh_url || item.logo_url || item.src_chinh || item.avatar_url || null;
+        const matchedStaff = entityKey === 'lecturerAccounts' ? this.staffList.find(s => s.id === item.nhan_vien_id) : null;
+        const rawImg = (matchedStaff ? matchedStaff.anh_ca_nhan_url : null) || item.anh_ca_nhan_url || item.hinh_anh_url || item.file_anh_url || item.logo_url || item.src_chinh || item.avatar_url || null;
         const img = this.formatAdminImgUrl(rawImg);
         
         rowsHtml += `
@@ -1057,7 +1129,16 @@ class AdminApp {
               </div>
             </td>
             <td>${item.ngay_cap_nhat || item.ngay_tao || '2026-08-09'}</td>
-            <td><span class="badge-status success">Hoạt động</span></td>
+            <td>
+              ${(() => {
+                if (entityKey === 'lecturerAccounts') {
+                  return item.trang_thai === 0 
+                    ? '<span class="badge-status danger">Khóa</span>' 
+                    : '<span class="badge-status success">Hoạt động</span>';
+                }
+                return '<span class="badge-status success">Hoạt động</span>';
+              })()}
+            </td>
             <td>
               <div class="table-actions-cell">
                 <button type="button" class="btn-icon-action edit" data-id="${item.id}" title="Chỉnh sửa">✏️</button>
@@ -1148,26 +1229,32 @@ class AdminApp {
     if (!orderSelect) return;
 
     // Tìm các vị trí đã bị cán bộ khác chiếm trong cùng nhóm (chỉ lấy các số từ 1 trở lên)
-    const takenOrders = this.currentEntityData
+    const takenMap = {};
+    (this.currentEntityData || [])
       .filter(item => String(item.nhom_id) === String(nhomId) && String(item.id) !== String(currentStaffId))
-      .map(item => Number(item.thu_tu_trong_nhom || 0))
-      .filter(val => val > 0);
+      .forEach(item => {
+        const orderVal = Number(item.thu_tu_trong_nhom || 0);
+        if (orderVal > 0) {
+          takenMap[orderVal] = item.ho_ten;
+        }
+      });
 
     const isUnassigned = !currentOrder || Number(currentOrder) === 0;
     let optionsHtml = `<option value="0" ${isUnassigned ? 'selected' : ''}>-- Chọn thứ tự hiển thị (Chưa thiết lập) --</option>`;
 
     // Tạo danh sách từ thứ tự 1 đến 20
     for (let i = 1; i <= 20; i++) {
-      if (takenOrders.includes(i)) {
-        continue; // Bỏ qua nếu đã bị cán bộ khác chọn
-      }
+      const occupant = takenMap[i];
+      const label = occupant ? `Thứ tự ${i} (Đang gán: ${occupant})` : `Thứ tự ${i}`;
       const selectedAttr = (!isUnassigned && Number(currentOrder) === i) ? 'selected' : '';
-      optionsHtml += `<option value="${i}" ${selectedAttr}>Thứ tự ${i}</option>`;
+      optionsHtml += `<option value="${i}" ${selectedAttr}>${label}</option>`;
     }
 
     // Luôn đảm bảo giữ lại lựa chọn hiện tại của chính cán bộ này nếu nó lớn hơn 20
-    if (currentOrder && Number(currentOrder) > 20 && !takenOrders.includes(Number(currentOrder))) {
-      optionsHtml += `<option value="${currentOrder}" selected>Thứ tự ${currentOrder}</option>`;
+    if (currentOrder && Number(currentOrder) > 20) {
+      const occupant = takenMap[Number(currentOrder)];
+      const label = occupant ? `Thứ tự ${currentOrder} (Đang gán: ${occupant})` : `Thứ tự ${currentOrder}`;
+      optionsHtml += `<option value="${currentOrder}" selected>${label}</option>`;
     }
 
     orderSelect.innerHTML = optionsHtml;
@@ -1186,8 +1273,8 @@ class AdminApp {
     this.bindUploadHandlers();
     
     // Bind order options selector for staff
-    if (entityKey === 'staff') {
-      const nhomSelect = document.getElementById('field_nhom_id');
+    if (['staff', 'deans', 'lecturers'].includes(entityKey)) {
+      const nhomSelect = document.getElementById('field_nhom_id_select') || document.getElementById('field_nhom_id');
       const initialNhomId = nhomSelect ? nhomSelect.value : 1;
       this.updateOrderOptions(initialNhomId, null, null);
       
@@ -1221,15 +1308,16 @@ class AdminApp {
     const titleEl = document.getElementById('modalTitle');
     const bodyEl = document.getElementById('modalFormBody');
 
-    if (titleEl) titleEl.textContent = `Chỉnh sửa bản ghi #${id}: ${this.getNavLabel(entityKey)}`;
+    const itemTitle = item.ten_chi_so || item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || item.ten_nhom || item.ten_doi_tac || item.cau_hoi || item.tieu_de_thong_bao || item.tieu_de_bieu_do || item.ma_plo || this.getFallbackTitle(entityKey, item);
+    if (titleEl) titleEl.textContent = `Chỉnh sửa: ${itemTitle}`;
     bodyEl.innerHTML = this.generateFormFields(entityKey, item);
 
     // Bind upload handlers AFTER HTML is injected so file inputs exist in DOM
     this.bindUploadHandlers();
 
     // Bind order options selector for staff
-    if (entityKey === 'staff') {
-      const nhomSelect = document.getElementById('field_nhom_id');
+    if (['staff', 'deans', 'lecturers'].includes(entityKey)) {
+      const nhomSelect = document.getElementById('field_nhom_id_select') || document.getElementById('field_nhom_id');
       const initialNhomId = nhomSelect ? nhomSelect.value : (item.nhom_id || 1);
       this.updateOrderOptions(initialNhomId, id, item.thu_tu_trong_nhom);
       
@@ -1466,72 +1554,121 @@ class AdminApp {
 
     let html = ``;
 
-    if (entityKey === 'staff') {
-      html += `
-        <div class="form-group">
-          <label>Họ và tên Giảng viên (*)</label>
-          <input type="text" name="main_title" value="${data.ho_ten || ''}" required placeholder="VD: TS. Nguyễn Nhứt Lam">
-        </div>
-        <div class="form-group">
-          <label>Chức vụ (*)</label>
-          <input type="text" name="chuc_vu" value="${data.chuc_vu || ''}" required placeholder="VD: Trưởng khoa">
-        </div>
-        <div class="form-group">
-          <label>Nhóm Nhân sự (*)</label>
-          <select name="nhom_id" id="field_nhom_id" required>
-            ${(() => {
-              if (this.staffGroupsList && this.staffGroupsList.length > 0) {
-                const sorted = [...this.staffGroupsList].sort((a, b) => (a.thu_tu || 0) - (b.thu_tu || 0));
-                return sorted.map(g => 
-                  `<option value="${g.id}" ${String(g.id) === String(data.nhom_id || 2) ? 'selected' : ''}>${g.ten_nhom}</option>`
-                ).join('');
-              }
-              return `
-                <option value="1" ${data.nhom_id === 1 ? 'selected' : ''}>Ban Lãnh đạo Khoa</option>
-                <option value="2" ${data.nhom_id !== 1 ? 'selected' : ''}>Giảng viên & Trợ giảng</option>
-              `;
-            })()}
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Thứ tự hiển thị trong nhóm (*)</label>
-          <select name="thu_tu_trong_nhom" id="field_thu_tu_trong_nhom" required>
-            <!-- Tự động kết xuất động qua JS -->
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Học vị (*)</label>
-          <select name="hoc_vi">
-            <option value="Tiến sĩ" ${data.hoc_vi === 'Tiến sĩ' ? 'selected' : ''}>Tiến sĩ</option>
-            <option value="Thạc sĩ" ${data.hoc_vi === 'Thạc sĩ' ? 'selected' : ''}>Thạc sĩ</option>
-            <option value="Kỹ sư" ${data.hoc_vi === 'Kỹ sư' ? 'selected' : ''}>Kỹ sư</option>
-            <option value="NCS" ${data.hoc_vi === 'NCS' ? 'selected' : ''}>Nghiên cứu sinh (NCS)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Ngạch viên chức</label>
-          <input type="text" name="ngach_vien_chuc" value="${data.ngach_vien_chuc || 'Giảng viên'}" placeholder="Giảng viên chính / Giảng viên cao cấp">
-        </div>
-        <div class="form-group">
-          <label>Email công vụ (@tvu.edu.vn)</label>
-          <input type="email" name="email" value="${data.email || ''}" placeholder="lamnn@tvu.edu.vn">
-        </div>
-        ${renderImageField('Ảnh đại diện (Tải lên từ máy)', 'anh_ca_nhan_url', data.anh_ca_nhan_url, 'upload_staff_avatar_input', 'field_anh_ca_nhan_url')}
-        <div class="form-group">
-          <label>Trạng thái hiển thị nhân sự (*)</label>
-          <select name="an_hien" required>
-            <option value="1" ${data.an_hien !== 0 ? 'selected' : ''}>Hiện trên Website</option>
-            <option value="0" ${data.an_hien === 0 ? 'selected' : ''}>Ẩn khỏi Website</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Hiển thị Email cá nhân (*)</label>
-          <select name="an_hien_email" required>
-            <option value="1" ${data.an_hien_email !== 0 ? 'selected' : ''}>Hiện Email</option>
-            <option value="0" ${data.an_hien_email === 0 ? 'selected' : ''}>Ẩn Email</option>
-          </select>
-        </div>
-      `;
+    if (entityKey === 'staff' || entityKey === 'deans' || entityKey === 'lecturers') {
+      const isDean = entityKey === 'deans';
+      const isLecturer = entityKey === 'lecturers';
+      const isEdit = !!data.id;
+
+      if (isDean && !isEdit) {
+        // Form bổ nhiệm Lãnh đạo khoa mới (chọn từ Giảng viên có sẵn)
+        const lecturersList = (this.staffList || []).filter(s => Number(s.nhom_id) === 2);
+        let lecturerOptions = '';
+        if (lecturersList.length > 0) {
+          lecturerOptions = lecturersList.map(s => 
+            `<option value="${s.id}">${s.ho_ten} (${s.chuc_vu || 'Giảng viên'}, ${s.hoc_vi || 'Thạc sĩ'})</option>`
+          ).join('');
+        } else {
+          lecturerOptions = '<option value="">-- Không có giảng viên khả dụng để bổ nhiệm --</option>';
+        }
+
+        html += `
+          <input type="hidden" name="appoint_action" value="true">
+          <input type="hidden" name="nhom_id" id="field_nhom_id" value="1">
+          <div class="form-group">
+            <label>Chọn Giảng viên bổ nhiệm làm Lãnh đạo (*)</label>
+            <select name="appoint_nhan_vien_id" id="field_appoint_nhan_vien_id" required>
+              ${lecturerOptions}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Chức vụ Lãnh đạo mới (*)</label>
+            <input type="text" name="chuc_vu" value="Phó Trưởng khoa" required placeholder="VD: Trưởng khoa, Phó Trưởng khoa">
+          </div>
+          <div class="form-group">
+            <label>Thứ tự hiển thị trong Ban Lãnh đạo (*)</label>
+            <select name="thu_tu_trong_nhom" id="field_thu_tu_trong_nhom" required>
+              <!-- Tự động kết xuất động qua JS -->
+            </select>
+          </div>
+        `;
+      } else {
+        // Form sửa hoặc thêm giảng viên/lãnh đạo bình thường
+        html += `
+          <input type="hidden" name="nhom_id" id="field_nhom_id" value="${isDean ? '1' : (isLecturer ? '2' : (data.nhom_id || '2'))}">
+          <div class="form-group">
+            <label>Họ và tên Giảng viên (*)</label>
+            <input type="text" name="main_title" value="${data.ho_ten || ''}" required placeholder="VD: TS. Nguyễn Nhứt Lam">
+          </div>
+          <div class="form-group">
+            <label>Chức vụ (*)</label>
+            <input type="text" name="chuc_vu" value="${data.chuc_vu || ''}" required placeholder="VD: Trưởng khoa, Giảng viên">
+          </div>
+        `;
+
+        if (!isDean && !isLecturer) {
+          // Chỉ hiện Nhóm nhân sự nếu là entity 'staff' chung cũ
+          html += `
+            <div class="form-group">
+              <label>Nhóm Nhân sự (*)</label>
+              <select name="nhom_id" id="field_nhom_id_select" required>
+                ${(() => {
+                  if (this.staffGroupsList && this.staffGroupsList.length > 0) {
+                    const sorted = [...this.staffGroupsList].sort((a, b) => (a.thu_tu || 0) - (b.thu_tu || 0));
+                    return sorted.map(g => 
+                      `<option value="${g.id}" ${String(g.id) === String(data.nhom_id || 2) ? 'selected' : ''}>${g.ten_nhom}</option>`
+                    ).join('');
+                  }
+                  return `
+                    <option value="1" ${data.nhom_id === 1 ? 'selected' : ''}>Ban Lãnh đạo Khoa</option>
+                    <option value="2" ${data.nhom_id !== 1 ? 'selected' : ''}>Giảng viên & Trợ giảng</option>
+                  `;
+                })()}
+              </select>
+            </div>
+          `;
+        }
+
+        html += `
+          <div class="form-group">
+            <label>Thứ tự hiển thị trong nhóm (*)</label>
+            <select name="thu_tu_trong_nhom" id="field_thu_tu_trong_nhom" required>
+              <!-- Tự động kết xuất động qua JS -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Học vị (*)</label>
+            <select name="hoc_vi">
+              <option value="Tiến sĩ" ${data.hoc_vi === 'Tiến sĩ' ? 'selected' : ''}>Tiến sĩ</option>
+              <option value="Thạc sĩ" ${data.hoc_vi === 'Thạc sĩ' ? 'selected' : ''}>Thạc sĩ</option>
+              <option value="Kỹ sư" ${data.hoc_vi === 'Kỹ sư' ? 'selected' : ''}>Kỹ sư</option>
+              <option value="NCS" ${data.hoc_vi === 'NCS' ? 'selected' : ''}>Nghiên cứu sinh (NCS)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Ngạch viên chức</label>
+            <input type="text" name="ngach_vien_chuc" value="${data.ngach_vien_chuc || 'Giảng viên'}" placeholder="Giảng viên chính / Giảng viên cao cấp">
+          </div>
+          <div class="form-group">
+            <label>Email công vụ (@tvu.edu.vn)</label>
+            <input type="email" name="email" value="${data.email || ''}" placeholder="lamnn@tvu.edu.vn">
+          </div>
+          ${renderImageField('Ảnh đại diện (Tải lên từ máy)', 'anh_ca_nhan_url', data.anh_ca_nhan_url, 'upload_staff_avatar_input', 'field_anh_ca_nhan_url')}
+          <div class="form-group">
+            <label>Trạng thái hiển thị nhân sự (*)</label>
+            <select name="an_hien" required>
+              <option value="1" ${data.an_hien !== 0 ? 'selected' : ''}>Hiện trên Website</option>
+              <option value="0" ${data.an_hien === 0 ? 'selected' : ''}>Ẩn khỏi Website</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Hiển thị Email cá nhân (*)</label>
+            <select name="an_hien_email" required>
+              <option value="1" ${data.an_hien_email !== 0 ? 'selected' : ''}>Hiện Email</option>
+              <option value="0" ${data.an_hien_email === 0 ? 'selected' : ''}>Ẩn Email</option>
+            </select>
+          </div>
+        `;
+      }
     } else if (entityKey === 'staffProfiles') {
       let staffOptions = '';
       if (this.staffList && this.staffList.length > 0) {
@@ -2514,7 +2651,7 @@ class AdminApp {
           <input type="text" name="khoa" value="${data.khoa || ''}" required placeholder="VD: K36, K37, ..., K52">
           <small style="color:var(--admin-text-muted); margin-top:4px; display:block;">Nhập tên khóa theo định dạng K + số (K36, K49...)</small>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div class="form-row-2col">
           <div class="form-group">
             <label>Số SV nhập học (*)</label>
             <input type="number" name="so_sinh_vien" value="${data.so_sinh_vien || 0}" min="0" required>
@@ -2710,7 +2847,54 @@ class AdminApp {
           </select>
         </div>
       `;
+    } else if (entityKey === 'lecturerAccounts') {
+      let staffOptions = '';
+      if (this.staffList && this.staffList.length > 0) {
+        staffOptions = this.staffList.map(s => 
+          `<option value="${s.id}" ${String(s.id) === String(data.nhan_vien_id) ? 'selected' : ''}>${s.ho_ten} (${s.chuc_vu})</option>`
+        ).join('');
+      } else {
+        staffOptions = `<option value="${data.nhan_vien_id || ''}">${data.nhan_vien_id ? 'Mã giảng viên #' + data.nhan_vien_id : 'Chọn giảng viên...'}</option>`;
+      }
+
+      html += `
+        <div class="form-group">
+          <label>Liên kết Giảng viên (*)</label>
+          <select name="nhan_vien_id" required>
+            ${staffOptions}
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Email đăng nhập (*)</label>
+          <input type="email" name="email" value="${data.email || ''}" required placeholder="VD: lamnn@tvu.edu.vn">
+        </div>
+        <div class="form-group">
+          <label>Mật khẩu ${data.id ? '(Để trống nếu giữ nguyên)' : '(*)'}</label>
+          <input type="password" name="mat_khau" placeholder="${data.id ? 'Nhập mật khẩu mới nếu muốn đổi' : 'Nhập mật khẩu mặc định (VD: email)'}" ${data.id ? '' : 'required'}>
+        </div>
+        <div class="form-group">
+          <label>Quyền hạn (*)</label>
+          <select name="quyen_han" required>
+            <option value="STAFF_EDITOR" ${data.quyen_han === 'STAFF_EDITOR' ? 'selected' : ''}>Biên tập viên Giảng viên (STAFF_EDITOR)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Trạng thái tài khoản (*)</label>
+          <select name="trang_thai" required>
+            <option value="1" ${data.trang_thai !== 0 ? 'selected' : ''}>Đang hoạt động (Active)</option>
+            <option value="0" ${data.trang_thai === 0 ? 'selected' : ''}>Bị khóa (Blocked)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Yêu cầu đổi mật khẩu sau khi đăng nhập (*)</label>
+          <select name="phai_doi_mat_khau" required>
+            <option value="1" ${data.phai_doi_mat_khau !== 0 ? 'selected' : ''}>Bắt buộc đổi (First Login)</option>
+            <option value="0" ${data.phai_doi_mat_khau === 0 ? 'selected' : ''}>Không yêu cầu</option>
+          </select>
+        </div>
+      `;
     } else {
+
       const titleVal = data.ho_ten || data.ten_bai_bao || data.tieu_de || data.ten_de_tai || data.ten_nganh || data.ten_slide || data.ten || data.name || '';
       html += `
         <div class="form-group">
@@ -2809,12 +2993,29 @@ class AdminApp {
     }
 
     try {
+      let apiNav = this.currentNav;
+      if (this.currentNav === 'deans' || this.currentNav === 'lecturers') {
+        apiNav = 'staff';
+      }
+
       if (this.editingId) {
-        await AdminApiService.updateItem(this.currentNav, this.editingId, payload);
+        await AdminApiService.updateItem(apiNav, this.editingId, payload);
         this.showToast('Cập nhật dữ liệu thành công!', 'success');
       } else {
-        await AdminApiService.createItem(this.currentNav, payload);
-        this.showToast('Thêm mới dữ liệu thành công!', 'success');
+        if (this.currentNav === 'deans' && payload.appoint_action === 'true') {
+          // Bổ nhiệm Giảng viên có sẵn làm Lãnh đạo khoa (Gọi updateItem thay vì createItem)
+          const appointId = payload.appoint_nhan_vien_id;
+          const appointPayload = {
+            nhom_id: 1,
+            chuc_vu: payload.chuc_vu,
+            thu_tu_trong_nhom: payload.thu_tu_trong_nhom
+          };
+          await AdminApiService.updateItem('staff', appointId, appointPayload);
+          this.showToast('Bổ nhiệm Lãnh đạo khoa thành công!', 'success');
+        } else {
+          await AdminApiService.createItem(apiNav, payload);
+          this.showToast('Thêm mới dữ liệu thành công!', 'success');
+        }
       }
       // FIX: Xóa bản nháp TRƯỚC khi đóng modal để đảm bảo form mới tiếp theo luôn trống
       this.clearFormDraft(this.currentNav);
@@ -2835,9 +3036,23 @@ class AdminApp {
   }
 
   async handleDeleteItem(entityKey, id) {
-    if (confirm(`Bạn có chắc chắn muốn xóa mục này không?`)) {
+    if (entityKey === 'deans') {
+      if (confirm('Bạn có muốn chuyển cán bộ này về làm Giảng viên bình thường không?\n(Nhấn Cancel nếu muốn xóa hoàn toàn khỏi khoa)')) {
+        try {
+          await AdminApiService.updateItem('staff', id, { nhom_id: 2, chuc_vu: 'Giảng viên' });
+          this.showToast('Đã chuyển cán bộ về làm Giảng viên bình thường.', 'success');
+          this.navigate(entityKey);
+        } catch (err) {
+          this.showToast(`Lỗi: ${err.message}`, 'error');
+        }
+        return;
+      }
+    }
+
+    const apiKey = (entityKey === 'deans' || entityKey === 'lecturers') ? 'staff' : entityKey;
+    if (confirm(`Bạn có chắc chắn muốn xóa hoàn toàn cán bộ/mục này khỏi cơ sở dữ liệu không?`)) {
       try {
-        await AdminApiService.deleteItem(entityKey, id);
+        await AdminApiService.deleteItem(apiKey, id);
         this.showToast(`Xóa dữ liệu thành công!`, 'success');
         this.navigate(entityKey);
       } catch (err) {

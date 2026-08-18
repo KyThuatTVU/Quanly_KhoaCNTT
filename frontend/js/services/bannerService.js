@@ -8,7 +8,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_URL = 'http://localhost:5000/api/v1/admin/sliders';
+const API_URL = 'http://localhost:5000/api/v1/public/sliders';
 
 export const BannerService = {
   /**

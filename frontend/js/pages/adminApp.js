@@ -278,6 +278,51 @@ class AdminApp {
     return labels[navKey] || navKey;
   }
 
+  getFallbackTitle(entityKey, item) {
+    const fallbacks = {
+      staff: 'Giảng viên',
+      staffGroups: 'Nhóm nhân sự',
+      staffProfiles: 'Trang cá nhân',
+      staffResearch: 'Đề tài NCKH',
+      staffPapers: 'Bài báo',
+      staffProjects: 'Dự án',
+      staffBooks: 'Sách/Giáo trình',
+      staffSupervisions: 'Hướng dẫn NCKH',
+      sliders: 'Banner Slide',
+      homepageAdmissions: 'Thông tin tuyển sinh',
+      homepagePrograms: 'Chương trình đào tạo',
+      infographics: 'Infographic',
+      homepageEvents: 'Sự kiện',
+      stats: 'Thống kê',
+      students: 'Sinh viên tiêu biểu',
+      alumni: 'Cựu sinh viên',
+      homepageGallery: 'Ảnh hoạt động',
+      aboutHighlights: 'Điểm nổi bật',
+      timeline: 'Mốc lịch sử',
+      partners: 'Đối tác',
+      aboutDeansContact: 'Liên hệ BGK',
+      researchDirections: 'Hướng nghiên cứu',
+      researchProjects: 'Đề tài NC',
+      researchPublications: 'Công bố KH',
+      researchLabs: 'Phòng thí nghiệm',
+      researchContacts: 'Liên hệ NC',
+      undergradPrograms: 'Ngành đào tạo',
+      undergradMethods: 'Phương thức TS',
+      undergradCurriculum: 'Khối kiến thức',
+      undergradPlos: 'Chuẩn đầu ra',
+      undergradCourses: 'Học phần',
+      undergradFaqs: 'Câu hỏi FAQ',
+      postgradNotices: 'Thông báo',
+      postgradPhdStudents: 'Nghiên cứu sinh',
+      postgradStats: 'Thống kê',
+      news: 'Tin tức',
+      gallery: 'Hình ảnh',
+      adminAccounts: 'Tài khoản'
+    };
+    const prefix = fallbacks[entityKey] || 'Mục';
+    return `${prefix} #${item.id}`;
+  }
+
   /**
    * 3. DASHBOARD & PANEL RENDERERS
    */
@@ -400,7 +445,7 @@ class AdminApp {
       rowsHtml = `<tr><td colspan="6" style="text-align:center; color:var(--admin-text-muted); padding:30px;">Chưa có bản ghi nào trong danh mục này.</td></tr>`;
     } else {
       this.currentEntityData.forEach((item, idx) => {
-        const title = item.ten_nhom || item.ten_doi_tac || item.ten_don_vi || item.ten_daidien || item.ten_phuong_thuc || item.ma_plo || item.cau_hoi || item.tieu_de_thong_bao || item.tieu_de_bieu_do || item.nam || item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || `Bản ghi #${item.id}`;
+        const title = item.ten_chi_so || item.ten_nhom || item.ten_doi_tac || item.ten_don_vi || item.ten_daidien || item.ten_phuong_thuc || item.ma_plo || item.cau_hoi || item.tieu_de_thong_bao || item.tieu_de_bieu_do || item.nam || item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || this.getFallbackTitle(entityKey, item);
         const sub = item.slug_nhom || item.truong_don_vi || item.chuc_vu_nhiem_vu || item.chuc_vu || item.nam_hoan_thanh || item.ngay_dang || item.ma_tuyen_sinh || item.email || item.vai_tro || item.cap_de_tai || item.danh_sach_to_hop || '';
         const img = item.anh_ca_nhan_url || item.hinh_anh_url || item.file_anh_url || item.logo_url || item.src_chinh || item.avatar_url || null;
         
@@ -526,7 +571,8 @@ class AdminApp {
     const titleEl = document.getElementById('modalTitle');
     const bodyEl = document.getElementById('modalFormBody');
 
-    if (titleEl) titleEl.textContent = `Chỉnh sửa bản ghi #${id}: ${this.getNavLabel(entityKey)}`;
+    const itemTitle = item.ten_chi_so || item.ho_ten || item.ten_bai_bao || item.tieu_de || item.ten_de_tai || item.ten_nganh || item.ten_slide || item.ten || item.name || item.ten_nhom || item.ten_doi_tac || item.cau_hoi || item.tieu_de_thong_bao || item.tieu_de_bieu_do || item.ma_plo || this.getFallbackTitle(entityKey, item);
+    if (titleEl) titleEl.textContent = `Chỉnh sửa: ${itemTitle}`;
     bodyEl.innerHTML = this.generateFormFields(entityKey, item);
 
     if (modal) modal.classList.remove('hidden');

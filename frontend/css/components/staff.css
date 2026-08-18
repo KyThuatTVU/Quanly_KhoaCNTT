@@ -21,14 +21,14 @@
   font-family: var(--font-logo-vn);
   font-size: 36px;
   font-weight: 900;
-  color: #0f2d59;
+  color: #0c2340;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0 0 18px;
   display: inline-block;
   position: relative;
   padding-bottom: 14px;
-  text-shadow: 0 2px 4px rgba(15, 45, 89, 0.05);
+  text-shadow: 0 2px 8px rgba(12, 35, 64, 0.06);
 }
 
 .staff-main-title::after {
@@ -39,14 +39,15 @@
   transform: translateX(-50%);
   width: 80px;
   height: 5px;
-  background: linear-gradient(90deg, #0f6fff, #00b4d8);
+  background: linear-gradient(90deg, #0284c7, #0ea5e9);
   border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
 }
 
 .staff-main-desc {
   font-family: var(--font-body);
   font-size: 16px;
-  color: #64748b;
+  color: #4a607a;
   max-width: 850px;
   margin: 0 auto;
   font-weight: 500;
@@ -61,7 +62,7 @@
   font-family: var(--font-logo-vn);
   font-size: 24px;
   font-weight: 850;
-  color: #0f2d59;
+  color: #0c2340;
   margin-bottom: 36px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -75,9 +76,9 @@
   display: inline-block;
   width: 6px;
   height: 28px;
-  background: linear-gradient(180deg, #0f6fff, #00b4d8);
+  background: linear-gradient(180deg, #0284c7, #0ea5e9);
   border-radius: 3px;
-  box-shadow: 0 2px 8px rgba(15, 111, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
 }
 
 /* --------------------------------------------------------------------------
@@ -96,36 +97,47 @@
 
 .staff-card-3d {
   transform-style: preserve-3d;
-  background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
-  border: 1px solid rgba(219, 234, 254, 0.7);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
-  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.45);              /* Translucent white glass background */
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 2px solid rgba(255, 255, 255, 0.85);     /* Bright light top edge highlight */
+  border-left: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: 20px 24px;
   display: flex;
   align-items: center;
   gap: 24px;
-  box-shadow: 0 10px 25px -5px rgba(15, 111, 255, 0.04), 0 1px 2px rgba(0, 0, 0, 0.01);
+  backdrop-filter: blur(20px);                         /* Strong glass backdrop blur */
+  -webkit-backdrop-filter: blur(20px);
+  /* Glass 3D Extrusion Shadow */
+  box-shadow: 
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.6), 
+    0 4px 0 rgba(2, 132, 199, 0.12),                   /* Translucent 3D bottom bevel */
+    0 10px 25px rgba(12, 35, 64, 0.04);
   transform: translateZ(0);
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
   overflow: hidden;
 }
 
-/* Role colored left accents for depth */
+/* Role colored left accents for depth - Translucent styled */
 .staff-group-section:nth-of-type(1) .staff-card-3d {
-  border-left: 5px solid #0f6fff;
+  border-left: 5px solid rgba(2, 132, 199, 0.7);
 }
 
 .staff-group-section:nth-of-type(2) .staff-card-3d {
-  border-left: 5px solid #00b4d8;
+  border-left: 5px solid rgba(14, 165, 233, 0.7);
 }
 
 /* Hover 3D Physics */
 .staff-card-3d-wrap:hover .staff-card-3d {
   transform: translateY(-6px) translateZ(15px) rotateX(1.5deg) rotateY(-1.5deg);
-  border-color: rgba(15, 111, 255, 0.3);
-  box-shadow: 0 20px 40px -10px rgba(15, 111, 255, 0.12), 0 1px 3px rgba(0, 0, 0, 0.01);
+  border-color: rgba(2, 132, 199, 0.3);
+  box-shadow: 
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.85), 
+    0 8px 0 rgba(2, 132, 199, 0.25),                   /* Thicker 3D bottom glass edge on hover */
+    0 20px 40px rgba(12, 35, 64, 0.12);
 }
 
 /* Avatar container with inner shadow/glowing rings */
@@ -135,17 +147,23 @@
   border-radius: 18px;
   overflow: hidden;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 150, 199, 0.08);
-  background: #ffffff;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    0 4px 12px rgba(2, 132, 199, 0.1);
+  background: rgba(255, 255, 255, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2.5px solid #ffffff;
-  transition: border-color 0.3s ease;
+  border: 2.5px solid rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
 }
 
 .staff-card-3d-wrap:hover .staff-card-img-container {
-  border-color: #0f6fff;
+  border-color: rgba(2, 132, 199, 0.6);
+  box-shadow: 
+    inset 0 1px 3px rgba(255, 255, 255, 0.6),
+    0 6px 16px rgba(2, 132, 199, 0.25);
+  transform: scale(1.03);
 }
 
 .staff-card-img {
@@ -162,6 +180,17 @@
 .staff-fallback-svg {
   width: 70%;
   height: 70%;
+  filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.15));
+}
+.staff-fallback-svg circle {
+  fill: rgba(255, 255, 255, 0.6);
+  stroke: rgba(2, 132, 199, 0.2);
+}
+.staff-fallback-svg path:nth-of-type(1) {
+  fill: #38bdf8;
+}
+.staff-fallback-svg path:nth-of-type(2) {
+  fill: #0284c7;
 }
 
 /* Text info layout */
@@ -173,20 +202,20 @@
   font-family: var(--font-logo-vn);
   font-size: 19px;
   font-weight: 850;
-  color: #0f2d59; /* Elegant deep Navy */
+  color: #0c2340; /* Deep navy text */
   margin: 0 0 6px;
   transition: color 0.25s ease;
 }
 
 .staff-card-3d-wrap:hover .staff-card-name {
-  color: #0f6fff; /* Theme action blue on hover */
+  color: #0284c7; /* Sky/ocean blue on hover */
 }
 
 .staff-card-role {
   font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.5;
-  color: #475569;
+  color: #4a607a; /* Muted slate/steel blue text */
   font-weight: 500;
   margin: 0;
 }
@@ -206,16 +235,20 @@
   align-items: center;
   gap: 10px;
   padding: 12px 24px;
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 3px solid rgba(2, 132, 199, 0.25);
   border-radius: 30px;
-  color: #475569;
+  color: #4a607a;
   font-family: var(--font-logo-vn);
   font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(8px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 4px 10px rgba(0, 0, 0, 0.02);
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   margin-bottom: 40px;
@@ -224,9 +257,13 @@
 
 .back-btn-3d:hover {
   transform: translateY(-3px);
-  color: #0f6fff;
-  border-color: #0f6fff;
-  box-shadow: 0 8px 20px rgba(15, 111, 255, 0.15), inset 0 -2px 0 rgba(15, 111, 255, 0.1);
+  color: #0284c7;
+  border-color: rgba(2, 132, 199, 0.4);
+  border-bottom-width: 4px;
+  border-bottom-color: rgba(2, 132, 199, 0.5);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 8px 20px rgba(2, 132, 199, 0.2);
 }
 
 .back-arrow-icon {
@@ -247,14 +284,21 @@
 
 /* Left Column Summary Card */
 .profile-summary-card-3d {
-  background: radial-gradient(circle at 50% 0%, #f0f7ff 0%, #ffffff 80%);
-  border: 1px solid #dbeafe;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
-  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 2px solid rgba(255, 255, 255, 0.85);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: 45px 30px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(15, 111, 255, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.6), 
+    0 4px 0 rgba(2, 132, 199, 0.12),
+    0 10px 25px rgba(12, 35, 64, 0.04);
 }
 
 .profile-avatar-wrapper {
@@ -263,9 +307,11 @@
   border-radius: 50%;
   margin: 0 auto 26px;
   overflow: hidden;
-  border: 5px solid #ffffff;
-  box-shadow: 0 10px 25px rgba(0, 150, 199, 0.18);
-  background: #f8fafc;
+  border: 4px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.4),
+    0 8px 20px rgba(2, 132, 199, 0.15);
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .profile-avatar-img {
@@ -333,13 +379,20 @@
    Right Column Personal Info - Modern Dashboard Capsule Grid
    -------------------------------------------------------------------------- */
 .personal-info-card-3d {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
-  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 2px solid rgba(255, 255, 255, 0.85);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: 36px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.015);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.6), 
+    0 4px 0 rgba(2, 132, 199, 0.12),
+    0 10px 25px rgba(12, 35, 64, 0.04);
   height: calc(100% - 72px);
 }
 
@@ -347,10 +400,10 @@
   font-family: var(--font-logo-vn);
   font-size: 20px;
   font-weight: 850;
-  color: #0f2d59;
+  color: #0c2340;
   margin: 0 0 28px;
   padding-bottom: 12px;
-  border-bottom: 1.5px solid #f1f5f9;
+  border-bottom: 1.5px solid rgba(2, 132, 199, 0.15);
 }
 
 .personal-info-list {
@@ -427,21 +480,28 @@
 }
 
 .profile-section-card-3d {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-top: 1.5px solid rgba(255, 255, 255, 0.95);
-  border-left: 1.5px solid rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 2px solid rgba(255, 255, 255, 0.85);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.65);
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 28px;
   padding: 40px;
   margin-bottom: 36px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.015);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.6), 
+    0 4px 0 rgba(2, 132, 199, 0.12),
+    0 10px 25px rgba(12, 35, 64, 0.04);
 }
 
 .section-title-3d {
   font-family: var(--font-logo-vn);
   font-size: 22px;
   font-weight: 850;
-  color: #0f2d59;
+  color: #0c2340;
   margin: 0 0 32px;
   position: relative;
   padding-bottom: 14px;
@@ -455,8 +515,9 @@
   left: 0;
   width: 50px;
   height: 5px;
-  background: linear-gradient(90deg, #0f6fff, #00b4d8);
+  background: linear-gradient(90deg, #0284c7, #0ea5e9);
   border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
 }
 
 .profile-empty-section {
@@ -672,11 +733,18 @@
 .book-card-3d {
   display: flex;
   height: 170px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-left: 1.5px solid rgba(255, 255, 255, 0.65);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.6), 
+    0 3px 0 rgba(2, 132, 199, 0.12),
+    0 8px 20px rgba(12, 35, 64, 0.04);
   transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
   transform-style: preserve-3d;
   perspective: 600px;
@@ -684,13 +752,16 @@
 
 .book-card-3d:hover {
   transform: translateY(-6px) rotateY(-4deg);
-  box-shadow: 0 18px 36px rgba(15, 111, 255, 0.1);
-  border-color: rgba(15, 111, 255, 0.2);
+  border-color: rgba(2, 132, 199, 0.3);
+  box-shadow: 
+    inset 0 1px 0 rgba(255, 255, 255, 0.8), 
+    0 6px 0 rgba(2, 132, 199, 0.25),
+    0 18px 36px rgba(12, 35, 64, 0.1);
 }
 
 .book-spine {
   width: 16px;
-  background: linear-gradient(90deg, #1b4d89 0%, #0077b6 100%);
+  background: linear-gradient(90deg, #0284c7 0%, #0077b6 100%);
   box-shadow: inset -3px 0 6px rgba(0, 0, 0, 0.3);
   flex-shrink: 0;
 }

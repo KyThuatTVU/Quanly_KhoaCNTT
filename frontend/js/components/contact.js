@@ -9,10 +9,27 @@
 class CooperationContactComponent extends HTMLElement {
   constructor() {
     super();
+    this.assetPrefix = './';
   }
 
   connectedCallback() {
+    this.resolveAssetPrefix();
     this.render();
+  }
+
+  /**
+   * Resolve the correct relative path prefix based on current URL depth
+   */
+  resolveAssetPrefix() {
+    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const currentPath = window.location.pathname;
+    this.assetPrefix = './';
+    for (const folder of folders) {
+      if (currentPath.includes('/' + folder)) {
+        this.assetPrefix = '../';
+        break;
+      }
+    }
   }
 
   /**
@@ -88,7 +105,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="#" class="dean-detail-btn-3d" onclick="event.preventDefault(); alert('Chức năng hiển thị lý lịch khoa học chi tiết của TS. Nguyễn Nhứt Lam đang được xây dựng.');">
+                  <a href="${this.assetPrefix}nhan-su/?id=4" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>
@@ -134,7 +151,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="#" class="dean-detail-btn-3d" onclick="event.preventDefault(); alert('Chức năng hiển thị lý lịch khoa học chi tiết của TS. Thạch Kọng Saoane đang được xây dựng.');">
+                  <a href="${this.assetPrefix}nhan-su/?id=7" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>
@@ -180,7 +197,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="#" class="dean-detail-btn-3d" onclick="event.preventDefault(); alert('Chức năng hiển thị lý lịch khoa học chi tiết của TS. Nguyễn Trần Diễm Hạnh đang được xây dựng.');">
+                  <a href="${this.assetPrefix}nhan-su/" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>
@@ -226,7 +243,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="#" class="dean-detail-btn-3d" onclick="event.preventDefault(); alert('Chức năng hiển thị lý lịch khoa học chi tiết của Ths. Nguyễn Bá Nhiệm đang được xây dựng.');">
+                  <a href="${this.assetPrefix}nhan-su/" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>
@@ -272,7 +289,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="#" class="dean-detail-btn-3d" onclick="event.preventDefault(); alert('Chức năng hiển thị lý lịch khoa học chi tiết của Ths. Lê Phong Dũ đang được xây dựng.');">
+                  <a href="${this.assetPrefix}nhan-su/" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>

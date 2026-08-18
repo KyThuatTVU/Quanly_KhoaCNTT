@@ -13,7 +13,7 @@ export const PostgraduateService = {
    */
   async getAdmissionsNotices() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/admin/postgradNotices');
+      const response = await fetch('http://localhost:5000/api/v1/public/postgradNotices');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -41,7 +41,7 @@ export const PostgraduateService = {
    */
   async getPhDStudents() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/admin/postgradPhdStudents');
+      const response = await fetch('http://localhost:5000/api/v1/public/postgradPhdStudents');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -71,7 +71,7 @@ export const PostgraduateService = {
    */
   async getActivities() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/admin/postgradActivities');
+      const response = await fetch('http://localhost:5000/api/v1/public/postgradActivities');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -89,7 +89,7 @@ export const PostgraduateService = {
    */
   async getStats() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/admin/postgradStats');
+      const response = await fetch('http://localhost:5000/api/v1/public/postgradStats');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data) && result.data.length > 0) {

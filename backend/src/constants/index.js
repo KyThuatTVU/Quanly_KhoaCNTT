@@ -58,13 +58,15 @@ export const TABLE_MAP = {
   postgradNotices:    'tuyen_sinh_sau_dai_hoc_thong_bao',
   postgradPhdStudents:'danh_sach_nghien_cuu_sinh',
   postgradStats:      'thong_ke_sau_dai_hoc_chartsy',
+  postgradActivities: 'hoat_dong_sau_dai_hoc',
 
   // ── Tin tức & Gallery ────────────────────────────────────────────────────────
   news:    'tin_tuc',
   gallery: 'gallery',
 
   // ── Quản trị ─────────────────────────────────────────────────────────────────
-  adminAccounts: 'tai_khoan_admin_google'
+  adminAccounts: 'tai_khoan_admin_google',
+  lecturerAccounts: 'tai_khoan_nhan_vien'
 };
 
 export const HTTP_STATUS = {

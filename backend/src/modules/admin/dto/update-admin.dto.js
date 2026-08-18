@@ -31,5 +31,10 @@ export function mapUpdatePayload(entityKey, payload) {
     delete data.anh_url;
   }
 
+  // Nếu là tài khoản giảng viên và không nhập mật khẩu mới -> giữ nguyên mật khẩu cũ
+  if (entityKey === 'lecturerAccounts' && !payload.mat_khau) {
+    delete data.mat_khau_hash;
+  }
+
   return data;
 }

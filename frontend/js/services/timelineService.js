@@ -7,7 +7,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_TIMELINE_URL = 'http://localhost:5000/api/v1/admin/timeline';
+const API_TIMELINE_URL = 'http://localhost:5000/api/v1/public/timeline';
 
 export const TimelineService = {
   /**

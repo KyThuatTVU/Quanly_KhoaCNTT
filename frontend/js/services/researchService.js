@@ -13,7 +13,7 @@ export const ResearchService = {
    */
   async getResearchDirections() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/admin/researchDirections');
+      const response = await fetch('http://localhost:5000/api/v1/public/researchDirections');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -31,7 +31,7 @@ export const ResearchService = {
    */
   async getResearchTopics() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/admin/researchProjects');
+      const response = await fetch('http://localhost:5000/api/v1/public/researchProjects');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -49,7 +49,7 @@ export const ResearchService = {
    */
   async getScientificPublications() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/admin/researchPublications');
+      const response = await fetch('http://localhost:5000/api/v1/public/researchPublications');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -67,7 +67,7 @@ export const ResearchService = {
    */
   async getResearchContacts() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/admin/researchContacts');
+      const response = await fetch('http://localhost:5000/api/v1/public/researchContacts');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {

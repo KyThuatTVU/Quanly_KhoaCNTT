@@ -76,6 +76,44 @@ class StaffDirectoryComponent extends HTMLElement {
         { id: 2, ten_nhom: 'GIẢNG VIÊN & TRỢ GIẢNG', thu_tu: 2 }
       ];
     }
+
+    // Check if URL has ?id= or ?email= to auto-open a staff profile
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramId    = urlParams.get('id');
+    const paramEmail = urlParams.get('email');
+    const paramName  = urlParams.get('name');
+
+    console.log('[Staff] URL params:', { paramId, paramEmail, paramName });
+    console.log('[Staff] Loaded staff list:', this.staffList.map(s => ({ id: s.id, ho_ten: s.ho_ten, email: s.email })));
+
+    if (paramId) {
+      const targetStaff = this.staffList.find(s => String(s.id) === String(paramId));
+      console.log('[Staff] Found by id:', targetStaff);
+      if (targetStaff) {
+        await this.showProfile(targetStaff.id);
+        return;
+      }
+    } else if (paramEmail) {
+      const targetStaff = this.staffList.find(s => (s.email || '').toLowerCase().trim() === paramEmail.toLowerCase().trim());
+      console.log('[Staff] Found by email:', targetStaff);
+      if (targetStaff) {
+        await this.showProfile(targetStaff.id);
+        return;
+      }
+      // Fallback: match by name if email not found
+      console.warn('[Staff] Email không khớp, thử tìm theo tên...');
+    } else if (paramName) {
+      const decodedName = decodeURIComponent(paramName);
+      const targetStaff = this.staffList.find(s =>
+        (s.ho_ten || '').toLowerCase().includes(decodedName.toLowerCase())
+      );
+      console.log('[Staff] Found by name:', targetStaff);
+      if (targetStaff) {
+        await this.showProfile(targetStaff.id);
+        return;
+      }
+    }
+
     this.render();
   }
 
