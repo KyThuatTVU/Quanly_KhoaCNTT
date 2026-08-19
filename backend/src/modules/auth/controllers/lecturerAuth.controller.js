@@ -74,7 +74,22 @@ export const LecturerAuthController = {
    * Trả về thông tin giảng viên từ JWT (đã qua requireLecturer middleware)
    */
   async getMe(req, res) {
-    res.json({ success: true, user: req.lecturerUser });
+    try {
+      const nhanVienId = req.lecturerUser.nhanVienId;
+      const { default: pool } = await import('../../../database/index.js');
+      const [rows] = await pool.query(
+        'SELECT ho_ten, anh_ca_nhan_url FROM nhan_vien WHERE id = ? LIMIT 1',
+        [nhanVienId]
+      );
+      const user = {
+        ...req.lecturerUser,
+        hoTen: rows[0]?.ho_ten || req.lecturerUser.hoTen,
+        anhUrl: rows[0]?.anh_ca_nhan_url || req.lecturerUser.anhUrl
+      };
+      res.json({ success: true, user });
+    } catch (err) {
+      res.json({ success: true, user: req.lecturerUser });
+    }
   },
 
   /**
