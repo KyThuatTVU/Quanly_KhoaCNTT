@@ -8,6 +8,13 @@ import { LECTURER_ENTITY_CONFIG, generateFormHtml } from './lecturerEntities.js'
 
 const API_BASE = 'http://localhost:5000';
 
+function getAvatarUrl(path) {
+  if (!path || path === 'assets/images/default-avatar.webp') {
+    return 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
+  }
+  return `${API_BASE}/${path}`;
+}
+
 class LecturerApp {
   constructor() {
     this.currentNav = 'dashboard';
@@ -24,7 +31,7 @@ class LecturerApp {
 
     // 2. Set up user info in sidebar
     document.getElementById('sidebarName').textContent = this.user.hoTen;
-    const avatarUrl = this.user.anhUrl ? `${API_BASE}/${this.user.anhUrl}` : '../assets/images/default-avatar.webp';
+    const avatarUrl = getAvatarUrl(this.user.anhUrl);
     document.getElementById('sidebarAvatar').innerHTML = `<img src="${avatarUrl}" alt="Avatar" onerror="this.parentNode.textContent='${this.user.hoTen[0]}'">`;
 
     // 3. Bind sidebar events & Mobile toggle
@@ -139,7 +146,7 @@ class LecturerApp {
       <div class="profile-container">
         <div class="profile-card-left">
           <div class="avatar-upload-container">
-            <img id="avatarPreview" src="../assets/images/default-avatar.webp" alt="Avatar" class="avatar-preview">
+            <img id="avatarPreview" src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y" alt="Avatar" class="avatar-preview">
             <label for="avatarFileInput" class="avatar-btn-label" title="Đổi ảnh đại diện">📷</label>
             <input type="file" id="avatarFileInput" accept="image/*" style="display:none;">
           </div>
@@ -240,7 +247,7 @@ class LecturerApp {
       document.getElementById('github').value = data.github_url || '';
       document.getElementById('websiteCaNhan').value = data.website_ca_nhan || '';
 
-      const avatarUrl = data.anh_ca_nhan_url ? `${API_BASE}/${data.anh_ca_nhan_url}` : '../assets/images/default-avatar.webp';
+      const avatarUrl = getAvatarUrl(data.anh_ca_nhan_url);
       document.getElementById('avatarPreview').src = avatarUrl;
     } catch {
       this.showPanelAlert('Không thể kết nối lấy dữ liệu hồ sơ.');
