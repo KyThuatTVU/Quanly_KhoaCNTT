@@ -1,4 +1,4 @@
-import { requireAuth, authFetch, lecturerLogout } from './auth.js';
+import { requireAuth, authFetch, lecturerLogout } from '../auth.js';
 
 const API_BASE = 'http://localhost:5000';
 

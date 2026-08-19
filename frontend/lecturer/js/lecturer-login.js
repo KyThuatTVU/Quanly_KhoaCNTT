@@ -1,4 +1,4 @@
-import { saveToken, authFetch } from './auth.js';
+import { saveToken, authFetch } from '../auth.js';
 
 const API_BASE = 'http://localhost:5000';
 
