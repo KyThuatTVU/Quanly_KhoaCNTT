@@ -90,5 +90,71 @@ export const LecturerRepository = {
     }
 
     return this.getProfile(nhanVienId);
+  },
+
+  /**
+   * Fetch all records of a specific entity belonging to the logged-in lecturer.
+   */
+  async getMyEntityList(tableName, nhanVienId) {
+    const orderClause = getSortOrder(tableName);
+    const [rows] = await pool.query(
+      `SELECT * FROM ?? WHERE nhan_vien_id = ? ORDER BY ${orderClause}`,
+      [tableName, nhanVienId]
+    );
+    return rows;
+  },
+
+  /**
+   * Create a new entity item scoped to the lecturer.
+   */
+  async createMyEntityItem(tableName, nhanVienId, data) {
+    const payload = { ...data, nhan_vien_id: nhanVienId };
+    const [result] = await pool.query('INSERT INTO ?? SET ?', [tableName, payload]);
+    return { id: result.insertId, ...payload };
+  },
+
+  /**
+   * Update an entity item scoped to the lecturer.
+   */
+  async updateMyEntityItem(tableName, nhanVienId, id, data) {
+    const [result] = await pool.query(
+      'UPDATE ?? SET ? WHERE id = ? AND nhan_vien_id = ?',
+      [tableName, data, id, nhanVienId]
+    );
+    if (result.affectedRows === 0) {
+      throw new Error('Không tìm thấy bản ghi hoặc bạn không có quyền sửa bản ghi này.');
+    }
+    return { id, ...data, nhan_vien_id: nhanVienId };
+  },
+
+  /**
+   * Delete an entity item scoped to the lecturer.
+   */
+  async deleteMyEntityItem(tableName, nhanVienId, id) {
+    const [result] = await pool.query(
+      'DELETE FROM ?? WHERE id = ? AND nhan_vien_id = ?',
+      [tableName, id, nhanVienId]
+    );
+    if (result.affectedRows === 0) {
+      throw new Error('Không tìm thấy bản ghi hoặc bạn không có quyền xóa bản ghi này.');
+    }
+    return true;
   }
 };
+
+function getSortOrder(tableName) {
+  switch (tableName) {
+    case 'nhan_vien_de_tai_nckh':
+      return 'nam_hoan_thanh DESC, stt ASC, id DESC';
+    case 'nhan_vien_bai_bao_khoa_hoc':
+      return 'nam_xuat_ban DESC, stt ASC, id DESC';
+    case 'nhan_vien_huong_dan_nckh':
+      return 'nam_bao_ve DESC, id DESC';
+    case 'nhan_vien_du_an':
+    case 'nhan_vien_sach_giao_trinh':
+    case 'trang_ca_nhan':
+      return 'id ASC';
+    default:
+      return 'id DESC';
+  }
+}

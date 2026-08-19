@@ -18,6 +18,12 @@ router.get('/profile', LecturerController.getProfile);
 // PUT  /api/lecturer/profile  → Cập nhật hồ sơ bản thân
 router.put('/profile', LecturerController.updateProfile);
 
+// ── Scoped Generic CRUD for Lecturer's Own Data ────────────────────────────────
+router.get('/my/:entity', LecturerController.getMyEntityList);
+router.post('/my/:entity', LecturerController.createMyEntityItem);
+router.put('/my/:entity/:id', LecturerController.updateMyEntityItem);
+router.delete('/my/:entity/:id', LecturerController.deleteMyEntityItem);
+
 // POST /api/lecturer/upload   → Upload ảnh đại diện bản thân
 router.post('/upload', uploadSingle, async (req, res) => {
   try {
