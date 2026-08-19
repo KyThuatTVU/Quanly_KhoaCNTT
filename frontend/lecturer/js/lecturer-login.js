@@ -65,13 +65,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     if (data.token) saveToken(data.token);
     sessionStorage.setItem('lecturer_user', JSON.stringify(data.user));
 
-    if (data.mustChangePassword) {
-      showAlert('Đăng nhập thành công! Bạn cần đổi mật khẩu trước khi tiếp tục.', 'success');
-      setTimeout(() => { window.location.href = 'change-password.html'; }, 1500);
-    } else {
-      showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success');
-      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
-    }
+    showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success');
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
   } catch (err) {
     showAlert('Không thể kết nối đến máy chủ. Vui lòng thử lại sau.');
   } finally {

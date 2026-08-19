@@ -27,14 +27,7 @@ export function requireLecturer(req, res, next) {
   try {
     const decoded = LecturerAuthService.verifyToken(token);
 
-    // Kiểm tra bắt buộc đổi mật khẩu (cho phép gọi /me và /change-password)
-    if (decoded.phaDoiMk && req.path !== '/change-password' && req.path !== '/me') {
-      return res.status(403).json({
-        success: false,
-        message: 'Bạn cần đổi mật khẩu trước khi tiếp tục.',
-        code: 'MUST_CHANGE_PASSWORD'
-      });
-    }
+
 
     // Gán thông tin user vào request
     req.lecturerUser = decoded;
