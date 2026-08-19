@@ -2,7 +2,7 @@
  * MAIN LECTURER PORTAL APPLICATION CONTROLLER (SPA)
  */
 
-import { requireAuth, authFetch, lecturerLogout } from '../auth.js';
+import { requireAuth, authFetch, lecturerLogout } from '../../auth.js';
 import { LecturerApiService } from '../services/lecturerApiService.js';
 import { LECTURER_ENTITY_CONFIG, generateFormHtml } from './lecturerEntities.js';
 
@@ -20,7 +20,7 @@ class LecturerApp {
   async init() {
     // 1. Authenticate user
     this.user = await requireAuth();
-    if (!user) return;
+    if (!this.user) return;
 
     // 2. Set up user info in sidebar
     document.getElementById('sidebarName').textContent = this.user.hoTen;

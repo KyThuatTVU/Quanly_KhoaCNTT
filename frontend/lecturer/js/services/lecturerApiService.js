@@ -5,7 +5,7 @@
 
 const BASE_URL = 'http://localhost:5000/api/lecturer';
 
-import { getToken } from '../auth.js';
+import { getToken } from '../../auth.js';
 
 async function authFetch(url, options = {}) {
   const token = getToken();
