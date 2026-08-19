@@ -4,29 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Đăng nhập Quản trị — Khoa CNTT TVU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/admin-login.css" />
 </head>
-<body>
+<body class="login-body">
 
 <div class="login-card">
   <!-- Logo -->
   <div class="logo-block">
-    <img src="assets/images/sit.jpg" alt="TVU CNTT" class="logo-img"
-         onerror="this.style.display='none'">
-    <div class="logo-school">Trường Đại học Trà Vinh</div>
-    <div class="logo-faculty">Khoa Công nghệ Thông tin</div>
+    <img src="assets/images/sit.jpg" alt="Logo TVU" class="logo-img" onerror="this.style.display='none'">
+    <div class="logo-title">
+      <strong>TRƯỜNG ĐẠI HỌC TRÀ VINH</strong>
+      <span>KHOA CÔNG NGHỆ THÔNG TIN</span>
+    </div>
   </div>
 
-  <h1 class="heading">Đăng nhập quản trị</h1>
-  <p class="sub-desc">Đăng nhập bằng tài khoản Google được cấp quyền quản trị</p>
+  <h1 class="portal-heading">Đăng nhập quản trị</h1>
+  <p class="portal-desc">Đăng nhập bằng tài khoản Google được cấp quyền quản trị</p>
 
   <!-- Lỗi từ URL param -->
   <div class="error-box" id="errorBox"></div>
 
   <!-- Nút Google Login -->
-  <a href="http://localhost:5000/auth/google" class="btn-google" id="btnGoogle"
-     onclick="this.classList.add('loading')">
+  <a href="http://localhost:5000/auth/google" class="btn-google" id="btnGoogle" onclick="this.classList.add('loading')">
     <!-- Google Icon SVG -->
     <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 48 48">
       <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -38,27 +41,27 @@
     <span class="loading-dots">⟳ Đang xác thực...</span>
   </a>
 
-  <div style="text-align:center; margin-top: 12px;">
+  <div style="text-align:center; margin-top: 16px;">
     <span class="badge-secure">🔒 Kết nối bảo mật qua Google OAuth 2.0</span>
   </div>
 
-  <p class="notice" style="margin-top: 20px;">
-    <strong>Chỉ tài khoản quản trị được cấp quyền mới có thể truy cập hệ thống.</strong><br>
+  <div class="notice-desc">
+    Chỉ tài khoản quản trị được cấp quyền mới có thể truy cập hệ thống.
     Nếu bạn không thể đăng nhập, vui lòng liên hệ Super Admin.
-  </p>
-
-  <div class="divider"></div>
-  <div class="lecturer-link">
-    Bạn là giảng viên? <a href="lecturer/login.html">Đăng nhập cổng giảng viên</a>
   </div>
 
-  <div class="admin-info-block">
-    <h4>Lưu ý bảo mật</h4>
-    <p>
-      • Không chia sẻ tài khoản quản trị với người khác<br>
-      • Đăng xuất sau khi sử dụng xong<br>
-      • Chỉ đăng nhập trên thiết bị đáng tin cậy
-    </p>
+  <div class="divider">hoặc</div>
+  
+  <div class="lecturer-link-section">
+    <span class="lecturer-link-label">Bạn là giảng viên?</span>
+    <a href="lecturer/login.html" class="btn-lecturer-login">Đăng nhập cổng giảng viên</a>
+  </div>
+
+  <div class="login-info-card">
+    <strong class="info-card-title">🔒 Lưu ý bảo mật</strong>
+    <p>• Không chia sẻ tài khoản quản trị với người khác.</p>
+    <p style="margin-top: 4px;">• Đăng xuất sau khi sử dụng xong.</p>
+    <p style="margin-top: 4px;">• Chỉ đăng nhập trên thiết bị đáng tin cậy.</p>
   </div>
 </div>
 

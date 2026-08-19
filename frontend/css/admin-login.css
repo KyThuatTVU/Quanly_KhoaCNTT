@@ -1,73 +1,293 @@
-/* ===========================
-   Admin Login Page Styles
-   =========================== */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
+/* ==========================================================================
+   ADMIN LOGIN PAGE PREMIUM REDESIGN CSS
+   Style Theme: iOS/Apple-inspired Premium Minimal
+   Branding: High depth, clean inputs, zero AI template fluff
+   ========================================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body.login-body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f2d59 0%, #1b4d89 60%, #0077b6 100%);
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Segoe UI', system-ui, sans-serif; padding: 24px;
+  background: radial-gradient(circle at top, #0f2d59 0%, #071730 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 24px;
 }
+
 .login-card {
-  background: #fff; border-radius: 24px;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.3);
-  padding: 52px 44px; width: 100%; max-width: 460px;
-  position: relative; overflow: hidden;
+  background: #ffffff;
+  border-radius: 28px;
+  box-shadow: 0 20px 45px rgba(7, 23, 48, 0.12);
+  padding: 48px 44px;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.05);
 }
-.login-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
-  background: linear-gradient(90deg, #f37021, #0077b6, #0f6fff);
+
+.logo-block {
+  text-align: center;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.logo-block { text-align: center; margin-bottom: 36px; }
-.logo-img { height: 72px; margin-bottom: 14px; }
-.logo-school { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
-.logo-faculty { font-size: 16px; font-weight: 900; color: #0f2d59; text-transform: uppercase; letter-spacing: 0.3px; }
-.heading { font-size: 24px; font-weight: 900; color: #0f2d59; text-align: center; margin-bottom: 8px; }
-.sub-desc { font-size: 14px; color: #64748b; text-align: center; margin-bottom: 36px; line-height: 1.6; }
+
+.logo-img {
+  height: 60px;
+  width: auto;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.logo-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.3;
+}
+
+.logo-title strong {
+  font-size: 13px;
+  font-weight: 800;
+  color: #0f2d59;
+  letter-spacing: 0.5px;
+}
+
+.logo-title span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  letter-spacing: 0.3px;
+}
+
+.portal-heading {
+  font-size: 25px;
+  font-weight: 800;
+  color: #0f2d59;
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.portal-desc {
+  font-size: 14px;
+  color: #475569;
+  text-align: center;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
 .error-box {
-  background: #fef2f2; border: 1.5px solid #fecaca; color: #dc2626;
-  border-radius: 10px; padding: 12px 14px; font-size: 13.5px;
-  margin-bottom: 20px; display: none; line-height: 1.5;
+  background: #fef2f2;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #b91c1c;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  margin-bottom: 20px;
+  display: none;
+  line-height: 1.5;
 }
+
+/* Premium iOS Google Login Button */
 .btn-google {
-  width: 100%; padding: 15px 20px;
-  background: #fff; border: 2px solid #e2e8f0; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  font-size: 15px; font-weight: 700; color: #1e293b;
-  cursor: pointer; text-decoration: none;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.06), inset 0 -2px 0 rgba(0,0,0,0.05);
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative; overflow: hidden;
+  width: 100%;
+  height: 52px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 #ffffff;
 }
+
 .btn-google:hover {
-  border-color: #0f6fff; box-shadow: 0 8px 24px rgba(15,111,255,0.15), inset 0 -2px 0 rgba(0,0,0,0.05);
-  transform: translateY(-2px);
+  border-color: #0284c7;
+  transform: translateY(-1.5px);
+  box-shadow:
+    0 6px 14px rgba(2, 132, 199, 0.1),
+    inset 0 1px 0 #ffffff;
+  color: #0284c7;
 }
-.btn-google:active { transform: translateY(0); }
-.btn-google.loading { pointer-events: none; opacity: 0.8; }
-.google-icon { flex-shrink: 0; }
-.btn-text { flex: 1; text-align: center; }
-.loading-dots { display: none; }
-.btn-google.loading .btn-text { display: none; }
-.btn-google.loading .loading-dots { display: inline; }
-.notice {
-  text-align: center; margin-top: 24px;
-  font-size: 12.5px; color: #94a3b8; line-height: 1.6;
+
+.btn-google:active {
+  transform: translateY(0.5px);
+  box-shadow: none;
 }
-.notice strong { color: #64748b; }
-.divider { height: 1px; background: #e2e8f0; margin: 28px 0; }
-.lecturer-link { text-align: center; font-size: 13px; color: #64748b; }
-.lecturer-link a { color: #0f6fff; text-decoration: none; font-weight: 600; }
-.lecturer-link a:hover { text-decoration: underline; }
+
+.btn-google.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.google-icon {
+  flex-shrink: 0;
+}
+
+.btn-text {
+  flex: none;
+}
+
+.loading-dots {
+  display: none;
+}
+
+.btn-google.loading .btn-text {
+  display: none;
+}
+
+.btn-google.loading .loading-dots {
+  display: inline;
+}
+
 .badge-secure {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: #f0fdf4; border: 1px solid #bbf7d0;
-  color: #16a34a; font-size: 11.5px; font-weight: 600;
-  padding: 4px 10px; border-radius: 20px; margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ecfdf5;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  color: #065f46;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 100px;
 }
-.admin-info-block {
-  margin-top: 28px; background: #f8fafc; border-radius: 12px;
-  padding: 16px; border: 1px solid #e2e8f0;
+
+.notice-desc {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.6;
 }
-.admin-info-block h4 { font-size: 12.5px; font-weight: 700; color: #334155; margin-bottom: 8px; }
-.admin-info-block p { font-size: 12px; color: #64748b; line-height: 1.6; }
+
+.divider {
+  text-align: center;
+  color: #64748b;
+  font-size: 12px;
+  margin: 24px 0;
+  position: relative;
+  width: 100%;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 30px);
+  height: 1px;
+  background: #e2e8f0;
+}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+.lecturer-link-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.lecturer-link-label {
+  font-size: 13px;
+  color: #475569;
+}
+
+.btn-lecturer-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  background: rgba(255, 255, 255, 0.8);
+  color: #0f172a;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  transition: all 0.2s;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.02),
+    inset 0 1px 0 #ffffff;
+}
+
+.btn-lecturer-login:hover {
+  background: #ffffff;
+  border-color: #0284c7;
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 #ffffff;
+  color: #0284c7;
+}
+
+.btn-lecturer-login:active {
+  transform: translateY(1px);
+}
+
+.login-info-card {
+  background: #eff6ff;
+  border: 1px solid rgba(2, 132, 199, 0.12);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: left;
+}
+
+.info-card-title {
+  font-size: 13.5px;
+  color: #1d4ed8;
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.login-info-card p {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+@media (max-width: 576px) {
+  body.login-body {
+    padding: 16px;
+  }
+  .login-card {
+    padding: 40px 24px;
+    border-radius: 24px;
+  }
+  .portal-heading {
+    font-size: 22px;
+  }
+  .btn-google {
+    height: 48px;
+    font-size: 14px;
+  }
+  .btn-lecturer-login {
+    width: 100%;
+  }
+}
