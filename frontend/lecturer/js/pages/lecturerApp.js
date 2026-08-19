@@ -33,6 +33,11 @@ class LecturerApp {
     document.getElementById('sidebarName').textContent = this.user.hoTen;
     const avatarUrl = getAvatarUrl(this.user.anhUrl);
     document.getElementById('sidebarAvatar').innerHTML = `<img src="${avatarUrl}" alt="Avatar" onerror="this.parentNode.textContent='${this.user.hoTen[0]}'">`;
+    
+    const mobileHeaderAvatar = document.getElementById('mobileHeaderAvatar');
+    if (mobileHeaderAvatar) {
+      mobileHeaderAvatar.innerHTML = `<img src="${avatarUrl}" alt="Avatar" onerror="this.parentNode.textContent='${this.user.hoTen[0]}'">`;
+    }
 
     // 3. Bind sidebar events & Mobile toggle
     const sidebar = document.getElementById('lecturerSidebar');
@@ -251,6 +256,10 @@ class LecturerApp {
       const sidebarAvatar = document.getElementById('sidebarAvatar');
       if (sidebarAvatar) {
         sidebarAvatar.innerHTML = `<img src="${avatarUrl}" alt="Avatar" onerror="this.parentNode.textContent='${data.ho_ten[0]}'">`;
+      }
+      const mobileHeaderAvatar = document.getElementById('mobileHeaderAvatar');
+      if (mobileHeaderAvatar) {
+        mobileHeaderAvatar.innerHTML = `<img src="${avatarUrl}" alt="Avatar" onerror="this.parentNode.textContent='${data.ho_ten[0]}'">`;
       }
     } catch {
       this.showPanelAlert('Không thể kết nối lấy dữ liệu hồ sơ.');

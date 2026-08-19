@@ -906,9 +906,17 @@ textarea.form-input {
 }
 
 @media (max-width: 992px) {
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   .main-content {
     margin-left: 0;
-    padding: 32px 24px;
+    padding: 24px 20px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   /* Show Mobile Top Bar */
@@ -916,13 +924,21 @@ textarea.form-input {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 64px;
+    height: 60px;
     background: var(--primary);
-    padding: 0 20px;
+    padding: 0 16px;
     position: sticky;
     top: 0;
     z-index: 99;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .mobile-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
   
   .menu-toggle {
@@ -932,36 +948,63 @@ textarea.form-input {
     cursor: pointer;
     display: flex;
     align-items: center;
+    padding: 4px;
   }
   
   .mobile-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     color: #ffffff;
-    font-weight: 800;
+    font-weight: 700;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 0.5px;
   }
   
   .mobile-brand img {
     height: 32px;
     width: 32px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+  }
+  
+  .mobile-avatar-container {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: #ffffff;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  
+  .mobile-avatar-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   
   /* Sidebar Drawer on Mobile */
   .sidebar {
-    left: -280px; /* Hide offscreen */
+    position: fixed;
     top: 0;
+    left: -280px; /* Hide offscreen */
     height: 100vh;
-    box-shadow: none;
     width: 280px;
+    z-index: 1000;
+    box-shadow: none;
+    transition: transform 0.3s ease, left 0.3s ease;
   }
   
   .sidebar.open {
-    left: 0;
+    transform: translateX(280px);
     box-shadow: var(--shadow-xl);
   }
   
@@ -976,7 +1019,7 @@ textarea.form-input {
     background: rgba(15, 23, 42, 0.4);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    z-index: 98;
+    z-index: 999;
     transition: var(--transition);
   }
   
@@ -991,25 +1034,109 @@ textarea.form-input {
 
 @media (max-width: 768px) {
   .main-content {
-    padding: 24px 16px;
+    padding: 20px 16px;
   }
   
   .form-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
   
   .form-group.full-width {
     grid-column: span 1;
   }
   
+  /* Redesign Welcome Card on Mobile */
   .welcome-card {
     flex-direction: column;
     align-items: flex-start;
+    padding: 24px;
+    gap: 16px;
+  }
+  .welcome-text h2 {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+  .welcome-card div[style*="font-size"] {
+    display: none !important; /* Hide large emoji to save space */
+  }
+  
+  /* Redesign Change Password Alert Card */
+  .change-pw-banner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+    gap: 14px;
+    text-align: left;
+  }
+  .change-pw-banner p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .change-pw-banner a {
+    width: 100%;
+    text-align: center;
+    padding: 12px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  /* Force Dashboard Cards into 1 Column */
+  .quick-cards {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+  .quick-card {
+    padding: 20px;
+  }
+  
+  /* Table Scrolling */
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+  }
+  .data-table {
+    min-width: 600px;
+  }
+  .data-table th, .data-table td {
+    padding: 14px 16px;
+  }
+  
+  /* Make Forms and Buttons Full Width */
+  .btn-save, .btn-primary, .btn-secondary, .btn-add-new, .btn-login {
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 44px;
+    box-sizing: border-box;
+  }
+  
+  /* Stack Form Modal Buttons */
+  .modal-footer {
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 20px;
+  }
+  .modal-footer button {
+    width: 100% !important;
+    margin: 0;
+  }
+  .modal-header {
+    padding: 16px 20px;
+  }
+  .modal-card form {
+    padding: 20px 20px;
     gap: 16px;
   }
   
-  .data-table th, .data-table td {
-    padding: 14px 16px;
+  /* Word-wrap settings for standard text labels */
+  h1, h2, h3, h4, h5, h6, p, span, a, label, li {
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    word-wrap: break-word !important;
   }
 }
 
