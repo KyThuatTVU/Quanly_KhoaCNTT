@@ -104,12 +104,17 @@ class LecturerApp {
   }
 
   // ── PANEL: DASHBOARD ────────────────────────────────────────────────────────
-  renderDashboardPanel(container) {
+  async renderDashboardPanel(container) {
     const isPwWarning = this.user.phaDoiMk ? `
-      <div class="change-pw-banner" id="changePwBanner" style="display: flex;">
-        <span>⚠️</span>
-        <p><strong>Bắt buộc đổi mật khẩu:</strong> Bạn đang dùng mật khẩu mặc định. Vui lòng đổi mật khẩu ngay.</p>
-        <a href="#" onclick="document.querySelector('[data-nav=change-password]').click()">Đổi ngay</a>
+      <div class="change-pw-banner" id="changePwBanner">
+        <div class="change-pw-banner-text">
+          <span class="warning-icon">⚠️</span>
+          <div>
+            <strong>Bắt buộc đổi mật khẩu</strong>
+            <p>Bạn đang sử dụng mật khẩu mặc định. Vui lòng đổi mật khẩu để bảo mật tài khoản.</p>
+          </div>
+        </div>
+        <button class="btn-change-pw-action" onclick="document.querySelector('[data-nav=change-password]').click()">Đổi mật khẩu</button>
       </div>
     ` : '';
 
@@ -118,24 +123,68 @@ class LecturerApp {
       <div class="welcome-card">
         <div class="welcome-text">
           <h2>Xin chào, ${this.user.hoTen}!</h2>
-          <p>Hệ thống quản lý hồ sơ giảng viên — Khoa Công nghệ Thông tin, TVU</p>
+          <p>Chào mừng bạn quay trở lại Cổng thông tin giảng viên Khoa CNTT TVU.</p>
         </div>
-        <div style="font-size: 48px;">👨‍🏫</div>
       </div>
 
+      <div class="stats-section-title">📊 Thống kê hoạt động khoa học</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="statResearchCount"><div class="skeleton-pulse-text" style="width:40px;height:28px;border-radius:4px;"></div></div>
+          <div class="stat-label">Đề tài NCKH</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statPapersCount"><div class="skeleton-pulse-text" style="width:40px;height:28px;border-radius:4px;"></div></div>
+          <div class="stat-label">Bài báo khoa học</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statProjectsCount"><div class="skeleton-pulse-text" style="width:40px;height:28px;border-radius:4px;"></div></div>
+          <div class="stat-label">Dự án & Chuyển giao</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statSupervisionsCount"><div class="skeleton-pulse-text" style="width:40px;height:28px;border-radius:4px;"></div></div>
+          <div class="stat-label">Hướng dẫn NCKH</div>
+        </div>
+      </div>
+
+      <div class="stats-section-title" style="margin-top:40px;">⚡ Thao tác nhanh</div>
       <div class="quick-cards">
-        <a href="#" class="quick-card" onclick="document.querySelector('[data-nav=profile]').click()">
-          <div class="quick-icon" style="background:#eff6ff;">📝</div>
+        <div class="quick-card" onclick="document.querySelector('[data-nav=profile]').click()">
+          <div class="quick-icon" style="background:#eff6ff; color:#0284c7;">👤</div>
           <div class="quick-label">Hồ sơ cá nhân</div>
           <div class="quick-desc">Cập nhật thông tin học vị, chuyên môn, lĩnh vực nghiên cứu</div>
-        </a>
-        <a href="#" class="quick-card" onclick="document.querySelector('[data-nav=staffResearch]').click()">
-          <div class="quick-icon" style="background:#faf5ff;">🔬</div>
+          <div class="quick-action-link">Xem hồ sơ →</div>
+        </div>
+        <div class="quick-card" onclick="document.querySelector('[data-nav=staffResearch]').click()">
+          <div class="quick-icon" style="background:#ecfdf5; color:#10b981;">🔬</div>
           <div class="quick-label">Nghiên cứu Khoa học</div>
           <div class="quick-desc">Tự khai báo đề tài NCKH, bài báo khoa học, sách & giáo trình cá nhân</div>
-        </a>
+          <div class="quick-action-link">Khai báo ngay →</div>
+        </div>
       </div>
     `;
+
+    // Fetch counts in background
+    try {
+      const [research, papers, projects, supervisions] = await Promise.all([
+        LecturerApiService.getList('staffResearch').catch(() => []),
+        LecturerApiService.getList('staffPapers').catch(() => []),
+        LecturerApiService.getList('staffProjects').catch(() => []),
+        LecturerApiService.getList('staffSupervisions').catch(() => [])
+      ]);
+
+      const updateCount = (id, count) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = count;
+      };
+
+      updateCount('statResearchCount', research.length);
+      updateCount('statPapersCount', papers.length);
+      updateCount('statProjectsCount', projects.length);
+      updateCount('statSupervisionsCount', supervisions.length);
+    } catch (err) {
+      console.error('Error loading dashboard stats:', err);
+    }
   }
 
   // ── PANEL: PROFILE ──────────────────────────────────────────────────────────
