@@ -911,6 +911,10 @@ textarea.form-input {
     overflow-x: hidden;
   }
 
+  .dashboard-body {
+    flex-direction: column;
+  }
+
   .main-content {
     margin-left: 0;
     padding: 24px 20px;
