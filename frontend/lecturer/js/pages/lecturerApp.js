@@ -27,7 +27,20 @@ class LecturerApp {
     const avatarUrl = this.user.anhUrl ? `${API_BASE}/${this.user.anhUrl}` : '../assets/images/default-avatar.webp';
     document.getElementById('sidebarAvatar').innerHTML = `<img src="${avatarUrl}" alt="Avatar" onerror="this.parentNode.textContent='${this.user.hoTen[0]}'">`;
 
-    // 3. Bind sidebar events
+    // 3. Bind sidebar events & Mobile toggle
+    const sidebar = document.getElementById('lecturerSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    const menuToggle = document.getElementById('btnMenuToggle');
+
+    if (menuToggle && sidebar && backdrop) {
+      const toggleMenu = () => {
+        sidebar.classList.toggle('open');
+        backdrop.classList.toggle('hidden');
+      };
+      menuToggle.addEventListener('click', toggleMenu);
+      backdrop.addEventListener('click', toggleMenu);
+    }
+
     const navItems = document.querySelectorAll('.sidebar-nav .nav-item');
     navItems.forEach(item => {
       item.addEventListener('click', (e) => {
@@ -35,6 +48,13 @@ class LecturerApp {
         navItems.forEach(n => n.classList.remove('active'));
         item.classList.add('active');
         const nav = item.getAttribute('data-nav');
+        
+        // Hide sidebar on mobile after navigating
+        if (sidebar && !backdrop.classList.contains('hidden')) {
+          sidebar.classList.remove('open');
+          backdrop.classList.add('hidden');
+        }
+        
         this.navigate(nav);
       });
     });
