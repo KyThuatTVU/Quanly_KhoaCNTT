@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ==========================================================================
  * MAIN ADMIN PORTAL APPLICATION CONTROLLER
  * ==========================================================================
@@ -361,6 +361,7 @@ class AdminApp {
         try {
           const response = await fetch('http://localhost:5000/api/v1/admin/upload', {
             method: 'POST',
+            credentials: 'include',
             body: uploadFormData
           });
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
