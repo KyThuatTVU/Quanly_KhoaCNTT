@@ -27,17 +27,20 @@ router.delete('/my/:entity/:id', LecturerController.deleteMyEntityItem);
 // POST /api/lecturer/upload   → Upload ảnh đại diện bản thân
 router.post('/upload', uploadSingle, async (req, res) => {
   try {
-    if (!req.uploadedUrl) {
-      return res.status(400).json({ success: false, message: 'Upload thất bại.' });
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Vui lòng chọn một file ảnh để tải lên!' });
     }
+    const { default: path } = await import('path');
+    const uploadedUrl = `assets/images/uploads/${path.basename(req.file.filename)}`;
+
     // Cập nhật ảnh đại diện trong DB
     const nhanVienId = req.lecturerUser.nhanVienId;
     const { default: pool } = await import('../../../database/index.js');
     await pool.query(
       'UPDATE nhan_vien SET anh_ca_nhan_url = ?, ngay_cap_nhat = NOW() WHERE id = ?',
-      [req.uploadedUrl, nhanVienId]
+      [uploadedUrl, nhanVienId]
     );
-    res.json({ success: true, url: req.uploadedUrl, message: 'Cập nhật ảnh đại diện thành công.' });
+    res.json({ success: true, url: uploadedUrl, message: 'Cập nhật ảnh đại diện thành công.' });
   } catch (err) {
     console.error('[Lecturer] upload error:', err);
     res.status(500).json({ success: false, message: 'Lỗi khi upload ảnh.' });

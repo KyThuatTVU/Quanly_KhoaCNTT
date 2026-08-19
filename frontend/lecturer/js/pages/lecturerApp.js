@@ -225,7 +225,6 @@ class LecturerApp {
 
     // Bind avatar uploader
     const fileInput = document.getElementById('avatarFileInput');
-    document.querySelector('.avatar-btn-label').addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', (e) => this.handleAvatarUpload(e));
   }
 
