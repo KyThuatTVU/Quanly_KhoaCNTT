@@ -12,7 +12,7 @@ function getAvatarUrl(path) {
   if (!path || path === 'assets/images/default-avatar.webp') {
     return 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y';
   }
-  return `${API_BASE}/${path}`;
+  return `../${path}`;
 }
 
 class LecturerApp {
@@ -248,6 +248,10 @@ class LecturerApp {
 
       const avatarUrl = getAvatarUrl(data.anh_ca_nhan_url);
       document.getElementById('avatarPreview').src = avatarUrl;
+      const sidebarAvatar = document.getElementById('sidebarAvatar');
+      if (sidebarAvatar) {
+        sidebarAvatar.innerHTML = `<img src="${avatarUrl}" alt="Avatar" onerror="this.parentNode.textContent='${data.ho_ten[0]}'">`;
+      }
     } catch {
       this.showPanelAlert('Không thể kết nối lấy dữ liệu hồ sơ.');
     }
