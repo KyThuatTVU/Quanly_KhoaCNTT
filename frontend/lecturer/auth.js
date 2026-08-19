@@ -63,6 +63,14 @@ export async function requireAuth() {
       window.location.href = 'login.html';
       return null;
     }
+    
+    // Nếu bắt buộc đổi mật khẩu và chưa ở trang change-password.html -> chuyển hướng
+    const isChangePwPage = window.location.pathname.endsWith('change-password.html');
+    if (data.user?.phaDoiMk && !isChangePwPage) {
+      window.location.href = 'change-password.html';
+      return null;
+    }
+
     return data.user;
   } catch {
     clearToken();
