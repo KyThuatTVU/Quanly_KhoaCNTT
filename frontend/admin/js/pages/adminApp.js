@@ -359,7 +359,7 @@ class AdminApp {
         }
 
         try {
-          const response = await fetch('http://localhost:5000/api/v1/admin/upload', {
+          const response = await fetch('${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/admin/upload', {
             method: 'POST',
             credentials: 'include',
             body: uploadFormData

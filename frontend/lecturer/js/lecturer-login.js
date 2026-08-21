@@ -1,6 +1,6 @@
 import { saveToken, authFetch, getRedirectUrl } from '../auth.js';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}`;
 
 // Toggle hiện/ẩn mật khẩu
 document.getElementById('togglePassword').addEventListener('click', () => {

@@ -8,7 +8,7 @@
 
 const STORAGE_KEY = 'tvu_admin_session';
 // QUAN TRỌNG: Phải dùng localhost (không phải 127.0.0.1) để cookie session hoạt động
-const API_BASE = 'http://localhost:5000';
+const API_BASE = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}`;
 
 export const AdminAuthService = {
   getCurrentUser() {

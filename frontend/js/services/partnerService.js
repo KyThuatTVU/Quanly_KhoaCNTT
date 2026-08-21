@@ -7,7 +7,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_PARTNERS_URL = 'http://localhost:5000/api/v1/public/partners';
+const API_PARTNERS_URL = '${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/partners';
 
 export const PartnerService = {
   /**

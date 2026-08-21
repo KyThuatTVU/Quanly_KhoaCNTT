@@ -5,7 +5,7 @@
  * Client-side service connecting to the backend Express RESTful API server.
  */
 
-const BASE_URL = 'http://localhost:5000/api/v1/admin';
+const BASE_URL = '${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/admin';
 
 export const AdminApiService = {
   /**

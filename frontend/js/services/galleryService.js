@@ -8,7 +8,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_URL = 'http://localhost:5000/api/v1/public/homepageGallery';
+const API_URL = '${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/homepageGallery';
 
 export const GalleryService = {
   /**

@@ -6,7 +6,7 @@ import { requireAuth, authFetch, lecturerLogout } from '../../auth.js';
 import { LecturerApiService } from '../services/lecturerApiService.js';
 import { LECTURER_ENTITY_CONFIG, generateFormHtml } from './lecturerEntities.js';
 
-const API_BASE = 'http://localhost:5000';
+const API_BASE = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}`;
 
 function getAvatarUrl(path) {
   if (!path || path === 'assets/images/default-avatar.webp') {

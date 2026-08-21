@@ -13,7 +13,7 @@ export const StaffService = {
    */
   async getStaffList() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/public/staff');
+      const response = await fetch('${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/staff');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -31,7 +31,7 @@ export const StaffService = {
    */
   async getStaffGroups() {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/public/staffGroups');
+      const response = await fetch('${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/staffGroups');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -49,7 +49,7 @@ export const StaffService = {
    */
   async getStaffProfile(staffId) {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/public/staffProfiles`);
+      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/staffProfiles`);
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -68,7 +68,7 @@ export const StaffService = {
    */
   async getStaffResearchProjects(staffId) {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/public/staffResearch`);
+      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/staffResearch`);
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -86,7 +86,7 @@ export const StaffService = {
    */
   async getStaffProjects(staffId) {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/public/staffProjects`);
+      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/staffProjects`);
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -104,7 +104,7 @@ export const StaffService = {
    */
   async getStaffPublications(staffId) {
     try {
-      const response = await fetch(`http://localhost:5000/api/v1/public/staffPapers`);
+      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/staffPapers`);
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -122,7 +122,7 @@ export const StaffService = {
    */
   async getStaffBooks(staffId) {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/public/staffBooks');
+      const response = await fetch('${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/staffBooks');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {
@@ -140,7 +140,7 @@ export const StaffService = {
    */
   async getStaffSupervisions(staffId) {
     try {
-      const response = await fetch('http://localhost:5000/api/v1/public/staffSupervisions');
+      const response = await fetch('${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/staffSupervisions');
       if (response.ok) {
         const result = await response.json();
         if (result.success && Array.isArray(result.data)) {

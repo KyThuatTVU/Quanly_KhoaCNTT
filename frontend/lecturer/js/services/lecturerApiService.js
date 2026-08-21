@@ -3,7 +3,7 @@
  * Client-side service connecting to the lecturer scoped endpoints.
  */
 
-const BASE_URL = 'http://localhost:5000/api/lecturer';
+const BASE_URL = '${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/lecturer';
 
 import { getToken, getRedirectUrl } from '../../auth.js';
 

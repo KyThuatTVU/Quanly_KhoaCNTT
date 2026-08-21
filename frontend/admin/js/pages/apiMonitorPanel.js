@@ -17,7 +17,7 @@ export async function renderApiMonitorPanel(container, app) {
 
     const start = Date.now();
     try {
-      const res = await fetch('http://localhost:5000/');
+      const res = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/`);
       pingMs = Date.now() - start;
       if (res.ok) {
         const data = await res.json();
