@@ -24,6 +24,9 @@ import logger              from './logs/winston.js';
 
 const app = express();
 
+// Tin tưởng proxy (Nginx) để lấy đúng IP và Hostname của client
+app.set('trust proxy', true);
+
 // ── CORS ──────────────────────────────────────────────────────────────────────
 app.use(cors({
   origin: config.app.corsOrigin === '*'

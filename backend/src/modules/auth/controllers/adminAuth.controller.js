@@ -12,10 +12,18 @@ export const AdminAuthController = {
    * GET /auth/google
    * Bắt đầu flow Google OAuth
    */
-  initiateGoogleAuth: passport.authenticate('google', {
-    scope: ['profile', 'email'],
-    prompt: 'select_account'
-  }),
+  initiateGoogleAuth(req, res, next) {
+    const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
+    const callbackURL = isLocal 
+      ? 'http://localhost:5000/auth/google/callback'
+      : `http://${req.get('host')}/auth/google/callback`;
+
+    passport.authenticate('google', {
+      scope: ['profile', 'email'],
+      prompt: 'select_account',
+      callbackURL: callbackURL
+    })(req, res, next);
+  },
 
   /**
    * GET /auth/google/callback
@@ -37,12 +45,15 @@ export const AdminAuthController = {
       };
 
       req.session.save((err) => {
+        const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
+        const adminLoginUrl = isLocal ? config.frontend.adminLogin : `http://${req.get('host')}/admin-login`;
+        const dashboardUrl = isLocal ? config.frontend.adminDashboard : `http://${req.get('host')}/admin`;
+
         if (err) {
           console.error('[AdminAuth] Lỗi lưu session:', err);
-          return res.redirect(`${config.frontend.adminLogin}?error=session_error`);
+          return res.redirect(`${adminLoginUrl}?error=session_error`);
         }
         // Dùng HTML redirect thay vì HTTP 302 để đảm bảo cookie được ghi trước khi browser chuyển trang
-        const dashboardUrl = config.frontend.adminDashboard;
         res.send(`<!DOCTYPE html>
 <html>
 <head>
@@ -59,7 +70,9 @@ export const AdminAuthController = {
       });
     } catch (err) {
       console.error('[AdminAuth] Lỗi callback:', err);
-      res.redirect(`${config.frontend.adminLogin}?error=auth_failed`);
+      const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
+      const adminLoginUrl = isLocal ? config.frontend.adminLogin : `http://${req.get('host')}/admin-login`;
+      res.redirect(`${adminLoginUrl}?error=auth_failed`);
     }
   },
 
@@ -99,6 +112,8 @@ export const AdminAuthController = {
    */
   handleAuthError(req, res) {
     const message = req.query.message || 'Tài khoản Google này không có quyền truy cập hệ thống quản trị.';
-    res.redirect(`${config.frontend.adminLogin}?error=${encodeURIComponent(message)}`);
+    const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
+    const adminLoginUrl = isLocal ? config.frontend.adminLogin : `http://${req.get('host')}/admin-login`;
+    res.redirect(`${adminLoginUrl}?error=${encodeURIComponent(message)}`);
   }
 };
