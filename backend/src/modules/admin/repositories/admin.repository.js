@@ -77,6 +77,15 @@ export const AdminRepository = {
    */
   async getList(tableName) {
     const orderClause = getSortOrder(tableName);
+    if (tableName === 'tin_tuc') {
+      const [rows] = await pool.query(`
+        SELECT t.*, img.src_chinh AS anh_chinh 
+        FROM tin_tuc t
+        LEFT JOIN hinh_anh_tin_tuc img ON t.id = img.tin_tuc_id
+        ORDER BY ${orderClause}
+      `);
+      return rows;
+    }
     const [rows] = await pool.query(`SELECT * FROM ?? ORDER BY ${orderClause}`, [tableName]);
     return rows;
   },
@@ -88,6 +97,19 @@ export const AdminRepository = {
    * @returns {Promise<Object>}
    */
   async getById(tableName, id) {
+    if (tableName === 'tin_tuc') {
+      const [rows] = await pool.query(`
+        SELECT t.*, img.src_chinh AS anh_chinh 
+        FROM tin_tuc t
+        LEFT JOIN hinh_anh_tin_tuc img ON t.id = img.tin_tuc_id
+        WHERE t.id = ?
+        LIMIT 1
+      `, [id]);
+      if (!rows.length) {
+        throw new NotFoundError(`Bản ghi ID ${id} trong bảng '${tableName}'`);
+      }
+      return rows[0];
+    }
     const [rows] = await pool.query('SELECT * FROM ?? WHERE id = ? LIMIT 1', [tableName, id]);
     if (!rows.length) {
       throw new NotFoundError(`Bản ghi ID ${id} trong bảng '${tableName}'`);
@@ -123,6 +145,19 @@ export const AdminRepository = {
    * @returns {Promise<Object>} inserted row with id
    */
   async createItem(tableName, data) {
+    if (tableName === 'tin_tuc') {
+      const anh_chinh = data.anh_chinh;
+      const dbPayload = { ...data };
+      delete dbPayload.anh_chinh;
+
+      const [result] = await pool.query('INSERT INTO tin_tuc SET ?', [dbPayload]);
+      const tin_tuc_id = result.insertId;
+
+      if (anh_chinh) {
+        await pool.query('INSERT INTO hinh_anh_tin_tuc (tin_tuc_id, src_chinh) VALUES (?, ?)', [tin_tuc_id, anh_chinh]);
+      }
+      return { id: tin_tuc_id, ...data };
+    }
     const [result] = await pool.query('INSERT INTO ?? SET ?', [tableName, data]);
     return { id: result.insertId, ...data };
   },
@@ -135,6 +170,23 @@ export const AdminRepository = {
    * @returns {Promise<Object>} updated row
    */
   async updateItem(tableName, id, data) {
+    if (tableName === 'tin_tuc') {
+      const anh_chinh = data.anh_chinh;
+      const dbPayload = { ...data };
+      delete dbPayload.anh_chinh;
+
+      await pool.query('UPDATE tin_tuc SET ? WHERE id = ?', [dbPayload, id]);
+
+      if (anh_chinh !== undefined) {
+        const [existing] = await pool.query('SELECT id FROM hinh_anh_tin_tuc WHERE tin_tuc_id = ? LIMIT 1', [id]);
+        if (existing.length) {
+          await pool.query('UPDATE hinh_anh_tin_tuc SET src_chinh = ? WHERE tin_tuc_id = ?', [anh_chinh, id]);
+        } else {
+          await pool.query('INSERT INTO hinh_anh_tin_tuc (tin_tuc_id, src_chinh) VALUES (?, ?)', [id, anh_chinh]);
+        }
+      }
+      return { id, ...data };
+    }
     const [result] = await pool.query('UPDATE ?? SET ? WHERE id = ?', [tableName, data, id]);
     if (result.affectedRows === 0) {
       throw new NotFoundError(`Bản ghi ID ${id} trong bảng '${tableName}'`);

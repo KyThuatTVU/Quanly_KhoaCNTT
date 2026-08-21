@@ -44,6 +44,14 @@ export function authFetch(url, options = {}) {
   });
 }
 
+// ── Redirect helper for clean URLs vs local .html files ──────────────────
+export function getRedirectUrl(page) {
+  if (window.location.port === '5500') {
+    return page === 'login' ? '/lecturer/login.html' : '/lecturer/dashboard.html';
+  }
+  return page === 'login' ? '/lecturer-login' : '/lecturer';
+}
+
 // ── Auth guard ────────────────────────────────────────────────────────────────
 /**
  * Gọi ở đầu mỗi trang protected. Nếu 401 → redirect về login.
@@ -54,13 +62,13 @@ export async function requireAuth() {
     const res = await authFetch(`${API_BASE}/api/auth/lecturer/me`);
     if (!res.ok) {
       clearToken();
-      window.location.href = 'login.html';
+      window.location.href = getRedirectUrl('login');
       return null;
     }
     const data = await res.json();
     if (!data.success) {
       clearToken();
-      window.location.href = 'login.html';
+      window.location.href = getRedirectUrl('login');
       return null;
     }
 
@@ -68,7 +76,7 @@ export async function requireAuth() {
     return data.user;
   } catch {
     clearToken();
-    window.location.href = 'login.html';
+    window.location.href = getRedirectUrl('login');
     return null;
   }
 }
@@ -79,5 +87,5 @@ export async function lecturerLogout() {
     await authFetch(`${API_BASE}/api/auth/lecturer/logout`, { method: 'POST' });
   } catch {}
   clearToken();
-  window.location.href = 'login.html';
+  window.location.href = getRedirectUrl('login');
 }

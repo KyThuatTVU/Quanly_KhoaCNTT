@@ -80,22 +80,24 @@ class PostgraduatePageComponent extends HTMLElement {
                 <tr>
                   <th style="width: 60px; text-align: center;">STT</th>
                   <th style="width: 260px;">Nghiên cứu sinh</th>
-                  <th style="width: 100px;">Mã</th>
                   <th>Hướng nghiên cứu</th>
                   <th style="width: 180px;">Người hướng dẫn</th>
                   <th style="width: 110px; text-align: center;">Trạng thái</th>
                 </tr>
               </thead>
               <tbody>
-                ${this.phdStudents.filter(student => student.an_hien !== 0).map(student => `
-                  <tr>
-                    <td class="stt-col">${student.stt}</td>
-                    <td class="student-profile-col">
-                      <div class="student-avatar-box">
-                        <img src="${student.avatar_url}" alt="${student.ho_ten}" class="student-avatar-img" />
-                      </div>
-                      <div class="student-info">
-                        <h4 class="student-name">${student.ho_ten}</h4>
+                ${this.phdStudents.filter(student => student.an_hien !== 0).map((student, index) => {
+                  const seq = String(index + 1).padStart(2, '0');
+                  const firstLetter = student.ho_ten ? student.ho_ten.trim().charAt(0) : '?';
+                  return `
+                    <tr>
+                      <td class="stt-col">${seq}</td>
+                      <td class="student-profile-col">
+                        <div class="student-avatar-box">
+                          <img src="${student.avatar_url}" alt="${student.ho_ten}" class="student-avatar-img" onerror="this.style.display='none'; this.parentNode.appendChild(document.createTextNode('${firstLetter}'));" />
+                        </div>
+                        <div class="student-info">
+                          <h4 class="student-name">${student.ho_ten}</h4>
                         <p class="student-role">${student.chuc_vu_co_quan}</p>
                         ${student.an_hien_email !== 0 ? `
                           <a href="mailto:${student.email}" class="student-email">
@@ -110,14 +112,18 @@ class PostgraduatePageComponent extends HTMLElement {
                         ` : ''}
                       </div>
                     </td>
-                    <td class="code-col"><strong>${student.an_hien_ma_ncs !== 0 ? student.ma_ncs : '*******'}</strong></td>
-                    <td class="topic-col">${student.huong_nghien_cuu}</td>
-                    <td class="advisor-col">${student.nguoi_huong_dan.split(',').map(adv => `<div>${adv.trim()}</div>`).join('')}</td>
+                    <td class="topic-col">${student.huong_nghien_cuu && student.huong_nghien_cuu.trim() ? student.huong_nghien_cuu : '<span style="color: #94a3b8; font-style: italic;">Không có</span>'}</td>
+                    <td class="advisor-col">
+                      ${student.nguoi_huong_dan && student.nguoi_huong_dan.trim() && student.nguoi_huong_dan.trim() !== 'Ban Giám Khoa' ? 
+                        student.nguoi_huong_dan.split(',').map(adv => `<div>${adv.trim()}</div>`).join('') : 
+                        '<span style="color: #94a3b8; font-style: italic;">Không có</span>'
+                      }
+                    </td>
                     <td class="status-col">
                       <span class="status-badge-green">${student.trang_thai}</span>
                     </td>
                   </tr>
-                `).join('')}
+                `; }).join('')}
               </tbody>
             </table>
           </div>

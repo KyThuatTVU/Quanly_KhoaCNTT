@@ -5,7 +5,7 @@
 
 const BASE_URL = 'http://localhost:5000/api/lecturer';
 
-import { getToken } from '../../auth.js';
+import { getToken, getRedirectUrl } from '../../auth.js';
 
 async function authFetch(url, options = {}) {
   const token = getToken();
@@ -20,13 +20,17 @@ async function authFetch(url, options = {}) {
   });
 }
 
+function redirectToLogin() {
+  window.location.href = getRedirectUrl('login');
+}
+
 export const LecturerApiService = {
   async getList(entityKey) {
     try {
       const response = await authFetch(`${BASE_URL}/my/${entityKey}`);
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.href = 'login.html';
+          redirectToLogin();
           return;
         }
         throw new Error(`HTTP Error! Status: ${response.status}`);
@@ -50,7 +54,7 @@ export const LecturerApiService = {
       const result = await response.json();
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.href = 'login.html';
+          redirectToLogin();
           return;
         }
         throw new Error(result.message || `HTTP Error! Status: ${response.status}`);
@@ -73,7 +77,7 @@ export const LecturerApiService = {
       const result = await response.json();
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.href = 'login.html';
+          redirectToLogin();
           return;
         }
         throw new Error(result.message || `HTTP Error! Status: ${response.status}`);
@@ -93,7 +97,7 @@ export const LecturerApiService = {
       });
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.href = 'login.html';
+          redirectToLogin();
           return;
         }
         throw new Error(`HTTP Error! Status: ${response.status}`);

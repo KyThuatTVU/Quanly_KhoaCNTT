@@ -1,4 +1,4 @@
-import { saveToken, authFetch } from '../auth.js';
+import { saveToken, authFetch, getRedirectUrl } from '../auth.js';
 
 const API_BASE = 'http://localhost:5000';
 
@@ -66,7 +66,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     sessionStorage.setItem('lecturer_user', JSON.stringify(data.user));
 
     showAlert('Đăng nhập thành công! Đang chuyển hướng...', 'success');
-    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1000);
+    setTimeout(() => { window.location.href = getRedirectUrl('dashboard'); }, 1000);
   } catch (err) {
     showAlert('Không thể kết nối đến máy chủ. Vui lòng thử lại sau.');
   } finally {
@@ -82,7 +82,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const res = await authFetch(`${API_BASE}/api/auth/lecturer/me`);
     if (res.ok) {
       const data = await res.json();
-      if (data.success) window.location.href = 'dashboard.html';
+      if (data.success) window.location.href = getRedirectUrl('dashboard');
     }
   } catch {}
 })();

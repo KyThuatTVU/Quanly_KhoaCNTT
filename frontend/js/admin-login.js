@@ -18,7 +18,10 @@ if (error) {
     const res = await fetch('http://localhost:5000/api/auth/admin/me', { credentials: 'include' });
     if (res.ok) {
       const data = await res.json();
-      if (data.isLoggedIn) window.location.href = 'admin/index.html';
+      if (data.isLoggedIn) {
+        const dest = window.location.port === '5500' ? 'admin/index.html' : '/admin';
+        window.location.href = dest;
+      }
     }
   } catch {}
 })();

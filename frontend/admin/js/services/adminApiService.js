@@ -11,6 +11,11 @@
 const BASE_URL = 'http://localhost:5000/api/v1/admin';
 
 /** Cache store: { entityKey -> { data, expireAt } } */
+function redirectToAdminLogin() {
+  const dest = window.location.port === '5500' ? '../admin-login.html' : '/admin-login';
+  window.location.href = dest;
+}
+
 const _cache = new Map();
 const TTL_MS = 30_000; // 30 giây
 
@@ -48,7 +53,7 @@ export const AdminApiService = {
       });
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.href = '../admin-login.html';
+          redirectToAdminLogin();
           return;
         }
         throw new Error(`HTTP Error! Status: ${response.status}`);
@@ -84,7 +89,7 @@ export const AdminApiService = {
 
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.href = '../admin-login.html';
+          redirectToAdminLogin();
           return;
         }
         const errorMsg = result.error || result.message || `HTTP Error! Status: ${response.status}`;
@@ -120,7 +125,7 @@ export const AdminApiService = {
 
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.href = '../admin-login.html';
+          redirectToAdminLogin();
           return;
         }
         const errorMsg = result.error || result.message || `HTTP Error! Status: ${response.status}`;
@@ -149,7 +154,7 @@ export const AdminApiService = {
       });
       if (!response.ok) {
         if (response.status === 401) {
-          window.location.href = '../admin-login.html';
+          redirectToAdminLogin();
           return;
         }
         throw new Error(`HTTP Error! Status: ${response.status}`);

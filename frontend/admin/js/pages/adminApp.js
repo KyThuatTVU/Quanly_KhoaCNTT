@@ -126,8 +126,8 @@ class AdminApp {
       await this.navigate(this.currentNav);
       this.restoreUrlStateAndScroll();
     } else {
-      console.log('Chưa đăng nhập Admin hoặc session hết hạn. Đang chuyển hướng...');
-      window.location.href = '../admin-login.html';
+      const dest = window.location.port === '5500' ? '../admin-login.html' : '/admin-login';
+      window.location.href = dest;
     }
   }
 

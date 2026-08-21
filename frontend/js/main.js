@@ -1,4 +1,4 @@
-// import './anti-devtools.js';
+import './anti-devtools.js';
 import './components/navbar.js';
 import './components/slider.js';
 import './components/stats.js';

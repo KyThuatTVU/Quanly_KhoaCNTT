@@ -56,7 +56,10 @@ export const PostgraduateService = {
             huong_nghien_cuu: student.huong_nghien_cuu,
             nguoi_huong_dan: student.nguoi_huong_dan,
             trang_thai: student.trang_thai || 'Đang học',
-            avatar_url: student.avatar_url || 'assets/images/default-avatar.png'
+            avatar_url: student.avatar_url || 'assets/images/default-avatar.png',
+            an_hien: student.an_hien,
+            an_hien_ma_ncs: student.an_hien_ma_ncs,
+            an_hien_email: student.an_hien_email
           }));
         }
       }

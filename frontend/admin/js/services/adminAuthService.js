@@ -64,10 +64,12 @@ export const AdminAuthService = {
     localStorage.removeItem(STORAGE_KEY);
     fetch(`${API_BASE}/api/auth/admin/logout`, { method: 'POST', credentials: 'include' })
       .then(() => {
-        window.location.href = '../admin-login.html';
+        const dest = window.location.port === '5500' ? '../admin-login.html' : '/admin-login';
+        window.location.href = dest;
       })
       .catch(() => {
-        window.location.href = '../admin-login.html';
+        const dest = window.location.port === '5500' ? '../admin-login.html' : '/admin-login';
+        window.location.href = dest;
       });
   }
 };

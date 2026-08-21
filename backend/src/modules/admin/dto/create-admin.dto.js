@@ -356,9 +356,9 @@ export function mapCreatePayload(entityKey, payload) {
       data.ho_ten         = title;
       data.ma_ncs         = sub;
       data.huong_nghien_cuu = desc || '';
-      data.nguoi_huong_dan= payload.nguoi_huong_dan || 'Ban Giám Khoa';
-      data.email          = payload.email || 'ncs@tvu.edu.vn';
-      data.chuc_vu_co_quan= payload.chuc_vu_co_quan || 'Trường Đại học Trà Vinh';
+      data.nguoi_huong_dan= payload.nguoi_huong_dan !== undefined ? payload.nguoi_huong_dan : '';
+      data.email          = payload.email !== undefined ? payload.email : '';
+      data.chuc_vu_co_quan= payload.chuc_vu_co_quan !== undefined ? payload.chuc_vu_co_quan : '';
       data.stt            = payload.stt || '01';
       data.avatar_url     = img || 'assets/images/default-avatar.png';
       data.an_hien        = safeInt(payload.an_hien, 1);
