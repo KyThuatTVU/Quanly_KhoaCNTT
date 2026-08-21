@@ -8,7 +8,7 @@
  * Cache tự động xóa khi có thao tác ghi (create/update/delete).
  */
 
-const BASE_URL = '${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/admin';
+const BASE_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/admin`;
 
 /** Cache store: { entityKey -> { data, expireAt } } */
 function redirectToAdminLogin() {

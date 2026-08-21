@@ -8,7 +8,7 @@
  */
 
 const CURRICULUM_API_BASE = '/api/curriculum';
-const BACKEND_BASE = '${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public';
+const BACKEND_BASE = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public`;
 
 const ENDPOINT_MAP = {
   'chuong-trinh-dao-tao-dai-hoc': 'undergradPrograms',

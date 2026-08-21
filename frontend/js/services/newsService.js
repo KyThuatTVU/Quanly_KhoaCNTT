@@ -8,7 +8,7 @@
  */
 
 // API Endpoint (Change this when backend is ready)
-const API_URL = '${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/news';
+const API_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/news`;
 
 export const NewsService = {
   /**

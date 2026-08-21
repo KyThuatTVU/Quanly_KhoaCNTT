@@ -15,7 +15,7 @@ if (error) {
 // Kiểm tra nếu đã đăng nhập admin
 (async () => {
   try {
-    const res = await fetch('${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/auth/admin/me', { credentials: 'include' });
+    const res = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/auth/admin/me`, { credentials: 'include' });
     if (res.ok) {
       const data = await res.json();
       if (data.isLoggedIn) {
