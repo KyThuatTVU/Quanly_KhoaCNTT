@@ -19,7 +19,7 @@ if (error) {
     if (res.ok) {
       const data = await res.json();
       if (data.isLoggedIn) {
-        const dest = window.location.port === '5500' ? 'admin/index.html' : '/admin';
+        const dest = window.location.port === '5500' ? 'admin/index.html' : '/admin/';
         window.location.href = dest;
       }
     }

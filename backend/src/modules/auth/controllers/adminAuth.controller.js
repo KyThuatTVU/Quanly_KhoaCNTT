@@ -47,7 +47,7 @@ export const AdminAuthController = {
       req.session.save((err) => {
         const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
         const adminLoginUrl = isLocal ? config.frontend.adminLogin : `http://${req.get('host')}/admin-login`;
-        const dashboardUrl = isLocal ? config.frontend.adminDashboard : `http://${req.get('host')}/admin`;
+        const dashboardUrl = isLocal ? config.frontend.adminDashboard : `http://${req.get('host')}/admin/`;
 
         if (err) {
           console.error('[AdminAuth] Lỗi lưu session:', err);
