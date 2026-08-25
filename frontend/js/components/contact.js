@@ -61,7 +61,7 @@ class CooperationContactComponent extends HTMLElement {
       <div class="deans-section">
         <div class="deans-container">
           <!-- Heading -->
-          <h2 class="deans-heading">Ban lãnh đạo khoa</h2>
+          <h2 class="deans-heading">Lãnh đạo khoa</h2>
           
           <!-- Leadership Cards Grid -->
           <div class="deans-grid">
