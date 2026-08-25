@@ -67,20 +67,20 @@ class FooterComponent extends HTMLElement {
 
           <!-- Column 2: Quick Links -->
           <div class="footer-col links-col">
-            <h3 class="footer-col-title">Liên Kết Nhanh</h3>
+            <h3 class="footer-col-title">Liên kết nhanh</h3>
             <ul class="footer-links">
-              <li><a href="${homeLink}">Trang Chủ</a></li>
-              <li><a href="${gioiThieuLink}">Giới Thiệu</a></li>
-              <li><a href="${nhanSuLink}">Đội Ngũ Nhân Sự</a></li>
-              <li><a href="${nghienCuuLink}">Nghiên Cứu Khoa Học</a></li>
-              <li><a href="${daiHocLink}">Đại Học</a></li>
-              <li><a href="${sauDaiHocLink}">Sau Đại Học</a></li>
+              <li><a href="${homeLink}">Trang chủ</a></li>
+              <li><a href="${gioiThieuLink}">Giới thiệu</a></li>
+              <li><a href="${nhanSuLink}">Đội ngũ nhân sự</a></li>
+              <li><a href="${nghienCuuLink}">Nghiên cứu khoa học</a></li>
+              <li><a href="${daiHocLink}">Đại học</a></li>
+              <li><a href="${sauDaiHocLink}">Sau đại học</a></li>
               
           </div>
 
           <!-- Column 3: Contact Details -->
           <div class="footer-col contact-col">
-            <h3 class="footer-col-title">Thông Tin Liên Hệ</h3>
+            <h3 class="footer-col-title">Thông tin liên hệ</h3>
             <ul class="footer-contact">
               <li>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon">

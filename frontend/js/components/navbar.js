@@ -72,7 +72,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
-                <span>Trang Chủ</span>
+                <span>Trang chủ</span>
               </a>
             </li>
             <li class="nav-item">
@@ -82,7 +82,7 @@ class NavbarComponent extends HTMLElement {
                   <line x1="12" y1="16" x2="12" y2="12"></line>
                   <line x1="12" y1="8" x2="12.01" y2="8"></line>
                 </svg>
-                <span>Giới Thiệu</span>
+                <span>Giới thiệu</span>
               </a>
             </li>
             <li class="nav-item">
@@ -93,7 +93,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                <span>Nhân Sự</span>
+                <span>Nhân sự</span>
               </a>
             </li>
             <li class="nav-item">
@@ -102,7 +102,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                   <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                 </svg>
-                <span>Nghiên Cứu</span>
+                <span>Nghiên cứu</span>
               </a>
             </li>
             <li class="nav-item">
@@ -111,7 +111,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
                   <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
                 </svg>
-                <span>Đại Học</span>
+                <span>Đại học</span>
               </a>
             </li>
             <li class="nav-item">
@@ -119,7 +119,7 @@ class NavbarComponent extends HTMLElement {
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                 </svg>
-                <span>Sau Đại Học</span>
+                <span>Sau đại học</span>
               </a>
             </li>
           </ul>
