@@ -23,7 +23,7 @@ class NavbarComponent extends HTMLElement {
    * Render the HTML structure of the navbar
    */
   render() {
-    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['home', 'undergraduate', 'about', 'staff', 'research', 'postgraduate'];
     const currentPath = window.location.pathname;
     let prefix = './';
 
@@ -36,12 +36,12 @@ class NavbarComponent extends HTMLElement {
     }
 
     const logoPath = `${prefix}assets/images/sit.jpg`;
-    const homeLink = `${prefix}trang-chu/`;
-    const gioiThieuLink = `${prefix}gioi-thieu/`;
-    const nhanSuLink = `${prefix}nhan-su/`;
-    const nghienCuuLink = `${prefix}nghien-cuu/`;
-    const daiHocLink = `${prefix}dai-hoc/`;
-    const sauDaiHocLink = `${prefix}sau-dai-hoc/`;
+    const homeLink = `${prefix}home/`;
+    const gioiThieuLink = `${prefix}about/`;
+    const nhanSuLink = `${prefix}staff/`;
+    const nghienCuuLink = `${prefix}research/`;
+    const daiHocLink = `${prefix}undergraduate/`;
+    const sauDaiHocLink = `${prefix}postgraduate/`;
 
     this.innerHTML = `
       <header class="main-header" id="mainHeader">
@@ -53,7 +53,7 @@ class NavbarComponent extends HTMLElement {
             </div>
             <div class="brand-text">
               <span class="brand-title">KHOA CÔNG NGHỆ THÔNG TIN</span>
-              <span class="brand-subtitle">Faculty of Information Technology</span>
+              <span class="brand-subtitle">School of Information Technology</span>
             </div>
           </a>
 
@@ -76,7 +76,7 @@ class NavbarComponent extends HTMLElement {
               </a>
             </li>
             <li class="nav-item">
-              <a href="${gioiThieuLink}" class="nav-link" data-page="gioi-thieu">
+              <a href="${gioiThieuLink}" class="nav-link" data-page="about">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -86,7 +86,7 @@ class NavbarComponent extends HTMLElement {
               </a>
             </li>
             <li class="nav-item">
-              <a href="${nhanSuLink}" class="nav-link" data-page="nhan-su">
+              <a href="${nhanSuLink}" class="nav-link" data-page="staff">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                   <circle cx="9" cy="7" r="4"></circle>
@@ -97,7 +97,7 @@ class NavbarComponent extends HTMLElement {
               </a>
             </li>
             <li class="nav-item">
-              <a href="${nghienCuuLink}" class="nav-link" data-page="nghien-cuu">
+              <a href="${nghienCuuLink}" class="nav-link" data-page="research">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                   <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
@@ -106,7 +106,7 @@ class NavbarComponent extends HTMLElement {
               </a>
             </li>
             <li class="nav-item">
-              <a href="${daiHocLink}" class="nav-link" data-page="dai-hoc">
+              <a href="${daiHocLink}" class="nav-link" data-page="undergraduate">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
                   <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
@@ -115,7 +115,7 @@ class NavbarComponent extends HTMLElement {
               </a>
             </li>
             <li class="nav-item">
-              <a href="${sauDaiHocLink}" class="nav-link" data-page="sau-dai-hoc">
+              <a href="${sauDaiHocLink}" class="nav-link" data-page="postgraduate">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                 </svg>
@@ -135,17 +135,17 @@ class NavbarComponent extends HTMLElement {
     const currentPath = window.location.pathname;
     let activePage = 'home';
 
-    if (currentPath.includes('/gioi-thieu')) {
-      activePage = 'gioi-thieu';
-    } else if (currentPath.includes('/nhan-su')) {
-      activePage = 'nhan-su';
-    } else if (currentPath.includes('/nghien-cuu')) {
-      activePage = 'nghien-cuu';
-    } else if (currentPath.includes('/sau-dai-hoc')) {
-      activePage = 'sau-dai-hoc';
-    } else if (currentPath.includes('/dai-hoc')) {
-      activePage = 'dai-hoc';
-    } else if (currentPath.includes('/trang-chu')) {
+    if (currentPath.includes('/about')) {
+      activePage = 'about';
+    } else if (currentPath.includes('/staff')) {
+      activePage = 'staff';
+    } else if (currentPath.includes('/research')) {
+      activePage = 'research';
+    } else if (currentPath.includes('/postgraduate')) {
+      activePage = 'postgraduate';
+    } else if (currentPath.includes('/undergraduate')) {
+      activePage = 'undergraduate';
+    } else if (currentPath.includes('/home')) {
       activePage = 'home';
     } else {
       activePage = 'home';

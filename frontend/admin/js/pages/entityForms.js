@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Entity Forms Panel Module
  * Extracted from AdminApp.renderEntityPanel() + all entity form builders
  */
@@ -1034,7 +1034,7 @@ export function generateFormFields(entityKey, data) {
       </div>
       <div class="form-group">
         <label>Đường dẫn chi tiết (Link chi tiết)</label>
-        <input type="text" name="link_chi_tiet" value="${data.link_chi_tiet || ''}" placeholder="VD: /dai-hoc/cntt.html">
+        <input type="text" name="link_chi_tiet" value="${data.link_chi_tiet || ''}" placeholder="VD: /undergraduate/cntt.html">
       </div>
       <div class="form-group">
         <label>Thứ tự hiển thị</label>
@@ -1103,7 +1103,7 @@ export function generateFormFields(entityKey, data) {
       </div>
       <div class="form-group">
         <label>Link chi tiết tin tức</label>
-        <input type="text" name="link_chi_tiet" value="${data.link_chi_tiet || '#'}" placeholder="VD: /tin-tuc/?slug=cita-2026">
+        <input type="text" name="link_chi_tiet" value="${data.link_chi_tiet || '#'}" placeholder="VD: /news/?slug=cita-2026">
       </div>
       <div class="form-group">
         <label>Thứ tự hiển thị</label>

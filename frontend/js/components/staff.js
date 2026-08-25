@@ -38,7 +38,7 @@ class StaffDirectoryComponent extends HTMLElement {
   }
 
   resolveAssetPrefix() {
-    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['home', 'undergraduate', 'about', 'staff', 'research', 'postgraduate'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 

@@ -12,6 +12,13 @@ if (error) {
   box.textContent = messages[error] || decodeURIComponent(error);
 }
 
+// Thiết lập đường dẫn động cho nút Google Login giữa Local và VPS
+const btnGoogle = document.getElementById('btnGoogle');
+if (btnGoogle) {
+  const backendBase = window.location.port === '5500' ? 'http://localhost:5000' : '';
+  btnGoogle.href = `${backendBase}/auth/google`;
+}
+
 // Kiểm tra nếu đã đăng nhập admin
 (async () => {
   try {

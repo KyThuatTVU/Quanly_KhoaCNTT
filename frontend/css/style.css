@@ -87,7 +87,14 @@ body {
 }
 
 body {
-	padding: 32px 16px 48px;
+	padding: 0;
+	padding-top: var(--nav-height-desktop, 76px);
+}
+
+@media (max-width: 991px) {
+	body {
+		padding-top: var(--nav-height-mobile, 68px);
+	}
 }
 
 .page {

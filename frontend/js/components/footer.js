@@ -21,7 +21,7 @@ class FooterComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['home', 'undergraduate', 'about', 'staff', 'research', 'postgraduate'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -38,12 +38,12 @@ class FooterComponent extends HTMLElement {
    */
   render() {
     const logoPath = `${this.assetPrefix}assets/images/sit.jpg`;
-    const homeLink = `${this.assetPrefix}`;
-    const gioiThieuLink = `${this.assetPrefix}gioi-thieu/`;
-    const nhanSuLink = `${this.assetPrefix}nhan-su/`;
-    const nghienCuuLink = `${this.assetPrefix}nghien-cuu/`;
-    const daiHocLink = `${this.assetPrefix}dai-hoc/`;
-    const sauDaiHocLink = `${this.assetPrefix}sau-dai-hoc/`;
+    const homeLink = `${this.assetPrefix}home/`;
+    const gioiThieuLink = `${this.assetPrefix}about/`;
+    const nhanSuLink = `${this.assetPrefix}staff/`;
+    const nghienCuuLink = `${this.assetPrefix}research/`;
+    const daiHocLink = `${this.assetPrefix}undergraduate/`;
+    const sauDaiHocLink = `${this.assetPrefix}postgraduate/`;
 
     this.innerHTML = `
       <footer class="main-footer">
@@ -110,7 +110,7 @@ class FooterComponent extends HTMLElement {
         <!-- Copyright Bar -->
         <div class="footer-bottom">
           <div class="footer-bottom-container">
-            <p class="copyright-text">© 2026 Faculty of Information Technology - Tra Vinh University. All rights reserved.</p>
+            <p class="copyright-text">© 2026 School of Information Technology - Tra Vinh University. All rights reserved.</p>
             <p class="footer-note">Được nâng cấp đồng bộ chất lượng hoạt động Khoa Công nghệ Thông tin.</p>
           </div>
         </div>

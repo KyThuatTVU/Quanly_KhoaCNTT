@@ -76,7 +76,7 @@ a JSON array matching the exact structure below.
     "description": "Làm chủ các mô hình học máy nâng cao, xử lý ngôn ngữ tự nhiên và phát triển robot thông minh.",
     "bgImage": "assets/banners/slide_ai.png",
     "actionText": "Đăng ký xét tuyển",
-    "actionUrl": "../dai-hoc/",
+    "actionUrl": "../undergraduate/",
     "extra": {
       "stats": [
         { "value": "100%", "label": "Học bổng doanh nghiệp" },

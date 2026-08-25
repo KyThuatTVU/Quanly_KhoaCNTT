@@ -37,7 +37,7 @@ class ActivityGalleryComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['home', 'undergraduate', 'about', 'staff', 'research', 'postgraduate'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 

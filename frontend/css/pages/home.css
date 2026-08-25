@@ -6,6 +6,7 @@
 .hero-section {
   position: relative;
   width: 100%;
+  max-width: 100%;
   height: 520px; /* Tăng từ 450px lên 520px để tránh che mặt giảng viên */
   /* Dark blue gradient overlay on top of gvCNTT image - Làm sẫm màu hơn ở trên đầu để tăng độ tương phản cho chữ */
   background: 
@@ -20,6 +21,7 @@
   color: #ffffff;
   padding: 0 24px 80px; /* Cân chỉnh lại khoảng cách đệm */
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .hero-section::before {
@@ -36,12 +38,14 @@
 .hero-content {
   position: relative;
   z-index: 2;
+  width: 100%;
   max-width: 1050px; /* Tăng chiều rộng để tạo không gian nằm ngang cho chữ */
   animation: fadeInDown 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
   /* Tạo quầng sáng dịu phía sau để chữ cực kỳ nổi bật và dễ đọc */
   background: radial-gradient(circle, rgba(15, 111, 255, 0.25) 0%, rgba(8, 48, 110, 0) 80%);
   padding: 30px 40px;
   border-radius: 40px;
+  box-sizing: border-box;
 }
 
 .hero-welcome {
@@ -57,7 +61,7 @@
 
 .hero-title {
   font-family: 'Montserrat', 'Be Vietnam Pro', sans-serif;
-  font-size: clamp(28px, 4.4vw, 44px); /* Giảm nhẹ font-size tối đa từ 52px xuống 44px để chống rớt chữ */
+  font-size: clamp(22px, 4vw, 44px); /* Clamp responsive typography cho mobile và desktop */
   font-weight: 900; /* Nét siêu đậm thể hiện vị thế của khoa */
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -69,12 +73,18 @@
   margin-bottom: 24px;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
   display: inline-block;
-  white-space: nowrap; /* Đảm bảo không rớt chữ trên màn hình máy tính */
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  white-space: normal; /* Cho phép xuống dòng tự động chống tràn */
+  overflow-wrap: break-word;
+  word-break: normal;
+  box-sizing: border-box;
 }
 
 .hero-subtitle {
   font-family: 'Montserrat', sans-serif;
-  font-size: clamp(13px, 1.8vw, 16px);
+  font-size: clamp(12px, 1.8vw, 16px);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 3px;
@@ -84,6 +94,13 @@
   padding-top: 16px;
   margin-top: 8px;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Thêm bóng đổ đen sâu để chống chìm chữ */
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  white-space: normal; /* Cho phép xuống dòng tự động chống tràn */
+  overflow-wrap: break-word;
+  word-break: normal;
+  box-sizing: border-box;
 }
 
 /* Programs Section & Grid */
@@ -116,6 +133,10 @@
   align-items: center;
   position: relative;
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden; /* Giữ nguyên hiệu ứng bo góc 3D và chặn tràn nội dung */
   
   /* Precision 3D borders: white highlights on top/left, subtle shadows on bottom/right */
   border-top: 2px solid rgba(255, 255, 255, 0.85);
@@ -299,7 +320,7 @@
   margin-bottom: 14px;
   line-height: 1.35;
   transition: color 0.3s ease;
-  word-break: keep-all;
+  word-break: normal;
   overflow-wrap: break-word;
 }
 
@@ -314,6 +335,8 @@
   color: #54657a;
   line-height: 1.65;
   flex-grow: 1;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 /* Animations */
@@ -337,6 +360,11 @@
     padding-bottom: 100px;
   }
   
+  .hero-content {
+    padding: 24px 20px;
+    border-radius: 30px;
+  }
+  
   .programs-grid {
     margin-top: -100px;
     gap: 20px;
@@ -351,6 +379,13 @@
   .hero-section {
     height: 350px; /* Thu nhỏ hơn cho mobile */
     padding-bottom: 80px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .hero-content {
+    padding: 20px 16px;
+    border-radius: 20px;
   }
   
   .hero-title {

@@ -36,7 +36,7 @@ class NewsEventsComponent extends HTMLElement {
    * Resolve relative prefix path based on the current page's location
    */
   resolveAssetPrefix() {
-    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['home', 'undergraduate', 'about', 'staff', 'research', 'postgraduate'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
@@ -75,7 +75,7 @@ class NewsEventsComponent extends HTMLElement {
 
     this.newsData.forEach(item => {
       const imgPath = `${this.assetPrefix}${item.anh_chinh}`;
-      const detailUrl = `${this.assetPrefix}tin-tuc/?slug=${item.slug}`;
+      const detailUrl = `${this.assetPrefix}news/?slug=${item.slug}`;
 
       cardsHtml += `
         <article class="news-card">
@@ -118,7 +118,7 @@ class NewsEventsComponent extends HTMLElement {
     });
 
     this.innerHTML = `
-      <section class="news-section">
+      <section class="news-section" id="news">
         <div class="news-container">
           <h2 class="news-heading">Thông tin & Sự kiện</h2>
           <div class="news-grid">

@@ -80,7 +80,7 @@ class NewsDetailComponent extends HTMLElement {
       <div class="news-detail-error">
         <h2>⚠️ ${message}</h2>
         <p>Xin lỗi, tin tức bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
-        <a href="../trang-chu/" class="news-detail-back-button" style="display: inline-block; margin-top: 20px;">
+        <a href="../home/" class="news-detail-back-button" style="display: inline-block; margin-top: 20px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
@@ -104,9 +104,9 @@ class NewsDetailComponent extends HTMLElement {
         <header class="news-detail-header">
           <!-- Breadcrumb -->
           <nav class="news-detail-breadcrumb">
-            <a href="../trang-chu/">Trang chủ</a>
+            <a href="../home/">Trang chủ</a>
             <span>/</span>
-            <a href="../trang-chu/#tin-tuc">Tin tức & Sự kiện</a>
+            <a href="../home/#news">Tin tức & Sự kiện</a>
             <span>/</span>
             <span>${item.tieu_de}</span>
           </nav>
@@ -149,7 +149,7 @@ class NewsDetailComponent extends HTMLElement {
         
         <!-- Back Button -->
         <div class="news-detail-back">
-          <a href="../trang-chu/#tin-tuc" class="news-detail-back-button">
+          <a href="../home/#news" class="news-detail-back-button">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>

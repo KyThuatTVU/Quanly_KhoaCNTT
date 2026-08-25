@@ -21,7 +21,7 @@ class CooperationContactComponent extends HTMLElement {
    * Resolve the correct relative path prefix based on current URL depth
    */
   resolveAssetPrefix() {
-    const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+    const folders = ['home', 'undergraduate', 'about', 'staff', 'research', 'postgraduate'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
     for (const folder of folders) {
@@ -105,7 +105,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="${this.assetPrefix}nhan-su/?id=4" class="dean-detail-btn-3d">
+                  <a href="${this.assetPrefix}staff/?id=4" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>
@@ -151,7 +151,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="${this.assetPrefix}nhan-su/?id=7" class="dean-detail-btn-3d">
+                  <a href="${this.assetPrefix}staff/?id=7" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>
@@ -197,7 +197,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="${this.assetPrefix}nhan-su/" class="dean-detail-btn-3d">
+                  <a href="${this.assetPrefix}staff/" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>
@@ -243,7 +243,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="${this.assetPrefix}nhan-su/" class="dean-detail-btn-3d">
+                  <a href="${this.assetPrefix}staff/" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>
@@ -289,7 +289,7 @@ class CooperationContactComponent extends HTMLElement {
                 </div>
                 
                 <div class="dean-card-footer-center">
-                  <a href="${this.assetPrefix}nhan-su/" class="dean-detail-btn-3d">
+                  <a href="${this.assetPrefix}staff/" class="dean-detail-btn-3d">
                     <span>Xem chi tiết</span>
                   </a>
                 </div>

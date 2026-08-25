@@ -1,4 +1,4 @@
-import './anti-devtools.js';
+// import './anti-devtools.js';
 import './components/navbar.js';
 import './components/slider.js';
 import './components/stats.js';
@@ -36,7 +36,7 @@ try {
 class FaviconManager {
   static apply() {
     try {
-      const folders = ['trang-chu', 'dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc'];
+      const folders = ['home', 'undergraduate', 'about', 'staff', 'research', 'postgraduate'];
       const currentPath = window.location.pathname;
       let prefix = './';
 

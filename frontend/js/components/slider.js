@@ -43,7 +43,7 @@ class HeroSliderComponent extends HTMLElement {
 
   resolveAssetPrefix() {
     // All subdirectory pages need '../' to reach the frontend root
-    const subFolders = ['dai-hoc', 'gioi-thieu', 'nhan-su', 'nghien-cuu', 'sau-dai-hoc', 'trang-chu', 'tin-tuc'];
+    const subFolders = ['undergraduate', 'about', 'staff', 'research', 'postgraduate', 'home', 'news'];
     const currentPath = window.location.pathname;
     this.assetPrefix = './';
 
