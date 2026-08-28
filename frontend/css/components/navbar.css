@@ -369,28 +369,36 @@ body {
 }
 
 /* ==========================================================================
-   LANGUAGE SWITCHER BUTTON
+   LANGUAGE SWITCHER BUTTON (PERFECT VERTICAL ALIGNMENT)
    ========================================================================== */
 .nav-lang-item {
-  margin-left: 4px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100%;
+  margin-left: 10px;
+  padding: 0 4px;
 }
 
 .nav-lang-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
   border-radius: 50px;
   color: #ffffff;
-  padding: 5px 14px 5px 10px;
-  font-size: 0.78rem;
+  padding: 6px 14px 6px 12px;
+  font-size: 13px;
   font-weight: 700;
   font-family: var(--font-logo-vn);
   cursor: pointer;
   transition: all 0.25s ease;
   letter-spacing: 0.5px;
   line-height: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 2px rgba(8, 26, 54, 0.3);
 }
 
 .nav-lang-btn .nav-icon {
@@ -400,10 +408,10 @@ body {
 }
 
 .nav-lang-btn:hover {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.6);
   transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .nav-lang-btn:active {
@@ -416,7 +424,7 @@ body {
 
 @keyframes langPulse {
   0%   { transform: scale(1);   }
-  40%  { transform: scale(1.12); background: rgba(255,255,255,0.3); }
+  40%  { transform: scale(1.12); background: rgba(255,255,255,0.35); }
   100% { transform: scale(1);   }
 }
 
@@ -427,14 +435,15 @@ body {
 
 /* Scrolled state */
 .main-header.scrolled .nav-lang-btn {
-  background: rgba(15, 111, 255, 0.08);
-  border-color: rgba(15, 111, 255, 0.25);
+  background: rgba(15, 111, 255, 0.1);
+  border-color: rgba(15, 111, 255, 0.3);
   color: #1e40af;
+  text-shadow: none;
 }
 
 .main-header.scrolled .nav-lang-btn:hover {
-  background: rgba(15, 111, 255, 0.15);
-  border-color: rgba(15, 111, 255, 0.4);
+  background: rgba(15, 111, 255, 0.18);
+  border-color: rgba(15, 111, 255, 0.5);
   color: #0f6fff;
 }
 
@@ -442,9 +451,10 @@ body {
 @media (max-width: 991px) {
   .nav-lang-item {
     margin-left: 0;
-    margin-top: 4px;
-    padding-top: 8px;
+    margin-top: 6px;
+    padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    height: auto;
   }
 
   .nav-lang-btn {
@@ -455,6 +465,7 @@ body {
     background: rgba(255, 255, 255, 0.08);
   }
 }
+
 
 /* ==========================================================================
    HEADLESS GOOGLE TRANSLATE ENGINE (SILENT LIVE TRANSLATION)
