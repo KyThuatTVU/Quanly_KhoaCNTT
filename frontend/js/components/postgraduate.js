@@ -112,11 +112,11 @@ class PostgraduatePageComponent extends HTMLElement {
                         ` : ''}
                       </div>
                     </td>
-                    <td class="topic-col">${student.huong_nghien_cuu && student.huong_nghien_cuu.trim() ? student.huong_nghien_cuu : '<span style="color: #94a3b8; font-style: italic;">Không có</span>'}</td>
+                    <td class="topic-col">${student.huong_nghien_cuu && student.huong_nghien_cuu.trim() ? student.huong_nghien_cuu : ''}</td>
                     <td class="advisor-col">
                       ${student.nguoi_huong_dan && student.nguoi_huong_dan.trim() && student.nguoi_huong_dan.trim() !== 'Ban Giám Khoa' ? 
                         student.nguoi_huong_dan.split(',').map(adv => `<div>${adv.trim()}</div>`).join('') : 
-                        '<span style="color: #94a3b8; font-style: italic;">Không có</span>'
+                        ''
                       }
                     </td>
                     <td class="status-col">
@@ -156,9 +156,9 @@ class PostgraduatePageComponent extends HTMLElement {
               <p class="chart-subtitle">Dữ liệu tính đến tháng 7 năm 2026</p>
               <div class="chart-legend">
                 <span class="legend-dot color-blue"></span>
-                <span class="legend-text">Thạc sĩ Khoa học máy tính</span>
+                <span class="legend-text">Thạc sĩ Công nghệ thông tin</span>
                 <span class="legend-dot color-pink"></span>
-                <span class="legend-text">Nghiên cứu sinh Khoa học máy tính</span>
+                <span class="legend-text">Nghiên cứu sinh Công nghệ thông tin</span>
               </div>
               <div class="svg-chart-wrapper" style="position: relative;">
                 ${this.renderLineChartSVG()}
@@ -184,9 +184,9 @@ class PostgraduatePageComponent extends HTMLElement {
               <p class="chart-subtitle">Dữ liệu tính đến tháng 7 năm 2026</p>
               <div class="chart-legend">
                 <span class="legend-rect color-blue"></span>
-                <span class="legend-text">Thạc sĩ Khoa học máy tính</span>
+                <span class="legend-text">Thạc sĩ Công nghệ thông tin</span>
                 <span class="legend-rect color-pink"></span>
-                <span class="legend-text">Tốt nghiệp đúng tiến độ - Thạc sĩ Khoa học máy tính</span>
+                <span class="legend-text">Tốt nghiệp đúng tiến độ - Thạc sĩ Công nghệ thông tin</span>
               </div>
               <div class="svg-chart-wrapper">
                 ${this.renderBarChartSVG()}
@@ -266,11 +266,11 @@ class PostgraduatePageComponent extends HTMLElement {
           tooltip.querySelector('.tooltip-body').innerHTML = `
             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
               <span style="width: 7px; height: 7px; border-radius: 50%; background: #3b82f6; display: inline-block;"></span>
-              <span>Thạc sĩ Khoa học máy tính: <strong>${valMaster}</strong></span>
+              <span>Thạc sĩ Công nghệ thông tin: <strong>${valMaster}</strong></span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="width: 7px; height: 7px; border-radius: 50%; background: #d946ef; display: inline-block;"></span>
-              <span>Nghiên cứu sinh Khoa học máy tính: <strong>${valPhD}</strong></span>
+              <span>Nghiên cứu sinh Công nghệ thông tin: <strong>${valPhD}</strong></span>
             </div>
           `;
 
