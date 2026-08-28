@@ -39,6 +39,34 @@ export async function renderEntityPanel(container, entityKey) {
     this.currentEntityData = rawData.filter(item => Number(item.nhom_id) === 1);
   } else if (entityKey === 'lecturers') {
     this.currentEntityData = rawData.filter(item => Number(item.nhom_id) === 2);
+  } else if (entityKey === 'staffProfiles') {
+    const profiles = rawData || [];
+    this.currentEntityData = (this.staffList || []).map(staff => {
+      const existingProfile = profiles.find(p => Number(p.nhan_vien_id) === Number(staff.id));
+      if (existingProfile) {
+        return {
+          ...existingProfile,
+          is_new_profile: false
+        };
+      } else {
+        return {
+          id: `new_${staff.id}`,
+          nhan_vien_id: staff.id,
+          email: staff.email,
+          ngach_vien_chuc: staff.ngach_vien_chuc || 'Giảng viên',
+          hoc_vi: staff.hoc_vi || 'Cử nhân',
+          hoc_ham: staff.hoc_ham || '',
+          don_vi_cong_tac: staff.don_vi_cong_tac || 'Khoa Công nghệ thông tin',
+          linh_vuc_nghien_cuu: 'Chưa cập nhật',
+          google_scholar_url: '#',
+          orcid_url: '#',
+          github_url: '#',
+          website_ca_nhan: '#',
+          ngay_cap_nhat: 'Chưa khởi tạo',
+          is_new_profile: true
+        };
+      }
+    });
   } else {
     this.currentEntityData = rawData;
   }
@@ -244,13 +272,16 @@ export async function renderEntityPanel(container, entityKey) {
                   ? '<span class="badge-status danger">Khóa</span>' 
                   : '<span class="badge-status success">Hoạt động</span>';
               }
+              if (item.is_new_profile) {
+                return '<span class="badge-status warning">Chưa tạo</span>';
+              }
               return '<span class="badge-status success">Hoạt động</span>';
             })()}
           </td>
           <td>
             <div class="table-actions-cell">
               <button type="button" class="btn-icon-action edit" data-id="${item.id}" title="Chỉnh sửa">✏️</button>
-              <button type="button" class="btn-icon-action delete" data-id="${item.id}" title="Xóa">🗑️</button>
+              ${item.is_new_profile ? '' : `<button type="button" class="btn-icon-action delete" data-id="${item.id}" title="Xóa">🗑️</button>`}
             </div>
           </td>
         </tr>

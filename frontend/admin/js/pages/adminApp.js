@@ -685,11 +685,19 @@ class AdminApp {
         apiNav = 'staff';
       }
 
-      if (this.editingId) {
+      const isNewProfileCreation = (this.currentNav === 'staffProfiles' && String(this.editingId).startsWith('new_'));
+      if (isNewProfileCreation) {
+        payload.nhan_vien_id = Number(String(this.editingId).replace('new_', ''));
+      }
+
+      if (this.editingId && !isNewProfileCreation) {
         await AdminApiService.updateItem(apiNav, this.editingId, payload);
         this.showToast('Cập nhật dữ liệu thành công!', 'success');
       } else {
-        if (this.currentNav === 'deans' && payload.appoint_action === 'true') {
+        if (isNewProfileCreation) {
+          await AdminApiService.createItem(apiNav, payload);
+          this.showToast('Khởi tạo trang cá nhân thành công!', 'success');
+        } else if (this.currentNav === 'deans' && payload.appoint_action === 'true') {
           // Bổ nhiệm Giảng viên có sẵn làm Lãnh đạo khoa (Gọi updateItem thay vì createItem)
           const appointId = payload.appoint_nhan_vien_id;
           const appointPayload = {
