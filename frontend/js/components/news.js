@@ -75,7 +75,9 @@ class NewsEventsComponent extends HTMLElement {
 
     this.newsData.forEach(item => {
       const imgPath = `${this.assetPrefix}${item.anh_chinh}`;
-      const detailUrl = `${this.assetPrefix}news/?slug=${item.slug}`;
+      const detailUrl = item.redirect_url && item.redirect_url.trim()
+        ? (item.redirect_url.startsWith('http') ? item.redirect_url : `${this.assetPrefix}${item.redirect_url.replace(/^\//, '')}`)
+        : `${this.assetPrefix}news/?slug=${item.slug}`;
 
       cardsHtml += `
         <article class="news-card">

@@ -1877,6 +1877,10 @@ export function generateFormFields(entityKey, data) {
         <label>Nhãn nhỏ / Địa điểm sự kiện (VD: Vịnh Hạ Long)</label>
         <input type="text" name="nhan_nho" value="${data.nhan_nho || 'Tin tức'}" placeholder="VD: Vịnh Hạ Long, Quảng Ninh">
       </div>
+      <div class="form-group">
+        <label>Liên kết chuyển hướng tùy chọn (Để trống nếu dùng trang chi tiết mặc định)</label>
+        <input type="text" name="redirect_url" value="${data.redirect_url || ''}" placeholder="VD: https://tvu.edu.vn hoặc ../undergraduate/">
+      </div>
       ${renderImageField('Hình ảnh chính bài viết (Tải lên từ máy) (*)', 'image_url', data.anh_chinh, 'upload_news_img_input', 'field_news_image_url')}
       <div class="form-group">
         <label>Tóm tắt ngắn bài viết</label>

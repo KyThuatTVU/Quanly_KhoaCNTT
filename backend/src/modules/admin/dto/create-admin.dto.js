@@ -385,6 +385,7 @@ export function mapCreatePayload(entityKey, payload) {
       data.nhan_lon     = payload.nhan_lon || todayDateString();
       data.thu_tu       = safeInt(payload.thu_tu, 0);
       data.an_hien      = safeInt(payload.an_hien, 1);
+      data.redirect_url = payload.redirect_url || null;
       break;
 
     case 'gallery':

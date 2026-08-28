@@ -626,6 +626,7 @@ CREATE TABLE `tin_tuc` (
   `noi_dung_html` LONGTEXT NOT NULL COMMENT 'Nội dung chi tiết bài viết (HTML)',
   `tom_tat`       TEXT DEFAULT NULL COMMENT 'Tóm tắt ngắn bài đăng',
   `icon_svg`      TEXT DEFAULT NULL COMMENT 'Mã SVG Icon timeline',
+  `redirect_url`  VARCHAR(500) DEFAULT NULL COMMENT 'Đường dẫn chuyển hướng tùy chọn (Đọc tiếp)',
   `huong_hien_thi` ENUM('left','right') NOT NULL DEFAULT 'right' COMMENT 'Vị trí trên timeline',
   `co_nhan_nho`   TINYINT(1) NOT NULL DEFAULT 0,
   `an_hien`       TINYINT(1) NOT NULL DEFAULT 1,
