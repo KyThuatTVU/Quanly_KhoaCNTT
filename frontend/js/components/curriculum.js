@@ -387,7 +387,7 @@ class CurriculumProgramComponent extends HTMLElement {
                 <p class="chart-subtitle">Dữ liệu tính đến tháng 7 năm 2026</p>
                 <div class="chart-legend">
                   <span class="legend-dot color-blue"></span>
-                  <span class="legend-text">Kỹ sư Khoa học máy tính</span>
+                  <span class="legend-text">Kỹ sư Công nghệ thông tin</span>
                   ${this.activeProgramId === 2 ? `
                     <span class="legend-dot color-pink"></span>
                     <span class="legend-text">Kỹ sư Trí tuệ nhân tạo</span>
@@ -421,11 +421,11 @@ class CurriculumProgramComponent extends HTMLElement {
                 ${this.stats && this.stats.gradBatches.length > 0 ? `
                   <div class="chart-legend">
                     <span class="legend-rect color-blue"></span>
-                    <span class="legend-text">Đã tốt nghiệp - Khoa học máy tính</span>
+                    <span class="legend-text">Đã tốt nghiệp - Công nghệ thông tin</span>
                     <span class="legend-rect color-pink"></span>
-                    <span class="legend-text">Tốt nghiệp đúng tiến độ - Khoa học máy tính</span>
+                    <span class="legend-text">Tốt nghiệp đúng tiến độ - Công nghệ thông tin</span>
                     <span class="legend-rect color-orange"></span>
-                    <span class="legend-text">Tốt nghiệp sớm - Khoa học máy tính</span>
+                    <span class="legend-text">Tốt nghiệp sớm - Công nghệ thông tin</span>
                   </div>
                 ` : ''}
                 <div class="svg-chart-wrapper">
@@ -556,7 +556,7 @@ class CurriculumProgramComponent extends HTMLElement {
             tooltip.querySelector('.tooltip-body').innerHTML = `
               <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
                 <span style="width: 7px; height: 7px; border-radius: 50%; background: #3b82f6; display: inline-block;"></span>
-                <span>Kỹ sư Khoa học máy tính: <strong>${valCNTT}</strong></span>
+                <span>Kỹ sư Công nghệ thông tin: <strong>${valCNTT}</strong></span>
               </div>
               <div style="display: flex; align-items: center; gap: 8px;">
                 <span style="width: 7px; height: 7px; border-radius: 50%; background: #d946ef; display: inline-block;"></span>

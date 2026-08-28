@@ -304,9 +304,7 @@ class StaffDirectoryComponent extends HTMLElement {
     `;
 
     // 1. Table of Research Projects
-    let researchTableHtml = `
-      <div class="profile-empty-section">Chưa cập nhật đề tài nghiên cứu.</div>
-    `;
+    let researchTableHtml = '';
     if (this.researchProjects && this.researchProjects.length > 0) {
       researchTableHtml = `
         <div class="profile-table-wrapper">
@@ -337,9 +335,7 @@ class StaffDirectoryComponent extends HTMLElement {
     }
 
     // 2. Projects (Dự án)
-    let projectsHtml = `
-      <div class="profile-empty-section">Chưa cập nhật dự án.</div>
-    `;
+    let projectsHtml = '';
     if (this.projects && this.projects.length > 0) {
       projectsHtml = `
         <div class="projects-list">
@@ -361,9 +357,7 @@ class StaffDirectoryComponent extends HTMLElement {
     }
 
     // 3. Publications (Bài báo khoa học)
-    let publicationsHtml = `
-      <div class="profile-empty-section">Chưa cập nhật bài báo khoa học.</div>
-    `;
+    let publicationsHtml = '';
     if (this.publications && this.publications.length > 0) {
       const engPapers = this.publications.filter(p => p.loai_xuat_ban === 'tieng_anh');
       const viPapers = this.publications.filter(p => p.loai_xuat_ban !== 'tieng_anh');
@@ -404,9 +398,7 @@ class StaffDirectoryComponent extends HTMLElement {
     }
 
     // 4. Books and teaching syllabus (Sách và giáo trình)
-    let booksHtml = `
-      <div class="profile-empty-section">Chưa cập nhật sách và giáo trình.</div>
-    `;
+    let booksHtml = '';
     if (this.books && this.books.length > 0) {
       booksHtml = `
         <div class="books-grid">
@@ -426,9 +418,7 @@ class StaffDirectoryComponent extends HTMLElement {
     }
 
     // 5. Supervisions (Hướng dẫn NCKH)
-    let supervisionsHtml = `
-      <div class="profile-empty-section">Chưa hướng dẫn nghiên cứu sinh, học viên cao học hay sinh viên NCKH.</div>
-    `;
+    let supervisionsHtml = '';
     if (this.supervisions && this.supervisions.length > 0) {
       const typeIcons = {
         ncs: '🎓',
@@ -499,48 +489,66 @@ class StaffDirectoryComponent extends HTMLElement {
             <div class="personal-info-card-3d">
               <h3 class="personal-info-heading">📝 Thông tin cá nhân</h3>
               <ul class="personal-info-list">
-                ${staff.an_hien_email !== 0 ? `
+                ${staff.an_hien_email !== 0 && (pData.email || staff.email) ? `
                   <li>
                     <span class="info-label">📧 Email:</span>
                     <span class="info-val"><a href="mailto:${pData.email || staff.email}">${pData.email || staff.email}</a></span>
                   </li>
                 ` : ''}
-                <li>
-                  <span class="info-label">🏛️ Ngạch viên chức:</span>
-                  <span class="info-val">${pData.ngach_vien_chuc}</span>
-                </li>
-                <li>
-                  <span class="info-label">🎓 Trình độ chuyên môn:</span>
-                  <span class="info-val">${pData.hoc_vi}</span>
-                </li>
-                <li>
-                  <span class="info-label">🎖️ Học hàm:</span>
-                  <span class="info-val">${pData.hoc_ham || 'Chưa phong'}</span>
-                </li>
-                <li>
-                  <span class="info-label">🏢 Đơn vị công tác:</span>
-                  <span class="info-val">${pData.don_vi_cong_tac}</span>
-                </li>
-                <li>
-                  <span class="info-label">🔬 Lĩnh vực nghiên cứu:</span>
-                  <span class="info-val">${cleanResearchField}</span>
-                </li>
-                <li>
-                  <span class="info-label">📊 Google Scholar:</span>
-                  <span class="info-val"><a href="${pData.google_scholar_url}" target="_blank">Xem Link</a></span>
-                </li>
-                <li>
-                  <span class="info-label">🆔 ORCID ID:</span>
-                  <span class="info-val"><a href="${pData.orcid_url}" target="_blank">Xem Link</a></span>
-                </li>
-                <li>
-                  <span class="info-label">💻 Github:</span>
-                  <span class="info-val"><a href="${pData.github_url}" target="_blank">Xem Link</a></span>
-                </li>
-                <li>
-                  <span class="info-label">🌐 Website cá nhân:</span>
-                  <span class="info-val"><a href="${pData.website_ca_nhan}" target="_blank">Xem Link</a></span>
-                </li>
+                ${pData.ngach_vien_chuc ? `
+                  <li>
+                    <span class="info-label">🏛️ Ngạch viên chức:</span>
+                    <span class="info-val">${pData.ngach_vien_chuc}</span>
+                  </li>
+                ` : ''}
+                ${pData.hoc_vi ? `
+                  <li>
+                    <span class="info-label">🎓 Trình độ chuyên môn:</span>
+                    <span class="info-val">${pData.hoc_vi}</span>
+                  </li>
+                ` : ''}
+                ${pData.hoc_ham && pData.hoc_ham !== 'Chưa phong' && pData.hoc_ham !== 'Chưa cập nhật' ? `
+                  <li>
+                    <span class="info-label">🎖️ Học hàm:</span>
+                    <span class="info-val">${pData.hoc_ham}</span>
+                  </li>
+                ` : ''}
+                ${(pData.don_vi_cong_tac || staff.don_vi_cong_tac) ? `
+                  <li>
+                    <span class="info-label">🏢 Đơn vị công tác:</span>
+                    <span class="info-val">${pData.don_vi_cong_tac || staff.don_vi_cong_tac}</span>
+                  </li>
+                ` : ''}
+                ${cleanResearchField && cleanResearchField !== 'Chưa cập nhật' ? `
+                  <li>
+                    <span class="info-label">🔬 Lĩnh vực nghiên cứu:</span>
+                    <span class="info-val">${cleanResearchField}</span>
+                  </li>
+                ` : ''}
+                ${pData.google_scholar_url && pData.google_scholar_url !== '#' ? `
+                  <li>
+                    <span class="info-label">📊 Google Scholar:</span>
+                    <span class="info-val"><a href="${pData.google_scholar_url}" target="_blank">Xem Link</a></span>
+                  </li>
+                ` : ''}
+                ${pData.orcid_url && pData.orcid_url !== '#' ? `
+                  <li>
+                    <span class="info-label">🆔 ORCID ID:</span>
+                    <span class="info-val"><a href="${pData.orcid_url}" target="_blank">Xem Link</a></span>
+                  </li>
+                ` : ''}
+                ${pData.github_url && pData.github_url !== '#' ? `
+                  <li>
+                    <span class="info-label">💻 Github:</span>
+                    <span class="info-val"><a href="${pData.github_url}" target="_blank">Xem Link</a></span>
+                  </li>
+                ` : ''}
+                ${pData.website_ca_nhan && pData.website_ca_nhan !== '#' ? `
+                  <li>
+                    <span class="info-label">🌐 Website cá nhân:</span>
+                    <span class="info-val"><a href="${pData.website_ca_nhan}" target="_blank">Xem Link</a></span>
+                  </li>
+                ` : ''}
               </ul>
             </div>
           </div>
@@ -550,7 +558,7 @@ class StaffDirectoryComponent extends HTMLElement {
         <div class="profile-details-sections">
           
           <!-- 1. Research Projects (Đề tài NCKH các cấp) -->
-          ${hiddenSections.includes('nckh') ? '' : `
+          ${hiddenSections.includes('nckh') || !researchTableHtml ? '' : `
             <div class="profile-section-card-3d">
               <h3 class="section-title-3d">🧪 Đề tài NCKH các cấp</h3>
               ${researchTableHtml}
@@ -558,7 +566,7 @@ class StaffDirectoryComponent extends HTMLElement {
           `}
 
           <!-- 2. Projects (Dự án) -->
-          ${hiddenSections.includes('project') ? '' : `
+          ${hiddenSections.includes('project') || !projectsHtml ? '' : `
             <div class="profile-section-card-3d">
               <h3 class="section-title-3d">💼 Dự án / Project</h3>
               ${projectsHtml}
@@ -566,7 +574,7 @@ class StaffDirectoryComponent extends HTMLElement {
           `}
 
           <!-- 3. Scientific Papers (Bài báo khoa học) -->
-          ${hiddenSections.includes('paper') ? '' : `
+          ${hiddenSections.includes('paper') || !publicationsHtml ? '' : `
             <div class="profile-section-card-3d">
               <h3 class="section-title-3d">📘 Bài báo khoa học</h3>
               ${publicationsHtml}
@@ -574,7 +582,7 @@ class StaffDirectoryComponent extends HTMLElement {
           `}
 
           <!-- 4. Books and Teaching Syllabus (Sách và giáo trình) -->
-          ${hiddenSections.includes('book') ? '' : `
+          ${hiddenSections.includes('book') || !booksHtml ? '' : `
             <div class="profile-section-card-3d">
               <h3 class="section-title-3d">📚 Sách và Giáo trình giảng dạy</h3>
               ${booksHtml}
@@ -582,7 +590,7 @@ class StaffDirectoryComponent extends HTMLElement {
           `}
 
           <!-- 5. Thesis Supervision (Hướng dẫn học viên) -->
-          ${hiddenSections.includes('supervision') ? '' : `
+          ${hiddenSections.includes('supervision') || !supervisionsHtml ? '' : `
             <div class="profile-section-card-3d">
               <h3 class="section-title-3d">👨‍🎓 Hướng dẫn Nghiên cứu sinh, Học viên cao học, SV NCKH</h3>
               ${supervisionsHtml}
