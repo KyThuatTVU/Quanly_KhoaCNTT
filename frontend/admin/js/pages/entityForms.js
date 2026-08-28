@@ -719,6 +719,10 @@ export function generateFormFields(entityKey, data) {
           <label>Email công vụ (@tvu.edu.vn)</label>
           <input type="email" name="email" value="${data.email || ''}" placeholder="lamnn@tvu.edu.vn">
         </div>
+        <div class="form-group">
+          <label>Đơn vị công tác chính</label>
+          <input type="text" name="don_vi_cong_tac" value="${data.don_vi_cong_tac || 'Khoa Công nghệ thông tin'}" placeholder="VD: Khoa Công nghệ thông tin">
+        </div>
         ${renderImageField('Ảnh đại diện (Tải lên từ máy)', 'anh_ca_nhan_url', data.anh_ca_nhan_url, 'upload_staff_avatar_input', 'field_anh_ca_nhan_url')}
         <div class="form-group">
           <label>Trạng thái hiển thị nhân sự (*)</label>

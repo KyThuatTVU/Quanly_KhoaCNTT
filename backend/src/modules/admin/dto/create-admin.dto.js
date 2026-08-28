@@ -38,6 +38,7 @@ export function mapCreatePayload(entityKey, payload) {
       data.thu_tu_trong_nhom = safeInt(payload.thu_tu_trong_nhom, 0);
       data.an_hien        = safeInt(payload.an_hien, 1);
       data.an_hien_email  = safeInt(payload.an_hien_email, 1);
+      data.don_vi_cong_tac = payload.don_vi_cong_tac || 'Khoa Công nghệ thông tin';
       break;
 
     case 'staffGroups':
