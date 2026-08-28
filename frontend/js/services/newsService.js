@@ -31,7 +31,8 @@ export const NewsService = {
           nhan_lon: item.nhan_lon || new Date(item.ngay_dang).toLocaleDateString('vi-VN'),
           nhan_nho: item.nhan_nho || 'Tin tức',
           tom_tat: item.tom_tat || '',
-          anh_chinh: item.anh_chinh || 'assets/images/news/default.jpg'
+          anh_chinh: item.anh_chinh || 'assets/images/news/default.jpg',
+          redirect_url: item.redirect_url || ''
         }));
       }
       throw new Error(result.error || 'Dữ liệu không hợp lệ');
