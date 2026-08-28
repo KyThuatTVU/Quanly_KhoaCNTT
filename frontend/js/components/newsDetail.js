@@ -60,6 +60,7 @@ class NewsDetailComponent extends HTMLElement {
       console.error('Lỗi khi tải tin tức:', error);
       this.renderError('Không thể tải tin tức');
     }
+  }
 
   /**
    * Render loading state
