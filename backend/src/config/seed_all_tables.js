@@ -71,7 +71,8 @@ async function main() {
       'cuu_sinh_vien_tieu_bieu',
       'gallery_hoat_dong_trang_chu',
       'gioi_thieu_lien_he_ban_giam_khoa',
-      'lien_he_don_vi'
+      'lien_he_don_vi',
+      'lien_he_nghien_cuu'
     ];
 
     for (const table of tablesToClean) {
@@ -380,6 +381,14 @@ async function main() {
       (1, 'Khoa Công nghệ thông tin', 'Trường Kỹ thuật và Công nghệ', 'Khu I', 'Trường Đại học Trà Vinh', 'Số 126 Nguyễn Thiện Thành', 'Phường 5', 'Thành phố Trà Vinh', 'https://www.facebook.com/fit.tvu.edu.vn', '© 2026 School of Information Technology - TVU')
     `);
     console.log('✅ Đã nạp bảng: lien_he_don_vi');
+
+    // 38. Chèn bảng lien_he_nghien_cuu (Đầu mối liên hệ nghiên cứu)
+    await conn.query(`
+      INSERT INTO lien_he_nghien_cuu (id, ten_daidien, chuc_vu_nhiem_vu, email, thu_tu) VALUES
+      (1, 'TS. Nguyễn Nhứt Lam', 'Trưởng khoa, Trưởng nhóm Nghiên cứu Công nghệ thông tin', 'lamnn@tvu.edu.vn', 1),
+      (2, 'ThS. Lê Phong Dụ', 'Phó Trưởng khoa, Phụ trách Hợp tác Nghiên cứu khoa học', 'lpdu@tvu.edu.vn', 2)
+    `);
+    console.log('✅ Đã nạp bảng: lien_he_nghien_cuu');
 
     console.log('🚀 NẠP DỮ LIỆU THÀNH CÔNG VÀ ĐỒNG NHẤT 100% CHO TẤT CẢ CÁC BẢNG!');
   } catch (err) {
