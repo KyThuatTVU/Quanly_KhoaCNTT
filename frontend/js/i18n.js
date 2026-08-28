@@ -235,7 +235,98 @@ function triggerGoogleTranslateCombo(lang) {
   return false;
 }
 
+/**
+ * Completely suppress Google Translate top banner, popup frames, and layout shifting
+ */
+function suppressGoogleTranslateBanner() {
+  if (!document.getElementById('anti-gtranslate-banner-style')) {
+    const style = document.createElement('style');
+    style.id = 'anti-gtranslate-banner-style';
+    style.textContent = `
+      body {
+        top: 0px !important;
+        position: static !important;
+      }
+      html {
+        top: 0px !important;
+      }
+      .goog-te-banner-frame,
+      .goog-te-banner-frame.skiptranslate,
+      iframe.goog-te-banner-frame,
+      iframe.skiptranslate,
+      iframe[id*=":1."],
+      iframe[id*=":2."],
+      iframe[id*=":3."],
+      iframe[id*=":0."],
+      iframe[class*="VIpgJd"],
+      #goog-gt-tt,
+      .goog-te-balloon-frame,
+      .goog-tooltip,
+      .goog-tooltip:hover,
+      .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+      .VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc,
+      .VIpgJd-ZVi9od-ORHb-Oxf5c,
+      .VIpgJd-ZVi9od-l4eHX-hSRGPd,
+      .VIpgJd-yAWNEb-hvhgNd,
+      .VIpgJd-ZVi9od-vLtrqc {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        width: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+      }
+      #google_translate_element {
+        display: none !important;
+      }
+      .goog-text-highlight {
+        background: none !important;
+        box-shadow: none !important;
+      }
+    `;
+    (document.head || document.documentElement).appendChild(style);
+  }
+
+  // Active mutation guard against body.style.top injections
+  if (!window._antiGTranslateObserverSet) {
+    window._antiGTranslateObserverSet = true;
+    const cleanBodyTop = () => {
+      if (document.body) {
+        if (document.body.style.top && document.body.style.top !== '0px') {
+          document.body.style.setProperty('top', '0px', 'important');
+        }
+        if (document.body.style.position && document.body.style.position !== 'static') {
+          document.body.style.setProperty('position', 'static', 'important');
+        }
+      }
+      if (document.documentElement && document.documentElement.style.top && document.documentElement.style.top !== '0px') {
+        document.documentElement.style.setProperty('top', '0px', 'important');
+      }
+      const frames = document.querySelectorAll('iframe.skiptranslate, iframe[id*=":"]');
+      frames.forEach(f => {
+        f.style.setProperty('display', 'none', 'important');
+        f.style.setProperty('height', '0px', 'important');
+        f.style.setProperty('visibility', 'hidden', 'important');
+      });
+    };
+
+    const observer = new MutationObserver(cleanBodyTop);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+      attributeFilter: ['style', 'class']
+    });
+
+    setInterval(cleanBodyTop, 200);
+  }
+}
+
 function loadGoogleTranslateEngine() {
+  suppressGoogleTranslateBanner();
+
   if (window.google && window.google.translate) return;
   if (document.getElementById('google-translate-script')) return;
 
@@ -255,9 +346,12 @@ function loadGoogleTranslateEngine() {
         autoDisplay: false
       }, 'google_translate_element');
 
+      suppressGoogleTranslateBanner();
+
       if (I18n.lang === 'en') {
         setTimeout(() => {
           triggerGoogleTranslateCombo('en');
+          suppressGoogleTranslateBanner();
         }, 300);
       }
     } catch (err) {
@@ -334,6 +428,9 @@ export const I18n = {
 
   init() {
     this.lang = localStorage.getItem('fit_lang') || 'vi';
+
+    // Suppress Google Translate UI banners & frame shifts immediately
+    suppressGoogleTranslateBanner();
 
     // Set cookie immediately
     setGoogleTranslateCookie(this.lang);

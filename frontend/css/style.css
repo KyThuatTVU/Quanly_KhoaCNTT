@@ -218,3 +218,52 @@ p {
 		padding: 24px;
 	}
 }
+
+/* Headless Google Translate (Suppress Top Banner) */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+iframe.skiptranslate,
+iframe[id*=":1."],
+iframe[id*=":2."],
+iframe[id*=":3."],
+iframe[id*=":0."],
+iframe[class*="VIpgJd"],
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf-ti6hGc,
+.VIpgJd-ZVi9od-ORHb-Oxf5c,
+.VIpgJd-ZVi9od-l4eHX-hSRGPd,
+.VIpgJd-yAWNEb-hvhgNd,
+.VIpgJd-ZVi9od-vLtrqc {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+}
+
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+html {
+  top: 0px !important;
+}
+
+#google_translate_element {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
