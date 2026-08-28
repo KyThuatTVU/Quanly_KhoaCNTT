@@ -315,11 +315,13 @@ export function mapCreatePayload(entityKey, payload) {
       break;
 
     case 'undergradCourses':
-      data.ten_hoc_phan    = title;
-      data.ma_hoc_phan     = sub || '';
+      data.ten_hoc_phan        = title;
+      data.ma_hoc_phan         = sub || '';
       data.nang_luc_hinh_thanh = desc || '';
-      data.so_tin_chi      = safeInt(payload.so_tin_chi, 3);
-      data.nganh_id        = safeInt(payload.nganh_id, 1);
+      data.so_tin_chi          = safeInt(payload.so_tin_chi, 3);
+      data.nganh_id            = safeInt(payload.nganh_id, 1);
+      data.loai_hoc_phan       = payload.loai_hoc_phan || 'bat_buoc';
+      data.dinh_huong          = payload.dinh_huong || null;
       break;
 
     case 'undergradFaqs':

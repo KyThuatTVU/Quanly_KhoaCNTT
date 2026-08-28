@@ -22,7 +22,7 @@ export async function renderEntityPanel(container, entityKey) {
       this.staffGroupsList = [];
     }
   }
-   if (entityKey === 'undergradCareers' || entityKey === 'undergradStudentStats') {
+   if (entityKey === 'undergradCareers' || entityKey === 'undergradStudentStats' || entityKey === 'undergradCourses' || entityKey === 'undergradMethods' || entityKey === 'undergradCurriculum' || entityKey === 'undergradPlos') {
     try {
       this.undergradProgramsList = await AdminApiService.getList('undergradPrograms');
     } catch (err) {
@@ -1658,11 +1658,22 @@ export function generateFormFields(entityKey, data) {
         </div>
         <div class="form-group">
           <label>Mã học phần (*)</label>
-          <input type="text" name="sub_title" value="${data.ma_hoc_phan || ''}" required placeholder="VD: CT294">
+          <input type="text" name="sub_title" value="${data.ma_hoc_phan || ''}" required placeholder="VD: HK3-05, HK6-KTPM01">
         </div>
         <div class="form-group">
           <label>Số tín chỉ (*)</label>
-          <input type="number" name="so_tin_chi" value="${data.so_tin_chi || 3}" required>
+          <input type="number" name="so_tin_chi" value="${data.so_tin_chi || 3}" required min="1" max="10">
+        </div>
+        <div class="form-group">
+          <label>Loại học phần (*)</label>
+          <select name="loai_hoc_phan">
+            <option value="bat_buoc" ${(data.loai_hoc_phan || 'bat_buoc') === 'bat_buoc' ? 'selected' : ''}>📚 Bắt buộc</option>
+            <option value="tu_chon" ${data.loai_hoc_phan === 'tu_chon' ? 'selected' : ''}>📋 Tự chọn</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Định hướng <small style="color:var(--admin-text-muted)">(để trống nếu không có định hướng cụ thể)</small></label>
+          <input type="text" name="dinh_huong" value="${data.dinh_huong || ''}" placeholder="VD: KTPM hoặc Mạng &amp; TT">
         </div>
         <div class="form-group">
           <label>Năng lực hình thành sau học phần (*)</label>
