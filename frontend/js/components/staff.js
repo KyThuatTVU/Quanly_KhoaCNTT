@@ -256,8 +256,8 @@ class StaffDirectoryComponent extends HTMLElement {
     this.innerHTML = `
       <div class="staff-directory-section">
         <div class="staff-banner-container">
-          <h1 class="staff-main-title">Nhân Sự Khoa Công Nghệ Thông Tin</h1>
-          <p class="staff-main-desc">Đội ngũ cán bộ, viên chức và người lao động thuộc Khoa Công nghệ thông tin - Đại học Trà Vinh</p>
+          <h1 class="staff-main-title" data-i18n="staff.page.title">Nhân Sự Khoa Công Nghệ Thông Tin</h1>
+          <p class="staff-main-desc" data-i18n="staff.page.desc">Đội ngũ cán bộ, viên chức và người lao động thuộc Khoa Công nghệ thông tin - Đại học Trà Vinh</p>
         </div>
 
         ${groupsHtml}

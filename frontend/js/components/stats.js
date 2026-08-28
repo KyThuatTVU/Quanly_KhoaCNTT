@@ -95,7 +95,7 @@ class StatsCounterComponent extends HTMLElement {
     this.innerHTML = `
       <section class="stats-section">
         <div class="stats-container">
-          <h2 class="stats-heading">Những Con Số Nổi Bật</h2>
+          <h2 class="stats-heading" data-i18n="stats.heading">Những Con Số Nổi Bật</h2>
           <div class="stats-subheading">(${timestamp})</div>
           <div class="stats-grid">
             ${gridHtml}

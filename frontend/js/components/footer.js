@@ -56,51 +56,51 @@ class FooterComponent extends HTMLElement {
                 <img src="${logoPath}" alt="FIT Logo" class="footer-logo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23ffffff%22 stroke=%22%230f6fff%22 stroke-width=%225%22/><text x=%2250%25%22 y=%2255%25%22 font-family=%22sans-serif%22 font-size=%2222%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%230f6fff%22>SIT</text></svg>'">
               </div>
               <div class="footer-brand-text">
-                <h3 class="footer-brand-title">KHOA CÔNG NGHỆ THÔNG TIN</h3>
-                <h4 class="footer-brand-subtitle">Trường Đại học Trà Vinh</h4>
+                <h3 class="footer-brand-title" data-i18n="footer.brand.title">KHOA CÔNG NGHỆ THÔNG TIN</h3>
+                <h4 class="footer-brand-subtitle" data-i18n="footer.brand.subtitle">Trường Đại học Trà Vinh</h4>
               </div>
             </div>
-            <p class="footer-brand-desc">
+            <p class="footer-brand-desc" data-i18n="footer.brand.desc">
               Đào tạo nguồn nhân lực công nghệ thông tin chất lượng cao, nghiên cứu khoa học chuyên sâu và chuyển giao công nghệ tiên tiến phục vụ sự phát triển của cộng đồng.
             </p>
           </div>
 
           <!-- Column 2: Quick Links -->
           <div class="footer-col links-col">
-            <h3 class="footer-col-title">Liên kết nhanh</h3>
+            <h3 class="footer-col-title" data-i18n="footer.links.title">Liên kết nhanh</h3>
             <ul class="footer-links">
-              <li><a href="${homeLink}">Trang chủ</a></li>
-              <li><a href="${gioiThieuLink}">Giới thiệu</a></li>
-              <li><a href="${nhanSuLink}">Đội ngũ nhân sự</a></li>
-              <li><a href="${nghienCuuLink}">Nghiên cứu khoa học</a></li>
-              <li><a href="${daiHocLink}">Đại học</a></li>
-              <li><a href="${sauDaiHocLink}">Sau đại học</a></li>
+              <li><a href="${homeLink}" data-i18n="footer.links.home">Trang chủ</a></li>
+              <li><a href="${gioiThieuLink}" data-i18n="footer.links.about">Giới thiệu</a></li>
+              <li><a href="${nhanSuLink}" data-i18n="footer.links.staff">Đội ngũ nhân sự</a></li>
+              <li><a href="${nghienCuuLink}" data-i18n="footer.links.research">Nghiên cứu khoa học</a></li>
+              <li><a href="${daiHocLink}" data-i18n="footer.links.undergrad">Đại học</a></li>
+              <li><a href="${sauDaiHocLink}" data-i18n="footer.links.postgrad">Sau đại học</a></li>
               
           </div>
 
           <!-- Column 3: Contact Details -->
           <div class="footer-col contact-col">
-            <h3 class="footer-col-title">Thông tin liên hệ</h3>
+            <h3 class="footer-col-title" data-i18n="footer.contact.title">Thông tin liên hệ</h3>
             <ul class="footer-contact">
               <li>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon">
                   <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path>
                   <circle cx="12" cy="10" r="3"></circle>
                 </svg>
-                <span>Số 126 Nguyễn Thiện Thành, Phường 5, Thành phố Trà Vinh, Tỉnh Trà Vinh.</span>
+                <span data-i18n="footer.contact.address">Số 126 Nguyễn Thiện Thành, Phường 5, Thành phố Trà Vinh, Tỉnh Trà Vinh.</span>
               </li>
               <li>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
-                <span>Điện thoại: (+84) 294 3855 246</span>
+                <span data-i18n="footer.contact.phone">Điện thoại: (+84) 294 3855 246</span>
               </li>
               <li>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="contact-icon">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                   <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
-                <span>Email: CNTT@tvu.edu.vn</span>
+                <span data-i18n="footer.contact.email">Email: CNTT@tvu.edu.vn</span>
               </li>
             </ul>
           </div>
@@ -110,8 +110,8 @@ class FooterComponent extends HTMLElement {
         <!-- Copyright Bar -->
         <div class="footer-bottom">
           <div class="footer-bottom-container">
-            <p class="copyright-text">© 2026 School of Information Technology - Tra Vinh University. All rights reserved.</p>
-            <p class="footer-note">Được nâng cấp đồng bộ chất lượng hoạt động Khoa Công nghệ Thông tin.</p>
+            <p class="copyright-text" data-i18n="footer.copyright">© 2026 School of Information Technology - Tra Vinh University. All rights reserved.</p>
+            <p class="footer-note" data-i18n="footer.note">Được nâng cấp đồng bộ chất lượng hoạt động Khoa Công nghệ Thông tin.</p>
           </div>
         </div>
       </footer>
