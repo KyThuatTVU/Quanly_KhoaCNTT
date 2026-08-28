@@ -298,53 +298,85 @@ class CurriculumProgramComponent extends HTMLElement {
           <div class="curr-card-3d">
             <h3 class="curr-section-title">Các học phần trong chương trình</h3>
             ${(() => {
-              // Group courses by semester extracted from ma_hoc_phan prefix (HK1, HK2...)
+              // Group all courses by HK prefix
               const semMap = {};
-              const semTotals = {};
               this.coreCourses.forEach(course => {
                 const m = course.ma_hoc_phan.match(/^(HK\d)/i);
                 const key = m ? m[1].toUpperCase() : 'Khác';
-                if (!semMap[key]) { semMap[key] = []; semTotals[key] = 0; }
+                if (!semMap[key]) semMap[key] = [];
                 semMap[key].push(course);
-                semTotals[key] += course.so_tin_chi;
               });
               const semKeys = Object.keys(semMap).sort();
               if (semKeys.length === 0) return '<p style="color:#94a3b8;padding:20px;text-align:center;">Chưa có dữ liệu học phần.</p>';
 
-              const tabs = semKeys.map((k, i) => `
-                <button class="sem-tab-btn ${i === 0 ? 'active' : ''}" data-sem="${k}">
-                  ${k} <span class="sem-tc-badge">${semTotals[k]} TC</span>
-                </button>
-              `).join('');
-
-              const panels = semKeys.map((k, i) => `
-                <div class="sem-tab-panel ${i === 0 ? 'active' : ''}" data-sem="${k}">
-                  <table class="courses-table">
-                    <thead>
+              const renderCourseTable = (courses) => `
+                <table class="courses-table">
+                  <thead><tr>
+                    <th style="width:13%">Mã HP</th>
+                    <th>Tên học phần</th>
+                    <th style="width:9%;text-align:center">TC</th>
+                  </tr></thead>
+                  <tbody>
+                    ${courses.map(c => `
                       <tr>
-                        <th style="width:12%">Mã HP</th>
-                        <th>Tên học phần</th>
-                        <th style="width:10%;text-align:center">TC</th>
+                        <td class="course-code">${c.ma_hoc_phan}</td>
+                        <td class="course-name">${c.ten_hoc_phan}</td>
+                        <td class="course-credits" style="text-align:center">${c.so_tin_chi}</td>
                       </tr>
-                    </thead>
-                    <tbody>
-                      ${semMap[k].map((c, idx) => `
-                        <tr>
-                          <td class="course-code">${c.ma_hoc_phan}</td>
-                          <td class="course-name">${c.ten_hoc_phan}</td>
-                          <td class="course-credits" style="text-align:center">${c.so_tin_chi}</td>
-                        </tr>
-                      `).join('')}
-                    </tbody>
-                    <tfoot>
-                      <tr style="background:rgba(15,111,255,0.05);font-weight:700;">
-                        <td colspan="2" style="padding:10px 14px;color:#0f6fff;">Tổng học kỳ ${k}</td>
-                        <td style="text-align:center;padding:10px 14px;color:#0f6fff;">${semTotals[k]}</td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              `).join('');
+                    `).join('')}
+                  </tbody>
+                </table>
+              `;
+
+              const tabs = semKeys.map((k, i) => {
+                const all = semMap[k];
+                const bb = all.filter(c => c.loai_hoc_phan !== 'tu_chon');
+                const tc = all.filter(c => c.loai_hoc_phan === 'tu_chon');
+                const totalBB = bb.reduce((s, c) => s + c.so_tin_chi, 0);
+                return `<button class="sem-tab-btn ${i===0?'active':''}" data-sem="${k}">${k} <span class="sem-tc-badge">${totalBB} TC</span></button>`;
+              }).join('');
+
+              const panels = semKeys.map((k, i) => {
+                const all = semMap[k];
+                const bb = all.filter(c => c.loai_hoc_phan !== 'tu_chon');
+                const tc = all.filter(c => c.loai_hoc_phan === 'tu_chon');
+                const totalBB = bb.reduce((s, c) => s + c.so_tin_chi, 0);
+
+                // Group electives by dinh_huong
+                const electiveGroups = {};
+                tc.forEach(c => {
+                  const g = c.dinh_huong || 'Chung';
+                  if (!electiveGroups[g]) electiveGroups[g] = [];
+                  electiveGroups[g].push(c);
+                });
+                const electiveKeys = Object.keys(electiveGroups);
+
+                const electiveHtml = tc.length === 0 ? '' : `
+                  <div class="sem-elective-section">
+                    <div class="sem-elective-header">
+                      <span class="sem-elective-icon">📋</span>
+                      <span>Học phần tự chọn <em style="color:#94a3b8;font-size:12px;">(chọn theo định hướng)</em></span>
+                    </div>
+                    ${electiveKeys.map(g => `
+                      ${electiveKeys.length > 1 ? `<div class="sem-track-label ${g === 'KTPM' ? 'track-ktpm' : g === 'Mạng & TT' ? 'track-mtt' : 'track-chung'}">🎯 Định hướng: ${g}</div>` : ''}
+                      ${renderCourseTable(electiveGroups[g])}
+                    `).join('')}
+                  </div>
+                `;
+
+                return `
+                  <div class="sem-tab-panel ${i===0?'active':''}" data-sem="${k}">
+                    ${bb.length > 0 ? `
+                      <div class="sem-required-header">
+                        <span>📚 Học phần bắt buộc</span>
+                      </div>
+                      ${renderCourseTable(bb)}
+                      <div class="sem-total-row">Tổng bắt buộc: <strong>${totalBB} tín chỉ</strong></div>
+                    ` : ''}
+                    ${electiveHtml}
+                  </div>
+                `;
+              }).join('');
 
               return `
                 <div class="sem-tabs-wrapper">

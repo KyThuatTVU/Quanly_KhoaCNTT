@@ -513,12 +513,14 @@ DROP TABLE IF EXISTS `hoc_phan_cong_nghe_cot_loi`;
 CREATE TABLE `hoc_phan_cong_nghe_cot_loi` (
   `id`                 INT AUTO_INCREMENT PRIMARY KEY,
   `nganh_id`           INT NOT NULL COMMENT 'FK ngành đại học',
-  `ma_hoc_phan`        VARCHAR(20) NOT NULL COMMENT 'CT294, CT316E, CT210, CT282E',
-  `ten_hoc_phan`       VARCHAR(255) NOT NULL COMMENT 'Máy học ứng dụng, Xử lý ảnh...',
+  `ma_hoc_phan`        VARCHAR(20) NOT NULL COMMENT 'HK1-01, HK2-TC01, HK6-KTPM01...',
+  `loai_hoc_phan`      ENUM('bat_buoc','tu_chon') NOT NULL DEFAULT 'bat_buoc' COMMENT 'Bắt buộc hoặc tự chọn',
+  `dinh_huong`         VARCHAR(50) DEFAULT NULL COMMENT 'Định hướng: KTPM, Mạng & TT, hoặc NULL nếu chung',
+  `ten_hoc_phan`       VARCHAR(255) NOT NULL COMMENT 'Tên học phần',
   `so_tin_chi`         INT NOT NULL DEFAULT 3,
   `nang_luc_hinh_thanh` TEXT NOT NULL COMMENT 'Năng lực công nghệ hình thành',
   CONSTRAINT `fk_hocphan_nganh` FOREIGN KEY (`nganh_id`) REFERENCES `chuong_trinh_dao_tao_dai_hoc` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Một số học phần công nghệ cốt lõi tiêu biểu';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Học phần bắt buộc và tự chọn theo từng học kỳ';
 
 -- 6.7 Bảng Vị trí việc làm & Môi trường công tác
 DROP TABLE IF EXISTS `co_hoi_nghe_nghiep`;
