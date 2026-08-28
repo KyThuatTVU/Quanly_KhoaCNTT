@@ -95,6 +95,21 @@ class AlumniShowcaseComponent extends HTMLElement {
         ${secondaryRole ? `<div class="alumni-secondary-role">${secondaryRole}</div>` : ''}
       `;
 
+      const rawQuote = item.trich_dan_cam_nhan || '';
+      const limit = 160;
+      const isLong = rawQuote.length > limit;
+      const displayedQuote = isLong ? rawQuote.substring(0, limit) + '...' : rawQuote;
+      const quoteHtml = isLong ? `
+        <blockquote class="alumni-quote">
+          “<span class="quote-text">${displayedQuote}</span>”
+          <a href="#" class="alumni-toggle-more" data-full="${encodeURIComponent(rawQuote)}" data-short="${encodeURIComponent(displayedQuote)}" style="color: #0f6fff; font-weight: 600; font-size: 13px; margin-left: 5px; text-decoration: none;">Xem thêm</a>
+        </blockquote>
+      ` : `
+        <blockquote class="alumni-quote">
+          “${rawQuote}”
+        </blockquote>
+      `;
+
       cardsHtml += `
         <article class="alumni-card">
           <!-- Card Header (Avatar + Info) -->
@@ -109,9 +124,7 @@ class AlumniShowcaseComponent extends HTMLElement {
           </div>
           
           <!-- Card Quote Body -->
-          <blockquote class="alumni-quote">
-            “${item.trich_dan_cam_nhan}”
-          </blockquote>
+          ${quoteHtml}
         </article>
       `;
     });
@@ -130,6 +143,29 @@ class AlumniShowcaseComponent extends HTMLElement {
 
     // Initialize event-based avatar fallbacks to prevent quoting syntax errors
     this.initAvatarFallbacks(svgAvatars);
+    // Initialize toggle events for long quotes
+    this.initToggleEvents();
+  }
+
+  /**
+   * Initialize "Xem thêm" / "Rút gọn" toggling for long quotes
+   */
+  initToggleEvents() {
+    const toggles = this.querySelectorAll('.alumni-toggle-more');
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const span = toggle.parentNode.querySelector('.quote-text');
+        const isExpanded = toggle.textContent === 'Rút gọn';
+        if (isExpanded) {
+          span.innerHTML = decodeURIComponent(toggle.getAttribute('data-short'));
+          toggle.textContent = 'Xem thêm';
+        } else {
+          span.innerHTML = decodeURIComponent(toggle.getAttribute('data-full'));
+          toggle.textContent = 'Rút gọn';
+        }
+      });
+    });
   }
 
   /**

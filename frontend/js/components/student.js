@@ -134,6 +134,21 @@ class StudentShowcaseComponent extends HTMLElement {
           ? `, giảng viên hướng dẫn: <strong>${item.giang_vien_huong_dan}</strong>.`
           : '.';
 
+        const rawDesc = `${item.thanh_tich}${advisorText}`;
+        const limit = 160;
+        const isLong = rawDesc.length > limit;
+        const displayedDesc = isLong ? rawDesc.substring(0, limit) + '...' : rawDesc;
+        const descHtml = isLong ? `
+          <p class="student-card-desc">
+            <span class="desc-text">${displayedDesc}</span>
+            <a href="#" class="student-toggle-more" data-full="${encodeURIComponent(rawDesc)}" data-short="${encodeURIComponent(displayedDesc)}" style="color: #0f6fff; font-weight: 600; font-size: 13px; margin-left: 5px; text-decoration: none;">Xem thêm</a>
+          </p>
+        ` : `
+          <p class="student-card-desc">
+            ${rawDesc}
+          </p>
+        `;
+
         cardsHtml += `
           <article class="student-card ${meta.themeClass}">
             <!-- Card Image Area -->
@@ -145,9 +160,7 @@ class StudentShowcaseComponent extends HTMLElement {
             <div class="student-card-body">
               <h3 class="student-card-title">${item.ten_doi_ca_nhan}</h3>
               <div class="student-card-major">${item.nganh_hoc}</div>
-              <p class="student-card-desc">
-                ${item.thanh_tich}${advisorText}
-              </p>
+              ${descHtml}
             </div>
           </article>
         `;
@@ -178,6 +191,29 @@ class StudentShowcaseComponent extends HTMLElement {
 
     // Initialize event-based image fallbacks
     this.initImageFallbacks(svgPlaceholders);
+    // Initialize toggle events for long descriptions
+    this.initToggleEvents();
+  }
+
+  /**
+   * Initialize "Xem thêm" / "Rút gọn" toggling for long descriptions
+   */
+  initToggleEvents() {
+    const toggles = this.querySelectorAll('.student-toggle-more');
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        const span = toggle.parentNode.querySelector('.desc-text');
+        const isExpanded = toggle.textContent === 'Rút gọn';
+        if (isExpanded) {
+          span.innerHTML = decodeURIComponent(toggle.getAttribute('data-short'));
+          toggle.textContent = 'Xem thêm';
+        } else {
+          span.innerHTML = decodeURIComponent(toggle.getAttribute('data-full'));
+          toggle.textContent = 'Rút gọn';
+        }
+      });
+    });
   }
 
   /**
