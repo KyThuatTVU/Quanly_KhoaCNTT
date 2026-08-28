@@ -5,7 +5,10 @@
  * A reusable, native web component for the Faculty of Information Technology navbar.
  * Automatically highlights the active menu item based on the URL path.
  * Handles mobile hamburger menu interaction and scroll-responsive behavior.
+ * Includes VI/EN language switcher integrated with i18n.js.
  */
+
+import { I18n } from '../i18n.js';
 
 class NavbarComponent extends HTMLElement {
   constructor() {
@@ -17,6 +20,9 @@ class NavbarComponent extends HTMLElement {
     this.initScrollBehavior();
     this.initMobileMenu();
     this.highlightActiveLink();
+    this.initLangSwitcher();
+    // Re-apply i18n after render (in case I18n.init() was called before navbar rendered)
+    I18n.apply();
   }
 
   /**
@@ -43,17 +49,20 @@ class NavbarComponent extends HTMLElement {
     const daiHocLink = `${prefix}undergraduate/`;
     const sauDaiHocLink = `${prefix}postgraduate/`;
 
+    const currentLang = I18n.lang;
+    const labelNext = currentLang === 'vi' ? 'EN' : 'VI';
+
     this.innerHTML = `
       <header class="main-header" id="mainHeader">
         <div class="navbar">
-          <!-- Logo & Brand Titles (Uppercase to match reference style) -->
+          <!-- Logo & Brand Titles -->
           <a href="${homeLink}" class="navbar-brand" title="Khoa Công nghệ Thông tin - Đại học Trà Vinh">
             <div class="brand-logo-container">
               <img src="${logoPath}" alt="FIT Logo" class="brand-logo" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23ffffff%22 stroke=%22%230f6fff%22 stroke-width=%225%22/><text x=%2250%25%22 y=%2255%25%22 font-family=%22sans-serif%22 font-size=%2222%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%230f6fff%22>SIT</text></svg>'">
             </div>
             <div class="brand-text">
-              <span class="brand-title">KHOA CÔNG NGHỆ THÔNG TIN</span>
-              <span class="brand-subtitle">School of Information Technology</span>
+              <span class="brand-title" data-i18n="brand.title">KHOA CÔNG NGHỆ THÔNG TIN</span>
+              <span class="brand-subtitle" data-i18n="brand.subtitle">School of Information Technology</span>
             </div>
           </a>
 
@@ -72,7 +81,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
                 </svg>
-                <span>Trang chủ</span>
+                <span data-i18n="nav.home">Trang chủ</span>
               </a>
             </li>
             <li class="nav-item">
@@ -82,7 +91,7 @@ class NavbarComponent extends HTMLElement {
                   <line x1="12" y1="16" x2="12" y2="12"></line>
                   <line x1="12" y1="8" x2="12.01" y2="8"></line>
                 </svg>
-                <span>Giới thiệu</span>
+                <span data-i18n="nav.about">Giới thiệu</span>
               </a>
             </li>
             <li class="nav-item">
@@ -93,7 +102,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
                   <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                 </svg>
-                <span>Nhân sự</span>
+                <span data-i18n="nav.staff">Nhân sự</span>
               </a>
             </li>
             <li class="nav-item">
@@ -102,7 +111,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                   <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                 </svg>
-                <span>Nghiên cứu</span>
+                <span data-i18n="nav.research">Nghiên cứu</span>
               </a>
             </li>
             <li class="nav-item">
@@ -111,7 +120,7 @@ class NavbarComponent extends HTMLElement {
                   <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
                   <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
                 </svg>
-                <span>Đại học</span>
+                <span data-i18n="nav.undergraduate">Đại học</span>
               </a>
             </li>
             <li class="nav-item">
@@ -119,8 +128,20 @@ class NavbarComponent extends HTMLElement {
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
                 </svg>
-                <span>Sau đại học</span>
+                <span data-i18n="nav.postgraduate">Sau đại học</span>
               </a>
+            </li>
+
+            <!-- Language Switcher -->
+            <li class="nav-item nav-lang-item">
+              <button class="nav-lang-btn" id="navLangBtn" data-i18n-attr="title:nav.lang.title" title="${I18n.t('nav.lang.title')}">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="2" y1="12" x2="22" y2="12"/>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+                <span class="lang-label" data-i18n="nav.lang">${labelNext}</span>
+              </button>
             </li>
           </ul>
         </div>
@@ -213,9 +234,39 @@ class NavbarComponent extends HTMLElement {
       });
     });
   }
+
+  /**
+   * Initialize the language switcher button
+   */
+  initLangSwitcher() {
+    const btn = this.querySelector('#navLangBtn');
+    if (!btn) return;
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      I18n.toggle();
+      // Update the label and title on the button itself immediately
+      const label = btn.querySelector('.lang-label');
+      if (label) label.textContent = I18n.t('nav.lang');
+      btn.title = I18n.t('nav.lang.title');
+      // Animate the button
+      btn.classList.add('lang-switching');
+      setTimeout(() => btn.classList.remove('lang-switching'), 400);
+    });
+
+    // Keep in sync if another component triggers a language change
+    window.addEventListener('langchange', () => {
+      const label = btn.querySelector('.lang-label');
+      if (label) label.textContent = I18n.t('nav.lang');
+      btn.title = I18n.t('nav.lang.title');
+    });
+  }
 }
 
 // Define the custom element
 if (!customElements.get('navbar-component')) {
   customElements.define('navbar-component', NavbarComponent);
 }
+
+// Auto-init i18n on first load
+I18n.init();
