@@ -75,9 +75,19 @@ class NewsEventsComponent extends HTMLElement {
 
     this.newsData.forEach(item => {
       const imgPath = `${this.assetPrefix}${item.anh_chinh}`;
-      const detailUrl = item.redirect_url && item.redirect_url.trim()
-        ? (item.redirect_url.startsWith('http') ? item.redirect_url : `${this.assetPrefix}${item.redirect_url.replace(/^\//, '')}`)
-        : `${this.assetPrefix}news/?slug=${item.slug}`;
+      let detailUrl = `${this.assetPrefix}news/?slug=${item.slug}`;
+      if (item.redirect_url && item.redirect_url.trim()) {
+        const url = item.redirect_url.trim();
+        if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')) {
+          detailUrl = url;
+        } else if (url.startsWith('./') || url.startsWith('../') || url.startsWith('/')) {
+          detailUrl = `${this.assetPrefix}${url.replace(/^\//, '')}`;
+        } else if (url.includes('.') && (!url.includes('/') || url.indexOf('.') < url.indexOf('/'))) {
+          detailUrl = `https://${url}`;
+        } else {
+          detailUrl = `${this.assetPrefix}${url}`;
+        }
+      }
 
       cardsHtml += `
         <article class="news-card">
