@@ -1,12 +1,13 @@
 /**
  * ==========================================================================
- * i18n.js — Internationalization Engine (VI / EN)
+ * i18n.js — Comprehensive Internationalization & Live Translation Engine
  * ==========================================================================
- * Usage:
- *   import { I18n } from '../i18n.js';
- *   I18n.t('nav.home')   // get translated string
- *
- * In HTML, mark elements with: data-i18n="key"
+ * Features:
+ *   1. Instant UI Dictionary: Fast zero-latency translation for nav, headers, buttons, footers.
+ *   2. Live Database Content Translation: Powered by Google Translate Engine for all dynamic 
+ *      content from MySQL (News articles, Research papers, Curriculum courses, FAQs, Staff bios).
+ *   3. Headless / Invisible mode: Removes all ugly Google Translate frames, banners, and tooltips.
+ *   4. Persistent language preference stored in localStorage and cookies.
  */
 
 const TRANSLATIONS = {
@@ -19,7 +20,7 @@ const TRANSLATIONS = {
     'nav.undergraduate':  'Đại học',
     'nav.postgraduate':   'Sau đại học',
     'nav.lang':           'EN',
-    'nav.lang.title':     'Switch to English',
+    'nav.lang.title':     'Chuyển sang Tiếng Anh (Translate to English)',
 
     // ── Brand ───────────────────────────────────────────────────
     'brand.title':    'KHOA CÔNG NGHỆ THÔNG TIN',
@@ -113,7 +114,7 @@ const TRANSLATIONS = {
     'nav.undergraduate':  'Undergraduate',
     'nav.postgraduate':   'Postgraduate',
     'nav.lang':           'VI',
-    'nav.lang.title':     'Chuyển sang Tiếng Việt',
+    'nav.lang.title':     'Chuyển sang Tiếng Việt (Switch to Vietnamese)',
 
     // ── Brand ───────────────────────────────────────────────────
     'brand.title':    'SCHOOL OF INFORMATION TECHNOLOGY',
@@ -199,6 +200,78 @@ const TRANSLATIONS = {
   }
 };
 
+/**
+ * Google Translate Live Engine Controller
+ */
+function setGoogleTranslateCookie(lang) {
+  const host = window.location.hostname;
+  const isLocal = host === 'localhost' || host === '127.0.0.1';
+
+  if (lang === 'en') {
+    document.cookie = 'googtrans=/vi/en; path=/';
+    if (!isLocal && host) {
+      document.cookie = `googtrans=/vi/en; path=/; domain=.${host}`;
+      document.cookie = `googtrans=/vi/en; path=/; domain=${host}`;
+    }
+  } else {
+    document.cookie = 'googtrans=/vi/vi; path=/';
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    if (!isLocal && host) {
+      document.cookie = `googtrans=/vi/vi; path=/; domain=.${host}`;
+      document.cookie = `googtrans=/vi/vi; path=/; domain=${host}`;
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${host}`;
+      document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${host}`;
+    }
+  }
+}
+
+function triggerGoogleTranslateCombo(lang) {
+  const select = document.querySelector('.goog-te-combo');
+  if (select) {
+    select.value = lang;
+    select.dispatchEvent(new Event('change'));
+    return true;
+  }
+  return false;
+}
+
+function loadGoogleTranslateEngine() {
+  if (window.google && window.google.translate) return;
+  if (document.getElementById('google-translate-script')) return;
+
+  // Create hidden container if not present
+  if (!document.getElementById('google_translate_element')) {
+    const container = document.createElement('div');
+    container.id = 'google_translate_element';
+    container.style.display = 'none';
+    document.body.appendChild(container);
+  }
+
+  window.googleTranslateElementInit = function () {
+    try {
+      new window.google.translate.TranslateElement({
+        pageLanguage: 'vi',
+        includedLanguages: 'en,vi',
+        autoDisplay: false
+      }, 'google_translate_element');
+
+      if (I18n.lang === 'en') {
+        setTimeout(() => {
+          triggerGoogleTranslateCombo('en');
+        }, 300);
+      }
+    } catch (err) {
+      console.warn('Google Translate initialization notice:', err);
+    }
+  };
+
+  const script = document.createElement('script');
+  script.id = 'google-translate-script';
+  script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+  script.async = true;
+  document.head.appendChild(script);
+}
+
 export const I18n = {
   lang: localStorage.getItem('fit_lang') || 'vi',
 
@@ -207,11 +280,13 @@ export const I18n = {
   },
 
   apply() {
+    // 1. Update all static data-i18n attributes instantly
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       const translation = this.t(key);
       if (translation) el.textContent = translation;
     });
+
     document.querySelectorAll('[data-i18n-attr]').forEach(el => {
       const pairs = el.getAttribute('data-i18n-attr').split(',');
       pairs.forEach(pair => {
@@ -219,18 +294,55 @@ export const I18n = {
         if (attr && key) el.setAttribute(attr, this.t(key));
       });
     });
+
     document.documentElement.lang = this.lang;
+
+    // 2. Sync with Google Translate Live Engine for database/dynamic content
+    setGoogleTranslateCookie(this.lang);
+    if (!triggerGoogleTranslateCombo(this.lang)) {
+      loadGoogleTranslateEngine();
+    }
   },
 
   toggle() {
+    const prevLang = this.lang;
     this.lang = this.lang === 'vi' ? 'en' : 'vi';
     localStorage.setItem('fit_lang', this.lang);
+    
+    // Apply static translations
     this.apply();
+
+    // Trigger Google Translate engine for database texts
+    if (this.lang === 'vi') {
+      // If switching back to VI, reload or reset combo
+      const combo = document.querySelector('.goog-te-combo');
+      if (combo) {
+        combo.value = 'vi';
+        combo.dispatchEvent(new Event('change'));
+      }
+      // If Google Translate framed the page, reload for clean state
+      if (document.querySelector('.goog-te-banner-frame') || document.cookie.includes('googtrans')) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 150);
+        return;
+      }
+    }
+
     window.dispatchEvent(new CustomEvent('langchange', { detail: { lang: this.lang } }));
   },
 
   init() {
     this.lang = localStorage.getItem('fit_lang') || 'vi';
+
+    // Set cookie immediately
+    setGoogleTranslateCookie(this.lang);
+
+    // If English was saved, load engine right away
+    if (this.lang === 'en') {
+      loadGoogleTranslateEngine();
+    }
+
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', () => this.apply());
     } else {

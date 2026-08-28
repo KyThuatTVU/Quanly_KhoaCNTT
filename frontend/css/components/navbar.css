@@ -455,3 +455,32 @@ body {
     background: rgba(255, 255, 255, 0.08);
   }
 }
+
+/* ==========================================================================
+   HEADLESS GOOGLE TRANSLATE ENGINE (SILENT LIVE TRANSLATION)
+   ========================================================================== */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+#goog-gt-tt,
+.goog-te-balloon-frame,
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+body {
+  top: 0 !important;
+  position: static !important;
+}
+
+#google_translate_element {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background: none !important;
+  box-shadow: none !important;
+}
+
