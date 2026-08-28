@@ -293,30 +293,66 @@ class CurriculumProgramComponent extends HTMLElement {
           </div>
         </div>
 
-        <!-- Core Technology Courses Table (Image 1) -->
+        <!-- Core Technology Courses Table - Tabbed by Semester -->
         <div class="curr-courses-section" style="margin-top: 36px;">
           <div class="curr-card-3d">
             <h3 class="curr-section-title">Các học phần trong chương trình</h3>
-            <div class="courses-table-container">
-              <table class="courses-table">
-                <thead>
-                  <tr>
-                    <th style="width: 12%;">Mã HP</th>
-                    <th style="width: 25%;">Tên học phần học thuật</th>
-                    <th style="width: 10%;">Tín chỉ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${this.coreCourses.map(course => `
-                    <tr>
-                      <td class="course-code">${course.ma_hoc_phan}</td>
-                      <td class="course-name">${course.ten_hoc_phan}</td>
-                      <td class="course-credits">${course.so_tin_chi}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
+            ${(() => {
+              // Group courses by semester extracted from ma_hoc_phan prefix (HK1, HK2...)
+              const semMap = {};
+              const semTotals = {};
+              this.coreCourses.forEach(course => {
+                const m = course.ma_hoc_phan.match(/^(HK\d)/i);
+                const key = m ? m[1].toUpperCase() : 'Khác';
+                if (!semMap[key]) { semMap[key] = []; semTotals[key] = 0; }
+                semMap[key].push(course);
+                semTotals[key] += course.so_tin_chi;
+              });
+              const semKeys = Object.keys(semMap).sort();
+              if (semKeys.length === 0) return '<p style="color:#94a3b8;padding:20px;text-align:center;">Chưa có dữ liệu học phần.</p>';
+
+              const tabs = semKeys.map((k, i) => `
+                <button class="sem-tab-btn ${i === 0 ? 'active' : ''}" data-sem="${k}">
+                  ${k} <span class="sem-tc-badge">${semTotals[k]} TC</span>
+                </button>
+              `).join('');
+
+              const panels = semKeys.map((k, i) => `
+                <div class="sem-tab-panel ${i === 0 ? 'active' : ''}" data-sem="${k}">
+                  <table class="courses-table">
+                    <thead>
+                      <tr>
+                        <th style="width:12%">Mã HP</th>
+                        <th>Tên học phần</th>
+                        <th style="width:10%;text-align:center">TC</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${semMap[k].map((c, idx) => `
+                        <tr>
+                          <td class="course-code">${c.ma_hoc_phan}</td>
+                          <td class="course-name">${c.ten_hoc_phan}</td>
+                          <td class="course-credits" style="text-align:center">${c.so_tin_chi}</td>
+                        </tr>
+                      `).join('')}
+                    </tbody>
+                    <tfoot>
+                      <tr style="background:rgba(15,111,255,0.05);font-weight:700;">
+                        <td colspan="2" style="padding:10px 14px;color:#0f6fff;">Tổng học kỳ ${k}</td>
+                        <td style="text-align:center;padding:10px 14px;color:#0f6fff;">${semTotals[k]}</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              `).join('');
+
+              return `
+                <div class="sem-tabs-wrapper">
+                  <div class="sem-tab-bar">${tabs}</div>
+                  <div class="sem-tab-content">${panels}</div>
+                </div>
+              `;
+            })()}
           </div>
         </div>
 
@@ -471,6 +507,9 @@ class CurriculumProgramComponent extends HTMLElement {
         this.switchTab(id);
       });
     });
+
+    // Semester tab switching for course list
+    this.initSemesterTabs();
 
     this.querySelectorAll('.faq-question-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -809,6 +848,24 @@ class CurriculumProgramComponent extends HTMLElement {
         ${barsHtml}
       </svg>
     `;
+  }
+
+  /**
+   * Initialize semester tab switching for the course list section
+   */
+  initSemesterTabs() {
+    const btns = this.querySelectorAll('.sem-tab-btn');
+    const panels = this.querySelectorAll('.sem-tab-panel');
+    if (!btns.length) return;
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const sem = btn.getAttribute('data-sem');
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        this.querySelector(`.sem-tab-panel[data-sem="${sem}"]`)?.classList.add('active');
+      });
+    });
   }
 }
 

@@ -1310,3 +1310,80 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.03);
   transition: left 0.1s ease-out;
 }
+
+/* ==========================================================================
+   SEMESTER TAB STYLES (HK1-HK8 Course List)
+   ========================================================================== */
+.sem-tabs-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sem-tab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 0 16px 0;
+  border-bottom: 2px solid rgba(15, 111, 255, 0.1);
+  margin-bottom: 20px;
+}
+
+.sem-tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.8);
+  border: 1.5px solid rgba(15,111,255,0.15);
+  border-radius: 50px;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-family: inherit;
+}
+
+.sem-tab-btn:hover {
+  background: rgba(15,111,255,0.06);
+  border-color: rgba(15,111,255,0.35);
+  color: #0f6fff;
+  transform: translateY(-1px);
+}
+
+.sem-tab-btn.active {
+  background: linear-gradient(135deg, #0f6fff 0%, #00b4d8 100%);
+  border-color: transparent;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(15,111,255,0.3);
+  transform: translateY(-2px);
+}
+
+.sem-tc-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.25);
+  border-radius: 30px;
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sem-tab-btn:not(.active) .sem-tc-badge {
+  background: rgba(15,111,255,0.1);
+  color: #0f6fff;
+}
+
+.sem-tab-panel {
+  display: none;
+  animation: semFadeIn 0.25s ease;
+}
+
+.sem-tab-panel.active {
+  display: block;
+}
+
+@keyframes semFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
