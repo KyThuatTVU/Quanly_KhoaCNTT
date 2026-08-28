@@ -291,7 +291,7 @@ async function main() {
     // 26. Chèn bảng gioi_thieu_tong_quan
     await conn.query(`
       INSERT INTO gioi_thieu_tong_quan (id, badge_text, tieu_de, mo_ta_chi_tiet, hinh_anh_tap_the_url, caption_anh) VALUES
-      (1, 'GIỚI THIỆU TỔNG QUAN', 'KHOA CÔNG NGHỆ THÔNG TIN', 'Khoa Công nghệ thông tin trường Đại học Trà Vinh (SIT) là cái nôi đào tạo hàng ngàn kỹ sư công nghệ chất lượng cao phục vụ tiến trình chuyển đổi số quốc gia. Khoa sở hữu đội ngũ giảng viên giàu kinh nghiệm, đạt trình độ Tiến sĩ, Thạc sĩ tốt nghiệp từ các trường đại học uy tín.', 'assets/images/gallery/gallery1.jpg', 'Tập thể giảng viên Khoa Công nghệ thông tin - TVU')
+      (1, 'GIỚI THIỆU TỔNG QUAN', 'KHOA CÔNG NGHỆ THÔNG TIN', 'Khoa Công nghệ thông tin trường Đại học Trà Vinh (SIT) là cái nôi đào tạo hàng ngàn kỹ sư công nghệ chất lượng cao phục vụ tiến trình chuyển đổi số quốc gia. Khoa sở hữu đội ngũ giảng viên giàu kinh nghiệm, đạt trình độ Tiến sĩ, Thạc sĩ tốt nghiệp từ các trường đại học uy tín.', 'assets/images/gvCNTT.jpg', 'Tập thể giảng viên Khoa Công nghệ thông tin - TVU')
     `);
     console.log('✅ Đã nạp bảng: gioi_thieu_tong_quan');
 
