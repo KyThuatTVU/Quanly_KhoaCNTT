@@ -475,7 +475,7 @@ class StaffDirectoryComponent extends HTMLElement {
               </div>
               <h2 class="profile-name">${staff.ho_ten}</h2>
               <p class="profile-title">${staff.hoc_vi}, ${pData.ngach_vien_chuc}</p>
-              <p class="profile-faculty-desc">Giảng viên Khoa Công nghệ thông tin</p>
+              <p class="profile-faculty-desc">${pData.don_vi_cong_tac || 'Giảng viên Khoa Công nghệ thông tin'}</p>
               
               <!-- Contact social row -->
               <div class="profile-social-row">
