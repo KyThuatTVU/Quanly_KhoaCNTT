@@ -78,11 +78,9 @@ class PostgraduatePageComponent extends HTMLElement {
             <table class="phd-table">
               <thead>
                 <tr>
-                  <th style="width: 60px; text-align: center;">STT</th>
-                  <th style="width: 260px;">Nghiên cứu sinh</th>
-                  <th>Hướng nghiên cứu</th>
-                  <th style="width: 180px;">Người hướng dẫn</th>
-                  <th style="width: 110px; text-align: center;">Trạng thái</th>
+                  <th style="width: 70px; text-align: center;">STT</th>
+                  <th>Nghiên cứu sinh</th>
+                  <th style="width: 140px; text-align: center;">Trạng thái</th>
                 </tr>
               </thead>
               <tbody>
@@ -98,32 +96,25 @@ class PostgraduatePageComponent extends HTMLElement {
                         </div>
                         <div class="student-info">
                           <h4 class="student-name">${student.ho_ten}</h4>
-                        <p class="student-role">${student.chuc_vu_co_quan}</p>
-                        ${student.an_hien_email !== 0 ? `
-                          <a href="mailto:${student.email}" class="student-email">
-                            <span class="email-icon">M</span> ${student.email}
-                          </a>
-                        ` : ''}
-                        ${student.google_scholar_url ? `
-                          <a href="${student.google_scholar_url}" target="_blank" rel="noopener" class="scholar-link">
-                            <svg class="scholar-icon" width="12" height="12" viewBox="0 0 24 24" fill="#0f6fff"><path d="M12 24a12 12 0 1 1 12-12 12.013 12.013 0 0 1-12 12zm0-22a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2z"/><path d="M12 5l-7 4 7 4 7-4-7-4zm-4 6.5v3c0 1.5 1.8 2.5 4 2.5s4-1 4-2.5v-3l-4 2-4-2z"/></svg>
-                            Google Scholar
-                          </a>
-                        ` : ''}
-                      </div>
-                    </td>
-                    <td class="topic-col">${student.huong_nghien_cuu && student.huong_nghien_cuu.trim() ? student.huong_nghien_cuu : ''}</td>
-                    <td class="advisor-col">
-                      ${student.nguoi_huong_dan && student.nguoi_huong_dan.trim() && student.nguoi_huong_dan.trim() !== 'Ban Giám Khoa' ? 
-                        student.nguoi_huong_dan.split(',').map(adv => `<div>${adv.trim()}</div>`).join('') : 
-                        ''
-                      }
-                    </td>
-                    <td class="status-col">
-                      <span class="status-badge-green">${student.trang_thai}</span>
-                    </td>
-                  </tr>
-                `; }).join('')}
+                          <p class="student-role">${student.chuc_vu_co_quan}</p>
+                          ${student.an_hien_email !== 0 ? `
+                            <a href="mailto:${student.email}" class="student-email">
+                              <span class="email-icon">M</span> ${student.email}
+                            </a>
+                          ` : ''}
+                          ${student.google_scholar_url ? `
+                            <a href="${student.google_scholar_url}" target="_blank" rel="noopener" class="scholar-link">
+                              <svg class="scholar-icon" width="12" height="12" viewBox="0 0 24 24" fill="#0f6fff"><path d="M12 24a12 12 0 1 1 12-12 12.013 12.013 0 0 1-12 12zm0-22a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2z"/><path d="M12 5l-7 4 7 4 7-4-7-4zm-4 6.5v3c0 1.5 1.8 2.5 4 2.5s4-1 4-2.5v-3l-4 2-4-2z"/></svg>
+                              Google Scholar
+                            </a>
+                          ` : ''}
+                        </div>
+                      </td>
+                      <td class="status-col">
+                        <span class="status-badge-green">${student.trang_thai}</span>
+                      </td>
+                    </tr>
+                  `; }).join('')}
               </tbody>
             </table>
           </div>
