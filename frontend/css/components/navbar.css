@@ -138,7 +138,7 @@ body {
 .navbar-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 14px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -157,14 +157,14 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 0 4px;
-  margin: 0 10px;
+  padding: 0 12px;
+  margin: 0 2px;
   text-decoration: none;
   font-family: var(--font-logo-vn);
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   border-bottom: 3.5px solid transparent;
   border-radius: 0;
   background: transparent;
@@ -173,7 +173,7 @@ body {
   border-top: none;
   border-left: none;
   border-right: none;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
   transition: all 0.2s ease;
   cursor: pointer;
   user-select: none;
@@ -353,7 +353,7 @@ body {
   align-items: center !important;
   justify-content: center !important;
   height: 100%;
-  margin-left: 12px;
+  margin-left: 20px;
   padding: 0 4px;
 }
 

@@ -7,6 +7,7 @@
  */
 
 import { NewsService } from '../services/newsService.js';
+import { I18n } from '../i18n.js';
 
 class NewsEventsComponent extends HTMLElement {
   constructor() {
@@ -145,7 +146,7 @@ class NewsEventsComponent extends HTMLElement {
     this.innerHTML = `
       <section class="news-section" id="news">
         <div class="news-container">
-          <h2 class="news-heading" data-i18n="news.heading">TIN TỨC & SỰ KIỆN</h2>
+          <h2 class="news-heading" data-i18n="news.heading">${I18n.t('news.heading')}</h2>
           
           <div class="news-carousel-wrapper">
             <button type="button" class="news-nav-btn prev-btn" id="newsPrevBtn" aria-label="Tin trước" title="Tin trước">

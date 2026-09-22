@@ -48,6 +48,7 @@ const TRANSLATIONS = {
     'stats.heading':      'Những Con Số Nổi Bật',
 
     // ── News ────────────────────────────────────────────────────
+    'news.heading':       'Tin tức & Sự kiện',
     'news.title':         'Tin tức & Sự kiện',
     'news.readmore':      'Xem tiếp',
 
@@ -142,6 +143,7 @@ const TRANSLATIONS = {
     'stats.heading':      'Key Figures',
 
     // ── News ────────────────────────────────────────────────────
+    'news.heading':       'News & Events',
     'news.title':         'News & Events',
     'news.readmore':      'Read more',
 
