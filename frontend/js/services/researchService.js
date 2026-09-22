@@ -5,7 +5,12 @@
  * Service layer for querying the Faculty of Information Technology scientific
  * research directions, active projects, publications (BibTeX-aligned), and contacts.
  * Formatted to align exactly with the database schema structure.
+ * Protected by fetchWithCache to prevent duplicate calls and server flooding.
  */
+
+import { fetchWithCache } from '../utils/apiClient.js';
+
+const BASE_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public`;
 
 export const ResearchService = {
   /**
@@ -13,12 +18,9 @@ export const ResearchService = {
    */
   async getResearchDirections() {
     try {
-      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/researchDirections`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          return result.data;
-        }
+      const result = await fetchWithCache(`${BASE_URL}/researchDirections`);
+      if (result && result.success && Array.isArray(result.data)) {
+        return result.data;
       }
     } catch (e) {
       console.error('Lỗi API /api/research/directions:', e);
@@ -31,12 +33,9 @@ export const ResearchService = {
    */
   async getResearchTopics() {
     try {
-      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/researchProjects`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          return result.data;
-        }
+      const result = await fetchWithCache(`${BASE_URL}/researchProjects`);
+      if (result && result.success && Array.isArray(result.data)) {
+        return result.data;
       }
     } catch (e) {
       console.error('Lỗi API /api/research/topics:', e);
@@ -49,12 +48,9 @@ export const ResearchService = {
    */
   async getScientificPublications() {
     try {
-      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/researchPublications`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          return result.data;
-        }
+      const result = await fetchWithCache(`${BASE_URL}/researchPublications`);
+      if (result && result.success && Array.isArray(result.data)) {
+        return result.data;
       }
     } catch (e) {
       console.error('Lỗi API /api/research/publications:', e);
@@ -67,12 +63,9 @@ export const ResearchService = {
    */
   async getResearchContacts() {
     try {
-      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/researchContacts`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          return result.data;
-        }
+      const result = await fetchWithCache(`${BASE_URL}/researchContacts`);
+      if (result && result.success && Array.isArray(result.data)) {
+        return result.data;
       }
     } catch (e) {
       console.error('Lỗi API /api/research/contacts:', e);

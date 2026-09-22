@@ -7,6 +7,8 @@
  * matching the 'gioi_thieu_tong_quan' and 'gioi_thieu_highlights' MySQL tables.
  */
 
+import { fetchWithCache } from '../utils/apiClient.js';
+
 // API Endpoints (Change these when backend is ready)
 const API_OVERVIEW_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/aboutOverview`;
 const API_HIGHLIGHTS_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/aboutHighlights`;
@@ -18,15 +20,11 @@ export const OverviewService = {
    */
   async getOverview() {
     try {
-      const response = await fetch(API_OVERVIEW_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const result = await response.json();
-      if (result.success && Array.isArray(result.data) && result.data.length > 0) {
+      const result = await fetchWithCache(API_OVERVIEW_URL);
+      if (result && result.success && Array.isArray(result.data) && result.data.length > 0) {
         return result.data[0];
       }
-      throw new Error(result.error || 'Dữ liệu trống hoặc không hợp lệ');
+      throw new Error(result?.error || 'Dữ liệu trống hoặc không hợp lệ');
     } catch (error) {
       console.warn('API /api/overview chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu tổng quan.', error.message);
       return null;
@@ -39,12 +37,8 @@ export const OverviewService = {
    */
   async getHighlights() {
     try {
-      const response = await fetch(API_HIGHLIGHTS_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const result = await response.json();
-      if (result.success && Array.isArray(result.data)) {
+      const result = await fetchWithCache(API_HIGHLIGHTS_URL);
+      if (result && result.success && Array.isArray(result.data)) {
         return result.data;
       }
       throw new Error(result.error || 'Dữ liệu không hợp lệ');

@@ -7,6 +7,8 @@
  * JSON Schema required for future database integration.
  */
 
+import { fetchWithCache } from '../utils/apiClient.js';
+
 // API Endpoint (Change this when backend is ready)
 const API_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/sliders`;
 
@@ -17,12 +19,8 @@ export const BannerService = {
    */
   async getBanners() {
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error(`Lỗi HTTP! Trạng thái: ${response.status}`);
-      }
-      const result = await response.json();
-      if (result.success && Array.isArray(result.data)) {
+      const result = await fetchWithCache(API_URL);
+      if (result && result.success && Array.isArray(result.data)) {
         return result.data
           .sort((a, b) => (a.thu_tu || 0) - (b.thu_tu || 0))
           .map(item => ({

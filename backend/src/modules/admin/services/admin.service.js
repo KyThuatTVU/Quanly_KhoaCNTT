@@ -16,7 +16,8 @@ import { AdminRepository } from '../repositories/admin.repository.js';
 import { AdminValidator }  from '../validators/admin.validator.js';
 import { mapCreatePayload } from '../dto/create-admin.dto.js';
 import { mapUpdatePayload } from '../dto/update-admin.dto.js';
-import { BadRequestError } from '../../../common/errors/AppError.js';
+import { BadRequestError }  from '../../../common/errors/AppError.js';
+import { memoryCache }      from '../../../common/cache/memoryCache.js';
 
 async function resolveValidStaffGroupId(preferredGroupId) {
   const staffGroupsTable = AdminModel.getTableName('staffGroups');
@@ -70,7 +71,9 @@ export const AdminService = {
       mappedData.nhom_id = await resolveValidStaffGroupId(rawPayload?.nhom_id);
     }
 
-    return AdminRepository.createItem(tableName, mappedData);
+    const created = await AdminRepository.createItem(tableName, mappedData);
+    memoryCache.invalidateEntity(entityKey);
+    return created;
   },
 
   /**
@@ -94,7 +97,9 @@ export const AdminService = {
       }
     }
 
-    return AdminRepository.updateItem(tableName, validId, mappedData);
+    const updated = await AdminRepository.updateItem(tableName, validId, mappedData);
+    memoryCache.invalidateEntity(entityKey);
+    return updated;
   },
 
   /**
@@ -107,6 +112,9 @@ export const AdminService = {
     AdminValidator.validateEntity(entityKey);
     const validId = AdminValidator.validateId(id);
     const tableName = AdminModel.getTableName(entityKey);
-    return AdminRepository.deleteItem(tableName, validId);
+    const deleted = await AdminRepository.deleteItem(tableName, validId);
+    memoryCache.invalidateEntity(entityKey);
+    return deleted;
   }
 };
+

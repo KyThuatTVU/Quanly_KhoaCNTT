@@ -5,7 +5,12 @@
  * Service layer for querying postgraduate admissions notices, PhD students
  * directory, activities photo gallery, and statistical charts.
  * Formatted to align exactly with the database schema structure (Module 7).
+ * Protected by fetchWithCache to prevent duplicate calls and server flooding.
  */
+
+import { fetchWithCache } from '../utils/apiClient.js';
+
+const BASE_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public`;
 
 export const PostgraduateService = {
   /**
@@ -13,18 +18,15 @@ export const PostgraduateService = {
    */
   async getAdmissionsNotices() {
     try {
-      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/postgradNotices`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          const notices = result.data;
-          const contact_info = notices[0]?.lien_he_tu_van || 'Khoa Sau Đại học';
-          return {
-            title: 'Tuyển sinh Sau Đại học',
-            notices: notices,
-            contact_info: contact_info
-          };
-        }
+      const result = await fetchWithCache(`${BASE_URL}/postgradNotices`);
+      if (result && result.success && Array.isArray(result.data)) {
+        const notices = result.data;
+        const contact_info = notices[0]?.lien_he_tu_van || 'Khoa Sau Đại học';
+        return {
+          title: 'Tuyển sinh Sau Đại học',
+          notices: notices,
+          contact_info: contact_info
+        };
       }
     } catch (e) {
       console.error('Lỗi API /api/postgraduate/notices:', e);
@@ -41,27 +43,24 @@ export const PostgraduateService = {
    */
   async getPhDStudents() {
     try {
-      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/postgradPhdStudents`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          return result.data.map(student => ({
-            id: student.id,
-            stt: student.stt || '01',
-            ho_ten: student.ho_ten,
-            chuc_vu_co_quan: student.chuc_vu_co_quan,
-            email: student.email,
-            google_scholar_url: student.google_scholar_url,
-            ma_ncs: student.ma_ncs,
-            huong_nghien_cuu: student.huong_nghien_cuu,
-            nguoi_huong_dan: student.nguoi_huong_dan,
-            trang_thai: student.trang_thai || 'Đang học',
-            avatar_url: student.avatar_url || 'assets/images/default-avatar.png',
-            an_hien: student.an_hien,
-            an_hien_ma_ncs: student.an_hien_ma_ncs,
-            an_hien_email: student.an_hien_email
-          }));
-        }
+      const result = await fetchWithCache(`${BASE_URL}/postgradPhdStudents`);
+      if (result && result.success && Array.isArray(result.data)) {
+        return result.data.map(student => ({
+          id: student.id,
+          stt: student.stt || '01',
+          ho_ten: student.ho_ten,
+          chuc_vu_co_quan: student.chuc_vu_co_quan,
+          email: student.email,
+          google_scholar_url: student.google_scholar_url,
+          ma_ncs: student.ma_ncs,
+          huong_nghien_cuu: student.huong_nghien_cuu,
+          nguoi_huong_dan: student.nguoi_huong_dan,
+          trang_thai: student.trang_thai || 'Đang học',
+          avatar_url: student.avatar_url || 'assets/images/default-avatar.png',
+          an_hien: student.an_hien,
+          an_hien_ma_ncs: student.an_hien_ma_ncs,
+          an_hien_email: student.an_hien_email
+        }));
       }
     } catch (e) {
       console.error('Lỗi API /api/postgraduate/phd-students:', e);
@@ -74,12 +73,9 @@ export const PostgraduateService = {
    */
   async getActivities() {
     try {
-      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/postgradActivities`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
-          return result.data;
-        }
+      const result = await fetchWithCache(`${BASE_URL}/postgradActivities`);
+      if (result && result.success && Array.isArray(result.data)) {
+        return result.data;
       }
     } catch (e) {
       console.error('Lỗi API /api/postgraduate/activities:', e);
@@ -92,15 +88,12 @@ export const PostgraduateService = {
    */
   async getStats() {
     try {
-      const response = await fetch(`${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/postgradStats`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data) && result.data.length > 0) {
-          const config = result.data[0].chart_config_json;
-          const stats = typeof config === 'string' ? JSON.parse(config) : config;
-          if (stats && stats.batches) {
-            return stats;
-          }
+      const result = await fetchWithCache(`${BASE_URL}/postgradStats`);
+      if (result && result.success && Array.isArray(result.data) && result.data.length > 0) {
+        const config = result.data[0].chart_config_json;
+        const stats = typeof config === 'string' ? JSON.parse(config) : config;
+        if (stats && stats.batches) {
+          return stats;
         }
       }
     } catch (e) {

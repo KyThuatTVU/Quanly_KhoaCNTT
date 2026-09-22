@@ -7,6 +7,8 @@
  * 'thong_ke_noi_bat' MySQL database table.
  */
 
+import { fetchWithCache } from '../utils/apiClient.js';
+
 // API Endpoint (Change this when backend is ready)
 const API_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/stats`;
 
@@ -17,12 +19,8 @@ export const StatsService = {
    */
   async getStats() {
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const result = await response.json();
-      if (result.success && Array.isArray(result.data)) {
+      const result = await fetchWithCache(API_URL);
+      if (result && result.success && Array.isArray(result.data)) {
         return result.data;
       }
       throw new Error(result.error || 'Dữ liệu không hợp lệ');

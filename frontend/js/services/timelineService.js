@@ -6,6 +6,8 @@
  * Retrieves data from the /api/timeline endpoint, matching the 'lich_su_hinh_thanh' MySQL table.
  */
 
+import { fetchWithCache } from '../utils/apiClient.js';
+
 // API Endpoint (Change this when backend is ready)
 const API_TIMELINE_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/timeline`;
 
@@ -16,12 +18,8 @@ export const TimelineService = {
    */
   async getTimeline() {
     try {
-      const response = await fetch(API_TIMELINE_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const result = await response.json();
-      if (result.success && Array.isArray(result.data)) {
+      const result = await fetchWithCache(API_TIMELINE_URL);
+      if (result && result.success && Array.isArray(result.data)) {
         const data = result.data;
         // Sort data by order order ('thu_tu' or 'nam')
         return data.sort((a, b) => {

@@ -7,6 +7,8 @@
  * Formatted to align exactly with the database schema structure.
  */
 
+import { fetchWithCache } from '../utils/apiClient.js';
+
 const CURRICULUM_API_BASE = '/api/curriculum';
 const BACKEND_BASE = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public`;
 
@@ -29,10 +31,8 @@ async function fetchCollection(endpoint) {
     
     const entity = ENDPOINT_MAP[lastSegment];
     if (entity) {
-      const response = await fetch(`${BACKEND_BASE}/${entity}`);
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success && Array.isArray(result.data)) {
+      const result = await fetchWithCache(`${BACKEND_BASE}/${entity}`);
+      if (result && result.success && Array.isArray(result.data)) {
           let data = result.data;
           
           const queryParams = new URLSearchParams(endpoint.split('?')[1] || '');

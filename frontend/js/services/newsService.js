@@ -7,6 +7,8 @@
  * 'hinh_anh_tin_tuc' MySQL database tables.
  */
 
+import { fetchWithCache } from '../utils/apiClient.js';
+
 // API Endpoint (Change this when backend is ready)
 const API_URL = `${window.location.port === '5500' ? 'http://localhost:5000' : ''}/api/v1/public/news`;
 
@@ -17,12 +19,8 @@ export const NewsService = {
    */
   async getNews() {
     try {
-      const response = await fetch(API_URL);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const result = await response.json();
-      if (result.success && Array.isArray(result.data)) {
+      const result = await fetchWithCache(API_URL);
+      if (result && result.success && Array.isArray(result.data)) {
         return result.data.map(item => ({
           id: item.id,
           tieu_de: item.tieu_de,

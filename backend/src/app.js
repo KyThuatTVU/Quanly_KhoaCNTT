@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import session      from 'express-session';
 import passport     from 'passport';
 import MySQLStore   from 'express-mysql-session';
+import rateLimit    from 'express-rate-limit';
 
 import config              from './config/index.js';
 import { configurePassport } from './modules/auth/passport.config.js';
@@ -92,8 +93,21 @@ app.use('/api/auth/lecturer',       lecturerAuthRoutes);
 // Lecturer profile routes (cần đăng nhập GV)
 app.use('/api/lecturer',            lecturerRoutes);
 
-// Public read routes (không cần login)
-app.use('/api/v1/public',           publicRoutes);
+// ── Anti-DDoS & Anti-Flood Rate Limiting ────────────────────────────────────
+// Giới hạn 180 requests/phút/IP cho API public (chống spam F5, bot crawl gây tràn RAM / crash MySQL)
+const publicApiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 180,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    error: 'Quá nhiều yêu cầu tải dữ liệu liên tục từ thiết bị của bạn. Vui lòng chờ 1 phút trước khi thử lại.'
+  }
+});
+
+// Public read routes (không cần login, được bảo vệ bởi cache 60s và rate-limiter)
+app.use('/api/v1/public',           publicApiLimiter, publicRoutes);
 
 // Admin CRUD routes (BẢO VỆ bởi requireAdmin middleware)
 app.use('/api/v1/admin',            requireAdmin, adminRoutes);
