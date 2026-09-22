@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NEWS & EVENTS SECTION - MODERN CAROUSEL & FULL-FRAME IMAGE LAYOUT
+   NEWS & EVENTS SECTION - MODERN CAROUSEL & NATURAL IMAGE RATIO
    ========================================================================== */
 
 hero-events-component {
@@ -8,7 +8,7 @@ hero-events-component {
 }
 
 .news-section {
-  padding: 64px 20px 72px;
+  padding: 60px 20px 68px;
   background: #f8fafc;
   position: relative;
   border-top: 1px solid rgba(0, 0, 0, 0.04);
@@ -28,7 +28,7 @@ hero-events-component {
   font-weight: 800;
   text-align: center;
   color: #0d4077;
-  margin-bottom: 40px;
+  margin-bottom: 36px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   position: relative;
@@ -57,18 +57,18 @@ hero-events-component {
 /* Horizontal scroll track */
 .news-track {
   display: flex;
-  gap: 24px;
+  gap: 22px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   padding: 10px 4px 24px 4px;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .news-track::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none;
 }
 
 /* Floating Navigation Arrows */
@@ -114,7 +114,7 @@ hero-events-component {
 
 /* 4-Card Item on Desktop */
 .news-card {
-  flex: 0 0 calc(25% - 18px);
+  flex: 0 0 calc(25% - 17px);
   min-width: 250px;
   scroll-snap-align: start;
   background: #ffffff;
@@ -135,19 +135,24 @@ hero-events-component {
   border-color: rgba(2, 132, 199, 0.3);
 }
 
-/* Image Wrapper: Full frame cover with aspect ratio */
+/* Image Wrapper: Preserves image proportions without chopping off poster details */
 .news-image-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 175px;
   overflow: hidden;
-  background: #e2e8f0;
+  background: #edf2f7;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .news-img-link {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   text-decoration: none;
@@ -156,14 +161,31 @@ hero-events-component {
 .news-image {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important;
+  object-fit: contain !important;
   object-position: center center;
   display: block;
-  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .news-card:hover .news-image {
-  transform: scale(1.06);
+  transform: scale(1.04);
+}
+
+/* Date Pill Badge overlay */
+.news-date-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-family: var(--font-body, 'Be Vietnam Pro', sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  z-index: 5;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
 }
 
 /* Card Body */
@@ -200,19 +222,19 @@ hero-events-component {
   text-overflow: ellipsis;
 }
 
-/* Title links (clamped to 3 lines with consistent min-height) */
+/* Title links */
 .news-card-title {
   font-family: var(--font-body, 'Be Vietnam Pro', sans-serif);
   font-size: 14.5px;
   font-weight: 700;
   line-height: 1.45;
   color: #1e293b;
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: 63px;
+  min-height: 42px;
   transition: color 0.2s ease;
 }
 
@@ -229,84 +251,46 @@ hero-events-component {
   color: #0284c7;
 }
 
-/* Date */
-.news-date {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
+/* Summary text with multi-line clamping */
+.news-card-summary {
+  font-size: 12.5px;
   color: #64748b;
-  font-weight: 500;
-  margin-top: auto;
-  margin-bottom: 12px;
+  line-height: 1.55;
+  margin: 0 0 14px;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.news-date-icon {
-  color: #94a3b8;
-  flex-shrink: 0;
-}
-
-/* UN SDG Badges */
-.news-sdg-container {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 26px;
-}
-
-.sdg-badge {
-  width: 25px;
-  height: 25px;
-  border-radius: 4px;
+/* Read more link with arrow */
+.news-card-link {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  font-weight: 800;
-  font-size: 9px;
-  color: #ffffff;
-  flex-shrink: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease;
-  user-select: none;
+  gap: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0284c7;
+  width: fit-content;
+  margin-top: auto;
+  transition: all 0.25s ease;
 }
 
-.sdg-badge:hover {
-  transform: translateY(-2px);
+.news-card-link .arrow-icon {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.sdg-num {
-  position: absolute;
-  top: 1px;
-  left: 2.5px;
-  font-size: 8px;
-  font-weight: 900;
-  line-height: 1;
+.news-card-link:hover {
+  color: #0369a1;
+  gap: 9px;
 }
 
-.sdg-svg {
-  width: 14px;
-  height: 14px;
-  margin-top: 5px;
-  margin-left: 5px;
-  fill: currentColor;
-}
-
-/* Specific UN SDG Colors */
-.sdg-4 {
-  background: #c5192d; /* Quality Education */
-}
-
-.sdg-8 {
-  background: #a21942; /* Decent Work and Economic Growth */
-}
-
-.sdg-9 {
-  background: #f36e25; /* Industry, Innovation and Infrastructure */
-}
-
-.sdg-17 {
-  background: #19486a; /* Partnerships for the Goals */
+.news-card-link:hover .arrow-icon {
+  transform: translateX(3px);
 }
 
 /* ==========================================================================
@@ -335,21 +319,16 @@ hero-events-component {
 
 @media (max-width: 600px) {
   .news-section {
-    padding: 48px 16px;
+    padding: 44px 16px;
   }
 
   .news-heading {
     font-size: 22px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
 
   .news-card {
     flex: 0 0 85%;
     min-width: 230px;
-  }
-
-  .news-card-title {
-    font-size: 14px;
-    min-height: 60px;
   }
 }

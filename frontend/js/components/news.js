@@ -2,9 +2,8 @@
  * ==========================================================================
  * NEWS & EVENTS WEB COMPONENT
  * ==========================================================================
- * A reusable, native web component for displaying the news and events grid.
+ * A reusable, native web component for displaying the news and events carousel.
  * Connects to /api/news API, matching MySQL tables 'tin_tuc' and 'hinh_anh_tin_tuc'.
- * Automatically renders mock data initially and fetches API data in background.
  */
 
 import { NewsService } from '../services/newsService.js';
@@ -13,7 +12,7 @@ class NewsEventsComponent extends HTMLElement {
   constructor() {
     super();
     this.newsData = [];
-    this.assetPrefix = './'; // Renamed from prefix to avoid conflict with Element.prefix getter
+    this.assetPrefix = './';
   }
 
   connectedCallback() {
@@ -66,69 +65,6 @@ class NewsEventsComponent extends HTMLElement {
   }
 
   /**
-   * Helper to render UN SDG Badges matching reference UI
-   */
-  renderSdgBadges(item) {
-    const text = `${item.tieu_de || ''} ${item.nhan_nho || ''}`.toLowerCase();
-    let sdgs = [];
-
-    if (text.includes('học bổng') || text.includes('cựu sinh viên')) {
-      sdgs = []; // Empty, as shown in reference card 2
-    } else if (text.includes('lịch') || text.includes('cố vấn') || text.includes('học tập')) {
-      sdgs = [4]; // SDG 4 for card 3
-    } else if (text.includes('nckh') || text.includes('giải thưởng') || text.includes('công bố') || text.includes('tài năng')) {
-      sdgs = [4, 9, 17]; // SDG 4, 9, 17 for card 4
-    } else {
-      sdgs = [4, 8, 17]; // SDG 4, 8, 17 for card 1
-    }
-
-    if (!sdgs || sdgs.length === 0) return '';
-
-    return sdgs.map(num => {
-      switch (num) {
-        case 4:
-          return `
-            <div class="sdg-badge sdg-4" title="SDG 4: Giáo dục có chất lượng">
-              <span class="sdg-num">4</span>
-              <svg viewBox="0 0 24 24" class="sdg-svg" fill="currentColor">
-                <path d="M12 4L3 8.5v7L12 20l9-4.5v-7L12 4zm0 2.2l6.5 3.3L12 12.8 5.5 9.5 12 6.2zm-7 4.1l6 3v5.4l-6-3v-5.4zm8 8.4v-5.4l6-3v5.4l-6 3z"/>
-              </svg>
-            </div>`;
-        case 8:
-          return `
-            <div class="sdg-badge sdg-8" title="SDG 8: Tăng trưởng kinh tế & Việc làm bền vững">
-              <span class="sdg-num">8</span>
-              <svg viewBox="0 0 24 24" class="sdg-svg" fill="currentColor">
-                <path d="M5 19h14v2H5v-2zm2-4h2v3H7v-3zm4-5h2v8h-2V10zm4-4h2v12h-2V6zm-8 4l4-4 4 4 4-4v2l-4 4-4-4-4 4V10z"/>
-              </svg>
-            </div>`;
-        case 9:
-          return `
-            <div class="sdg-badge sdg-9" title="SDG 9: Công nghiệp, Sáng tạo & Phát triển hạ tầng">
-              <span class="sdg-num">9</span>
-              <svg viewBox="0 0 24 24" class="sdg-svg" fill="currentColor">
-                <path d="M12 2l-8 4.5v9L12 20l8-4.5v-9L12 2zm0 2.2l6 3.4-6 3.4-6-3.4 6-3.4zm-7 4.7l6 3.4v6.8l-6-3.4V8.9zm8 10.2v-6.8l6-3.4v6.8l-6 3.4z"/>
-              </svg>
-            </div>`;
-        case 17:
-          return `
-            <div class="sdg-badge sdg-17" title="SDG 17: Quan hệ đối tác vì các mục tiêu">
-              <span class="sdg-num">17</span>
-              <svg viewBox="0 0 24 24" class="sdg-svg" fill="currentColor">
-                <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
-                <circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
-                <circle cx="18" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
-                <circle cx="12" cy="6" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
-                <circle cx="12" cy="18" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/>
-              </svg>
-            </div>`;
-        default:
-          return '';
-      }
-    }).join('');
-  }
-
-  /**
    * Render HTML structure of the news section
    */
   render() {
@@ -165,20 +101,21 @@ class NewsEventsComponent extends HTMLElement {
         } catch (_) {}
       }
 
-      const categoryText = (item.nhan_nho || 'THÔNG BÁO CHUNG').toUpperCase();
+      const categoryText = (item.nhan_nho || 'TIN TỨC').toUpperCase();
 
       cardsHtml += `
         <article class="news-card">
-          <!-- News Image Wrapper: 100% full frame cover, rounded corners -->
+          <!-- News Image Wrapper: Full image display (contain) without cropping poster details -->
           <div class="news-image-wrapper">
             <a href="${detailUrl}" class="news-img-link" title="${item.tieu_de}">
-              <img class="news-image" src="${imgPath}" alt="${item.tieu_de}" loading="lazy" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 350 220%22><rect width=%22350%22 height=%22220%22 fill=%22%23e2e8f0%22/><text x=%2250%25%22 y=%2250%25%22 font-family=%22sans-serif%22 font-size=%2216%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%2364748b%22>Tin Tức Khoa CNTT</text></svg>'">
+              <img class="news-image" src="${imgPath}" alt="${item.tieu_de}" loading="lazy" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 350 200%22><rect width=%22350%22 height=%22200%22 fill=%22%23f1f5f9%22/><text x=%2250%25%22 y=%2250%25%22 font-family=%22sans-serif%22 font-size=%2216%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22%2394a3b8%22>Tin Tức Khoa CNTT</text></svg>'">
             </a>
+            ${formattedDate ? `<div class="news-date-badge">${formattedDate}</div>` : ''}
           </div>
           
           <!-- News Card Body -->
           <div class="news-card-body">
-            <!-- Category line with dash -->
+            <!-- Category / Tag -->
             <div class="news-category">
               <span class="news-category-dash">—</span>
               <span class="news-category-name">${categoryText}</span>
@@ -189,21 +126,17 @@ class NewsEventsComponent extends HTMLElement {
               <a href="${detailUrl}">${item.tieu_de}</a>
             </h3>
             
-            <!-- Date -->
-            <div class="news-date">
-              <svg class="news-date-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              <span>${formattedDate}</span>
-            </div>
+            <!-- Summary -->
+            ${item.tom_tat ? `<p class="news-card-summary">${item.tom_tat}</p>` : ''}
 
-            <!-- UN SDG Badges -->
-            <div class="news-sdg-container">
-              ${this.renderSdgBadges(item)}
-            </div>
+            <!-- Read More Link -->
+            <a href="${detailUrl}" class="news-card-link" title="Xem chi tiết: ${item.tieu_de}">
+              <span>Đọc tiếp</span>
+              <svg viewBox="0 0 24 24" class="arrow-icon" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
           </div>
         </article>
       `;
