@@ -33,16 +33,15 @@ async function fetchCollection(endpoint) {
     if (entity) {
       const result = await fetchWithCache(`${BACKEND_BASE}/${entity}`);
       if (result && result.success && Array.isArray(result.data)) {
-          let data = result.data;
-          
-          const queryParams = new URLSearchParams(endpoint.split('?')[1] || '');
-          const nganhId = queryParams.get('nganh_id');
-          if (nganhId) {
-            data = data.filter(item => parseInt(item.nganh_id, 10) === parseInt(nganhId, 10));
-          }
-          
-          return data;
+        let data = result.data;
+        
+        const queryParams = new URLSearchParams(endpoint.split('?')[1] || '');
+        const nganhId = queryParams.get('nganh_id');
+        if (nganhId) {
+          data = data.filter(item => parseInt(item.nganh_id, 10) === parseInt(nganhId, 10));
         }
+        
+        return data;
       }
     }
   } catch (error) {

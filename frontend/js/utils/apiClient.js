@@ -61,6 +61,8 @@ export async function fetchWithCache(url, options = {}) {
       });
 
       return json;
+    } catch (err) {
+      throw err;
     } finally {
       inFlightMap.delete(url);
     }
