@@ -53,7 +53,7 @@ class NavbarComponent extends HTMLElement {
     const labelNext = currentLang === 'vi' ? 'EN' : 'VI';
 
     this.innerHTML = `
-      <header class="main-header" id="mainHeader">
+      <header class="main-header notranslate" id="mainHeader" translate="no">
         <div class="navbar">
           <!-- Logo & Brand Titles -->
           <a href="${homeLink}" class="navbar-brand" title="Khoa Công nghệ Thông tin - Đại học Trà Vinh">
@@ -73,36 +73,36 @@ class NavbarComponent extends HTMLElement {
             <span></span>
           </button>
 
-          <!-- Navigation Links without Icons -->
-          <ul class="navbar-nav" id="navbarNav">
+          <!-- Navigation Links (Icons removed, dimensions preserved, protected from translation corruption) -->
+          <ul class="navbar-nav notranslate" id="navbarNav" translate="no">
             <li class="nav-item">
               <a href="${homeLink}" class="nav-link" data-page="home">
-                <span data-i18n="nav.home">Home</span>
+                <span data-i18n="nav.home">${I18n.t('nav.home')}</span>
               </a>
             </li>
             <li class="nav-item">
               <a href="${gioiThieuLink}" class="nav-link" data-page="about">
-                <span data-i18n="nav.about">Giới thiệu</span>
+                <span data-i18n="nav.about">${I18n.t('nav.about')}</span>
               </a>
             </li>
             <li class="nav-item">
               <a href="${nhanSuLink}" class="nav-link" data-page="staff">
-                <span data-i18n="nav.staff">Nhân sự</span>
+                <span data-i18n="nav.staff">${I18n.t('nav.staff')}</span>
               </a>
             </li>
             <li class="nav-item">
               <a href="${nghienCuuLink}" class="nav-link" data-page="research">
-                <span data-i18n="nav.research">Nghiên cứu</span>
+                <span data-i18n="nav.research">${I18n.t('nav.research')}</span>
               </a>
             </li>
             <li class="nav-item">
               <a href="${daiHocLink}" class="nav-link" data-page="undergraduate">
-                <span data-i18n="nav.undergraduate">Đại học</span>
+                <span data-i18n="nav.undergraduate">${I18n.t('nav.undergraduate')}</span>
               </a>
             </li>
             <li class="nav-item">
               <a href="${sauDaiHocLink}" class="nav-link" data-page="postgraduate">
-                <span data-i18n="nav.postgraduate">Sau đại học</span>
+                <span data-i18n="nav.postgraduate">${I18n.t('nav.postgraduate')}</span>
               </a>
             </li>
 
