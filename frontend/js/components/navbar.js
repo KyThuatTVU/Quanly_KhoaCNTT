@@ -132,16 +132,38 @@ class NavbarComponent extends HTMLElement {
               </a>
             </li>
 
-            <!-- Language Switcher -->
+            <!-- Segmented Pill Language Switcher (Matches Reference: 🇻🇳 VI | 🇺🇸 EN) -->
             <li class="nav-item nav-lang-item">
-              <button class="nav-lang-btn" id="navLangBtn" data-i18n-attr="title:nav.lang.title" title="${I18n.t('nav.lang.title')}">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"/>
-                  <line x1="2" y1="12" x2="22" y2="12"/>
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-                </svg>
-                <span class="lang-label" data-i18n="nav.lang">${labelNext}</span>
-              </button>
+              <div class="lang-switcher-pill" id="navLangSwitcher" role="group" aria-label="Language selection">
+                <button type="button" class="lang-opt-btn ${currentLang === 'vi' ? 'active' : ''}" data-lang="vi" title="Tiếng Việt">
+                  <svg class="lang-flag" viewBox="0 0 20 14" width="16" height="11" aria-hidden="true">
+                    <rect width="20" height="14" rx="2" fill="#da251d"/>
+                    <polygon points="10,2.5 11.2,6.2 15.1,6.2 11.9,8.5 13.1,12.2 10,9.9 6.9,12.2 8.1,8.5 4.9,6.2 8.8,6.2" fill="#ffff00"/>
+                  </svg>
+                  <span class="lang-code">VI</span>
+                </button>
+                <button type="button" class="lang-opt-btn ${currentLang === 'en' ? 'active' : ''}" data-lang="en" title="English">
+                  <svg class="lang-flag" viewBox="0 0 20 14" width="16" height="11" aria-hidden="true">
+                    <defs>
+                      <clipPath id="flag-us-clip"><rect width="20" height="14" rx="2"/></clipPath>
+                    </defs>
+                    <g clip-path="url(#flag-us-clip)">
+                      <rect width="20" height="14" fill="#b22234"/>
+                      <path d="M0 2.15h20M0 4.31h20M0 6.46h20M0 8.62h20M0 10.77h20M0 12.92h20" stroke="#ffffff" stroke-width="1.08"/>
+                      <rect width="8" height="7.54" fill="#3c3b6e"/>
+                      <circle cx="2" cy="2" r="0.6" fill="#fff"/>
+                      <circle cx="4" cy="2" r="0.6" fill="#fff"/>
+                      <circle cx="6" cy="2" r="0.6" fill="#fff"/>
+                      <circle cx="3" cy="3.77" r="0.6" fill="#fff"/>
+                      <circle cx="5" cy="3.77" r="0.6" fill="#fff"/>
+                      <circle cx="2" cy="5.54" r="0.6" fill="#fff"/>
+                      <circle cx="4" cy="5.54" r="0.6" fill="#fff"/>
+                      <circle cx="6" cy="5.54" r="0.6" fill="#fff"/>
+                    </g>
+                  </svg>
+                  <span class="lang-code">EN</span>
+                </button>
+              </div>
             </li>
           </ul>
         </div>
@@ -236,29 +258,42 @@ class NavbarComponent extends HTMLElement {
   }
 
   /**
-   * Initialize the language switcher button
+   * Initialize the segmented pill language switcher buttons (VI | EN)
    */
   initLangSwitcher() {
-    const btn = this.querySelector('#navLangBtn');
-    if (!btn) return;
+    const switcher = this.querySelector('#navLangSwitcher');
+    if (!switcher) return;
 
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      I18n.toggle();
-      // Update the label and title on the button itself immediately
-      const label = btn.querySelector('.lang-label');
-      if (label) label.textContent = I18n.t('nav.lang');
-      btn.title = I18n.t('nav.lang.title');
-      // Animate the button
-      btn.classList.add('lang-switching');
-      setTimeout(() => btn.classList.remove('lang-switching'), 400);
+    const buttons = switcher.querySelectorAll('.lang-opt-btn');
+
+    const updateUI = (activeLang) => {
+      buttons.forEach((btn) => {
+        const lang = btn.getAttribute('data-lang');
+        if (lang === activeLang) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    };
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const targetLang = btn.getAttribute('data-lang');
+        if (targetLang && targetLang !== I18n.lang) {
+          btn.classList.add('lang-switching');
+          setTimeout(() => btn.classList.remove('lang-switching'), 400);
+          I18n.setLang(targetLang);
+          updateUI(targetLang);
+        }
+      });
     });
 
-    // Keep in sync if another component triggers a language change
-    window.addEventListener('langchange', () => {
-      const label = btn.querySelector('.lang-label');
-      if (label) label.textContent = I18n.t('nav.lang');
-      btn.title = I18n.t('nav.lang.title');
+    // Keep in sync if another component or event triggers a language change
+    window.addEventListener('langchange', (e) => {
+      const currentLang = e.detail?.lang || I18n.lang;
+      updateUI(currentLang);
     });
   }
 }

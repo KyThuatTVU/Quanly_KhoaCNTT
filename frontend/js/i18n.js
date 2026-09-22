@@ -398,6 +398,11 @@ export const I18n = {
     }
   },
 
+  setLang(targetLang) {
+    if (this.lang === targetLang) return;
+    this.toggle();
+  },
+
   toggle() {
     const prevLang = this.lang;
     this.lang = this.lang === 'vi' ? 'en' : 'vi';
