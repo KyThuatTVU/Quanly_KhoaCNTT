@@ -640,17 +640,18 @@ export function generateFormFields(entityKey, data) {
    const renderImageField = (label, name, value, fileInputId, targetId) => {
     const filteredVal = filterDefaultImg(value);
     return `
-      <div class="form-group">
+      <div class="form-group full-width form-group-image">
         <label>${label}</label>
         <input type="hidden" name="${name}" id="${targetId}" value="${filteredVal}">
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <button type="button" class="btn-upload-label" data-file-input-id="${fileInputId}" style="background: var(--admin-primary); color: #fff; padding: 10px 14px; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 600; margin: 0; box-shadow: var(--shadow-sm); transition: all 0.2s; border: 0;">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <button type="button" class="btn-upload-label" data-file-input-id="${fileInputId}" style="background: var(--admin-primary); color: #fff; padding: 10px 16px; border-radius: var(--radius-md); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 600; margin: 0; box-shadow: var(--shadow-sm); transition: all 0.2s; border: 0;">
             📁 Chọn ảnh & Tải lên từ máy
           </button>
           <input type="file" id="${fileInputId}" class="local-image-uploader" data-target-id="${targetId}" accept="image/*" style="display: none;">
+          <span style="font-size: 0.8rem; color: var(--admin-text-muted);">Hỗ trợ: JPG, PNG, WEBP (Tự động nén & tối ưu)</span>
         </div>
-        <div style="margin-top: 8px;">
-          <img id="preview_${targetId}" src="${filteredVal ? this.formatAdminImgUrl(filteredVal) : ''}" style="max-width: 120px; max-height: 120px; border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--admin-card-border); ${filteredVal ? '' : 'display: none;'}" onerror="this.style.display='none'">
+        <div style="margin-top: 10px;">
+          <img id="preview_${targetId}" src="${filteredVal ? this.formatAdminImgUrl(filteredVal) : ''}" style="max-width: 140px; max-height: 140px; border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--admin-card-border); box-shadow: var(--shadow-3d-sm); background: #ffffff; ${filteredVal ? '' : 'display: none;'}" onerror="this.style.display='none'">
         </div>
       </div>
     `;
