@@ -131,19 +131,27 @@ infographic-list-component {
 
 /* overlay buttons styles */
 .info-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 168px;
-  padding: 12px;
-  border-radius: 12px;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: auto !important;
+  min-width: 140px !important;
+  max-width: 190px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  max-height: 40px !important;
+  padding: 0 16px !important;
+  border-radius: 20px !important;
   font-family: var(--font-logo-vn);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px !important;
+  font-weight: 700 !important;
   cursor: pointer;
   text-decoration: none;
-  border: none;
+  border: none !important;
+  flex-shrink: 0 !important;
+  align-self: center !important;
+  box-sizing: border-box !important;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   outline: none;
 }
