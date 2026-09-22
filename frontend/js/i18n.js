@@ -13,7 +13,7 @@
 const TRANSLATIONS = {
   vi: {
     // ── Navbar ──────────────────────────────────────────────────
-    'nav.home':           'Trang chủ',
+    'nav.home':           'Home',
     'nav.about':          'Giới thiệu',
     'nav.staff':          'Nhân sự',
     'nav.research':       'Nghiên cứu',
