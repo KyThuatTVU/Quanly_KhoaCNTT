@@ -204,22 +204,6 @@ class CurriculumProgramComponent extends HTMLElement {
               <h3 class="curr-section-title">Giới thiệu tổng quan ngành</h3>
               <p class="curr-text">${this.activeProgram.gioi_thieu_nganh}</p>
               <p class="curr-text">${this.activeProgram.co_hoi_phat_trien}</p>
-
-              <!-- CSS Volumetric illustration banner -->
-              <div class="curr-illustration-block">
-                <div class="curr-illustration-shine"></div>
-                <div class="curr-illustration-content">
-                  <div class="curr-illust-badge">Đại học Trà Vinh</div>
-                  <h4 class="curr-illust-title">KHOA CÔNG NGHỆ THÔNG TIN</h4>
-                  <p class="curr-illust-subtitle">ENGINEERING PORTAL 2026</p>
-                  <div class="curr-illust-chips">
-                    <span class="chip-item">Software Dev</span>
-                    <span class="chip-item">Artificial Intelligence</span>
-                    <span class="chip-item">Network Security</span>
-                    <span class="chip-item">IoT Lab</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
