@@ -139,7 +139,7 @@ hero-events-component {
 .news-image-wrapper {
   position: relative;
   width: 100%;
-  height: 175px;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   background: #edf2f7;
   border-top-left-radius: 15px;
@@ -161,8 +161,8 @@ hero-events-component {
 .news-image {
   width: 100% !important;
   height: 100% !important;
-  object-fit: contain !important;
-  object-position: center center;
+  object-fit: cover !important;
+  object-position: top center;
   display: block;
   transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
