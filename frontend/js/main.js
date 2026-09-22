@@ -17,6 +17,7 @@ import './components/staff.js';
 import './components/research.js';
 import './components/curriculum.js';
 import './components/postgraduate.js';
+import './components/scrollTop.js';
 
 // Clean up URL to hide .html and index.html for a cleaner, professional look
 try {
