@@ -41,9 +41,9 @@ app.use(cors({
 // ── Request logging ───────────────────────────────────────────────────────────
 app.use(morgan('dev'));
 
-// ── Body parsers ──────────────────────────────────────────────────────────────
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// ── Body parsers (Giới hạn dung lượng 100KB chống flood RAM) ─────────────────
+app.use(express.json({ limit: '100kb' }));
+app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 app.use(cookieParser());
 
 // ── Session (cho Admin Google OAuth) ─────────────────────────────────────────
@@ -84,29 +84,41 @@ configurePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ── Routes ────────────────────────────────────────────────────────────────────
-
-// Auth routes (không cần login để truy cập)
-app.use('/',                        adminAuthRoutes);
-app.use('/api/auth/lecturer',       lecturerAuthRoutes);
-
-// Lecturer profile routes (cần đăng nhập GV)
-app.use('/api/lecturer',            lecturerRoutes);
-
-// ── Anti-DDoS & Anti-Flood Rate Limiting ────────────────────────────────────
-// Giới hạn 180 requests/phút/IP cho API public (chống spam F5, bot crawl gây tràn RAM / crash MySQL)
-const publicApiLimiter = rateLimit({
+// ── Anti-DDoS & Anti-Brute-Force Rate Limiters ─────────────────────────────
+// 1. Auth Rate Limiter (Chống dò mật khẩu Brute Force: tối đa 10 req/phút/IP)
+const authApiLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 180,
+  max: 10,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
     success: false,
-    error: 'Quá nhiều yêu cầu tải dữ liệu liên tục từ thiết bị của bạn. Vui lòng chờ 1 phút trước khi thử lại.'
+    error: 'Phát hiện quá nhiều yêu cầu đăng nhập từ thiết bị của bạn. Vui lòng chờ 1 phút trước khi thử lại.'
   }
 });
 
-// Public read routes (không cần login, được bảo vệ bởi cache 60s và rate-limiter)
+// 2. Public API Rate Limiter (Chống Spam / Bot Crawl / Flood: tối đa 60 req/phút/IP)
+const publicApiLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    error: 'Phát hiện tần suất truy cập cao bất thường từ IP của bạn. Yêu cầu tạm ngắt trong 1 phút để bảo vệ máy chủ.'
+  }
+});
+
+// ── Routes ────────────────────────────────────────────────────────────────────
+
+// Auth routes (được bảo vệ bởi authApiLimiter)
+app.use('/',                        authApiLimiter, adminAuthRoutes);
+app.use('/api/auth/lecturer',       authApiLimiter, lecturerAuthRoutes);
+
+// Lecturer profile routes (cần đăng nhập GV)
+app.use('/api/lecturer',            lecturerRoutes);
+
+// Public read routes (không cần login, bảo vệ bởi cache 60s và publicApiLimiter)
 app.use('/api/v1/public',           publicApiLimiter, publicRoutes);
 
 // Admin CRUD routes (BẢO VỆ bởi requireAdmin middleware)
@@ -129,12 +141,17 @@ app.get('/favicon.ico', (_req, res) => res.sendStatus(204));
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
-// ── Start server ─────────────────────────────────────────────────────────────
-app.listen(config.app.port, () => {
+// ── Start server & Configure HTTP Socket Timeouts ────────────────────────────
+const server = app.listen(config.app.port, () => {
   logger.info(`🚀 Server dang chay tai http://localhost:${config.app.port}`);
   logger.info(`🔗 Admin API: http://localhost:${config.app.port}/api/v1/admin (Yêu cầu đăng nhập Admin)`);
   logger.info(`🔐 Admin Login: http://localhost:${config.app.port}/auth/google`);
   logger.info(`👨‍🏫 Lecturer Auth: http://localhost:${config.app.port}/api/auth/lecturer/login`);
 });
+
+// Chống treo socket / request ngâm lâu quá 10 giây (Tự động ngắt kết nối giải phóng bộ nhớ)
+server.requestTimeout = 10000;   // Max 10s per HTTP request
+server.headersTimeout = 12000;   // Max 12s header parse
+server.keepAliveTimeout = 15000; // Max 15s keep-alive socket
 
 export default app;

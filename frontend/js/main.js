@@ -1,4 +1,5 @@
 // import './anti-devtools.js';
+import { IdleWatcher } from './utils/idleWatcher.js';
 import './components/navbar.js';
 import './components/slider.js';
 import './components/stats.js';
@@ -18,6 +19,9 @@ import './components/research.js';
 import './components/curriculum.js';
 import './components/postgraduate.js';
 import './components/scrollTop.js';
+
+// Expose IdleWatcher globally on window for easy developer testing
+window.IdleWatcher = IdleWatcher;
 
 // Clean up URL to hide .html and index.html for a cleaner, professional look
 try {
@@ -70,4 +74,5 @@ class FaviconManager {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Ứng dụng Khoa CNTT TVU đã sẵn sàng.');
   FaviconManager.apply();
+  IdleWatcher.init(); // 3-minute idle watcher
 });

@@ -15,6 +15,9 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit:  config.db.connectionLimit,
   queueLimit:       0,
+  idleTimeout:      30000, // Automatically release idle DB connections after 30 seconds
+  enableKeepAlive:  true,
+  keepAliveInitialDelay: 10000,
   charset:          'utf8mb4'
 });
 

@@ -1,31 +1,59 @@
 /**
  * frontend/js/utils/apiClient.js
- * Smart, resilient client-side API fetcher.
+ * Smart, resilient client-side API fetcher with Idle Abort & Hard Timeouts.
  * 
  * Features:
- *  1. Request Deduplication: In-flight requests with identical URLs share 
- *     the same Promise, eliminating redundant parallel HTTP calls on page load.
- *  2. In-Memory Cache (TTL: 30s): Instant local response without network roundtrips.
- *  3. Auto Cleanup: Bound cache size to prevent memory leaks in the browser.
+ *  1. Hard Timeout (10s): Prevents hanging requests from consuming browser memory.
+ *  2. Request Deduplication: In-flight requests with identical URLs share 
+ *     the same Promise, eliminating redundant parallel HTTP calls.
+ *  3. In-Memory Cache (TTL: 30s): Instant local response without network roundtrips.
+ *  4. Idle Protection: Checks IdleWatcher state to abort requests when user is inactive.
  */
+
+import { IdleWatcher } from './idleWatcher.js';
 
 const inFlightMap = new Map();
 const clientCache = new Map();
 const DEFAULT_TTL_MS = 30 * 1000; // 30 seconds
+const FETCH_TIMEOUT_MS = 10 * 1000; // 10 seconds hard timeout per request
 const MAX_CACHE_ENTRIES = 200;
 
 /**
- * Fetch with automatic deduplication & client caching
+ * Combine multiple AbortSignals into one
+ */
+function createTimeoutSignal(customSignal) {
+  const timeoutSignal = AbortSignal.timeout(FETCH_TIMEOUT_MS);
+  const idleSignal = IdleWatcher.getSignal();
+
+  // If browser supports AbortSignal.any (Modern browsers)
+  if (typeof AbortSignal.any === 'function') {
+    const signals = [timeoutSignal, idleSignal];
+    if (customSignal) signals.push(customSignal);
+    return AbortSignal.any(signals);
+  }
+
+  return timeoutSignal;
+}
+
+/**
+ * Fetch with automatic deduplication, 10s timeout & client caching
  * @param {string} url
  * @param {Object} options
  * @returns {Promise<any>} Parsed JSON response
  */
 export async function fetchWithCache(url, options = {}) {
+  // Prevent executing fetch if client tab is currently idle
+  if (IdleWatcher.isClientIdle()) {
+    throw new Error('Client tab is currently idle. Request cancelled.');
+  }
+
   const method = (options.method || 'GET').toUpperCase();
+  const requestSignal = createTimeoutSignal(options.signal);
+  const fetchOptions = { ...options, signal: requestSignal };
 
   // Only cache GET requests
   if (method !== 'GET' || options.noCache) {
-    const res = await fetch(url, options);
+    const res = await fetch(url, fetchOptions);
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     return res.json();
   }
@@ -44,7 +72,7 @@ export async function fetchWithCache(url, options = {}) {
 
   const promise = (async () => {
     try {
-      const res = await fetch(url, options);
+      const res = await fetch(url, fetchOptions);
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const json = await res.json();
 
