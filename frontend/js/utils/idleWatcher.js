@@ -1,15 +1,20 @@
 /**
  * ==========================================================================
- * CLIENT-SIDE IDLE WATCHER & RESOURCE CLEANUP MODULE
+ * CLIENT-SIDE IDLE WATCHER & MOBILE BACKGROUND LIFECYCLE MODULE
  * ==========================================================================
- * Monitors user inactivity (mouse movement, clicks, keypresses, touch, scroll).
- * Automatically aborts pending fetch calls, pauses background polling,
- * and displays a clean session recovery modal when idle for 3 minutes (180,000ms).
+ * Monitors user inactivity (mouse movement, clicks, keypresses, touch, scroll)
+ * AND mobile browser lifecycle (switching apps, home screen, tab backgrounding).
+ * 
+ * Behavior on Mobile & Desktop:
+ *  1. Tab Hidden / Switched App: Immediately aborts pending HTTP requests.
+ *  2. Tab Returned (> 3 mins): Triggers session recovery modal.
+ *  3. Inactivity (> 3 mins): Triggers session pause modal.
  */
 
 const IDLE_TIMEOUT_MS = 3 * 60 * 1000; // 3 minutes default
 let idleTimer = null;
 let isIdle = false;
+let hiddenTimestamp = null;
 let globalAbortController = new AbortController();
 
 const eventNames = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'];
@@ -18,14 +23,14 @@ const eventNames = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll']
  * Reset idle timer whenever user interacts with the page
  */
 function resetIdleTimer() {
-  if (isIdle) return; // Don't auto-close modal once triggered, require explicit click
+  if (isIdle) return; // Don't auto-close modal once triggered
 
   clearTimeout(idleTimer);
   idleTimer = setTimeout(onIdleTimeout, IDLE_TIMEOUT_MS);
 }
 
 /**
- * Triggered when user has been inactive for IDLE_TIMEOUT_MS
+ * Triggered when user has been inactive or backgrounded for IDLE_TIMEOUT_MS
  */
 function onIdleTimeout() {
   isIdle = true;
@@ -44,6 +49,40 @@ function onIdleTimeout() {
 
   // 3. Render modern glassmorphism pause overlay
   showIdleModal();
+}
+
+/**
+ * Handle Mobile & Desktop Tab Visibility Changes (Switching apps / Home screen)
+ */
+function handleVisibilityChange() {
+  if (document.visibilityState === 'hidden') {
+    // User switched to another app or home screen
+    hiddenTimestamp = Date.now();
+
+    // Immediately abort any pending network calls to free up mobile sockets/memory
+    try {
+      globalAbortController.abort('Tab backgrounded');
+    } catch (e) {
+      // Ignore
+    }
+  } else if (document.visibilityState === 'visible') {
+    // User returned to browser tab
+    if (hiddenTimestamp) {
+      const elapsedBackgroundTime = Date.now() - hiddenTimestamp;
+
+      // If user was away in another app for more than 3 minutes -> Trigger Idle Modal
+      if (elapsedBackgroundTime >= IDLE_TIMEOUT_MS) {
+        onIdleTimeout();
+        return;
+      }
+    }
+
+    // If user returned within 3 minutes and wasn't idle -> Re-create fresh AbortController
+    if (!isIdle) {
+      globalAbortController = new AbortController();
+      resetIdleTimer();
+    }
+  }
 }
 
 /**
@@ -133,10 +172,10 @@ function showIdleModal() {
       }
     </style>
     <div class="sit-idle-card">
-      <div class="sit-idle-icon">⏳</div>
+      <div class="sit-idle-icon">📱</div>
       <h3 class="sit-idle-title">Phiên Làm Việc Tạm Dừng</h3>
       <p class="sit-idle-desc">
-        Bạn đã không hoạt động trong 3 phút. Hệ thống đã tự động ngắt kết nối ngầm để bảo vệ tài nguyên và dữ liệu thiết bị.
+        Bạn đã thoát trình duyệt hoặc không hoạt động hơn 3 phút. Các kết nối ngầm đã được giải phóng để bảo vệ pin và bộ nhớ điện thoại.
       </p>
       <button type="button" class="sit-idle-btn" onclick="window.location.reload()">
         🔄 Khôi Phục Phiên Làm Việc
@@ -149,15 +188,19 @@ function showIdleModal() {
 
 export const IdleWatcher = {
   /**
-   * Initialize Idle Watcher
+   * Initialize Idle Watcher & Mobile Page Lifecycle Listeners
    */
   init(timeoutMs = IDLE_TIMEOUT_MS) {
-    // Attach user activity listeners
+    // 1. Attach user activity listeners
     eventNames.forEach(evt => {
       window.addEventListener(evt, resetIdleTimer, { passive: true });
     });
 
-    // Start timer
+    // 2. Attach Page Visibility API for Mobile app switching & tab backgrounding
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', handleVisibilityChange);
+
+    // 3. Start timer
     resetIdleTimer();
   },
 
