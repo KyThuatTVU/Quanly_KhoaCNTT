@@ -97,12 +97,13 @@ const authApiLimiter = rateLimit({
   }
 });
 
-// 2. Public API Rate Limiter (Tối đa 300 req/phút/IP cho phép F5/reload nhiều tab mượt mà, chống Bot DDoS)
+// 2. Public API Rate Limiter (Tối đa 300 req/phút/IP, ngoại trừ luồng luân chuyển sự kiện /events SSE)
 const publicApiLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 300,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req) => req.path === '/events' || (req.originalUrl && req.originalUrl.includes('/events')),
   message: {
     success: false,
     error: 'Thao tác quá nhanh. Vui lòng chờ 1 phút trước khi thử lại.'

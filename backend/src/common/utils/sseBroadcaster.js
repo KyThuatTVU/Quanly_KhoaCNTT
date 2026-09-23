@@ -29,6 +29,10 @@ export const sseBroadcaster = {
    * HTTP Stream Handler for GET /api/v1/public/events
    */
   subscribeClient(req, res) {
+    // Disable HTTP request timeout for persistent SSE streams
+    req.setTimeout(0);
+    res.setTimeout(0);
+
     // Set headers required for Server-Sent Events (SSE)
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
