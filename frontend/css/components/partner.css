@@ -211,6 +211,13 @@
 }
 
 @media (max-width: 576px) {
+  .partners-heading {
+    font-size: 21px;
+    letter-spacing: 0;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
   .partner-card-3d-wrap {
     width: 130px;
   }

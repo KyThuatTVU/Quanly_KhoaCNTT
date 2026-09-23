@@ -259,7 +259,14 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
+  .overview-heading {
+    font-size: 21px;
+    letter-spacing: 0;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
   .overview-photo-badge {
     bottom: 12px;
     left: 12px;
