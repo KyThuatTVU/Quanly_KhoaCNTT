@@ -85,10 +85,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // ── Anti-DDoS & Anti-Brute-Force Rate Limiters ─────────────────────────────
-// 1. Auth Rate Limiter (Chống dò mật khẩu Brute Force: tối đa 10 req/phút/IP)
+// 1. Auth Rate Limiter (Chống dò mật khẩu Brute Force: tối đa 15 req/phút/IP)
 const authApiLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 10,
+  max: 15,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -97,10 +97,10 @@ const authApiLimiter = rateLimit({
   }
 });
 
-// 2. Public API Rate Limiter (Chống Spam / Bot Crawl / Flood: tối đa 60 req/phút/IP)
+// 2. Public API Rate Limiter (Tối đa 300 req/phút/IP cho phép F5/reload nhiều tab mượt mà, chống Bot DDoS)
 const publicApiLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 60,
+  max: 300,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
