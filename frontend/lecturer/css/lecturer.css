@@ -1244,7 +1244,7 @@ textarea.form-input {
 /* ── 12. PORTAL LOGIN PAGE STYLING (iOS-inspired Premium Minimal) ────────── */
 .login-body {
   min-height: 100vh;
-  background: linear-gradient(135deg, rgba(7, 23, 48, 0.68) 0%, rgba(15, 45, 89, 0.58) 100%),
+  background: linear-gradient(135deg, rgba(7, 23, 48, 0.38) 0%, rgba(15, 45, 89, 0.28) 100%),
               url('../../assets/images/nenlogin.jpg') no-repeat center center / cover;
   background-attachment: fixed;
   display: flex;
@@ -1254,21 +1254,21 @@ textarea.form-input {
 }
 
 .login-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  background: rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
   border-radius: 28px;
   box-shadow: 
-    0 30px 60px -12px rgba(7, 23, 48, 0.4),
-    0 18px 36px -18px rgba(0, 0, 0, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.95),
-    inset 0 -2px 6px rgba(0, 0, 0, 0.04);
+    0 30px 60px rgba(0, 0, 0, 0.38),
+    0 10px 20px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.2);
   padding: 48px 44px;
   width: 100%;
   max-width: 490px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.24);
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
 }
 
@@ -1278,15 +1278,15 @@ textarea.form-input {
   top: 0;
   left: 0;
   right: 0;
-  height: 5px;
-  background: linear-gradient(90deg, #0284c7, #38bdf8, #0284c7);
+  height: 4px;
+  background: linear-gradient(90deg, #38bdf8, #818cf8, #38bdf8);
   border-top-left-radius: 28px;
   border-top-right-radius: 28px;
 }
 
 .logo-block {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1298,7 +1298,8 @@ textarea.form-input {
   margin-bottom: 12px;
   border-radius: 12px;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(15, 45, 89, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.85);
 }
 
 .logo-title {
@@ -1311,31 +1312,33 @@ textarea.form-input {
 .logo-title strong {
   font-size: 13.5px;
   font-weight: 800;
-  color: var(--primary);
+  color: #ffffff;
   letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .logo-title span {
   font-size: 11px;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
   letter-spacing: 0.3px;
 }
 
 .portal-heading {
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 800;
-  color: var(--primary);
+  color: #ffffff;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   letter-spacing: -0.5px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .portal-desc {
-  font-size: 14px;
-  color: var(--text-secondary);
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.85);
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
   line-height: 1.5;
 }
 
@@ -1351,7 +1354,7 @@ textarea.form-input {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--text-light);
+  color: rgba(255, 255, 255, 0.7);
   padding: 4px;
   display: flex;
   align-items: center;
@@ -1359,61 +1362,59 @@ textarea.form-input {
 }
 
 .toggle-password:hover {
-  color: var(--accent);
+  color: #38bdf8;
 }
 
 .forgot-link {
   font-size: 13px;
-  color: var(--accent);
+  color: #38bdf8;
   text-decoration: none;
   font-weight: 600;
 }
 
 .forgot-link:hover {
-  color: var(--primary-light);
+  color: #7dd3fc;
 }
 
-/* Premium iOS Transparent 3D Login Button */
+/* Translucent 3D Login Button */
 .btn-login {
   width: 100%;
   height: 52px;
-  background: var(--accent);
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 16px;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   margin-top: 24px;
-  transition: var(--transition);
+  transition: all 0.25s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   box-shadow:
-    0 4px 12px rgba(2, 132, 199, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 8px 20px rgba(2, 132, 199, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .btn-login:hover {
-  background: var(--primary-light);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+  transform: translateY(-1.5px);
   box-shadow:
-    0 6px 16px rgba(2, 132, 199, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 12px 25px rgba(2, 132, 199, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .btn-login:active {
-  transform: translateY(1px);
-  box-shadow:
-    0 2px 4px rgba(2, 132, 199, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(0.5px);
 }
 
 .divider {
   text-align: center;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 12px;
+  font-weight: 600;
   margin: 24px 0;
   position: relative;
   width: 100%;
@@ -1425,7 +1426,7 @@ textarea.form-input {
   top: 50%;
   width: calc(50% - 30px);
   height: 1px;
-  background: var(--border);
+  background: rgba(255, 255, 255, 0.25);
 }
 .divider::before { left: 0; }
 .divider::after { right: 0; }
@@ -1440,7 +1441,7 @@ textarea.form-input {
 
 .admin-link-label {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .btn-admin-login {
@@ -1449,27 +1450,26 @@ textarea.form-input {
   justify-content: center;
   padding: 11px 22px;
   border-radius: 14px;
-  border: 1.5px solid rgba(203, 213, 225, 0.8);
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
   text-decoration: none;
   font-size: 13.5px;
   font-weight: 700;
   transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow:
-    0 4px 12px rgba(15, 23, 42, 0.05),
-    inset 0 1px 0 #ffffff;
+    0 4px 14px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .btn-admin-login:hover {
   background: #ffffff;
-  border-color: var(--accent);
+  border-color: #ffffff;
   transform: translateY(-1.5px);
   box-shadow:
-    0 8px 18px rgba(2, 132, 199, 0.15),
-    inset 0 1px 0 #ffffff;
-  color: var(--accent);
+    0 8px 22px rgba(255, 255, 255, 0.3);
+  color: #0f2d59;
 }
 
 .btn-admin-login:active {
@@ -1477,20 +1477,20 @@ textarea.form-input {
 }
 
 .login-info-card {
-  background: rgba(239, 246, 255, 0.75);
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(147, 197, 253, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   padding: 20px;
   text-align: left;
   box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.9),
-    0 4px 12px rgba(15, 23, 42, 0.03);
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .info-card-title {
   font-size: 13.5px;
-  color: var(--primary-light);
+  color: #38bdf8;
   display: block;
   margin-bottom: 8px;
   font-weight: 700;
@@ -1498,25 +1498,37 @@ textarea.form-input {
 
 .login-info-card p {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.5;
 }
 
-/* iOS Specific Form Input overrides for Login */
+/* Translucent Glass Inputs for Lecturer Login */
+.login-card .form-group .form-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .login-card .form-input {
   height: 52px;
   border-radius: 14px;
-  background: #f1f5f9;
-  border: 1.5px solid transparent;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
   padding: 0 18px;
   font-size: 14.5px;
+  color: #ffffff;
   box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+
+.login-card .form-input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .login-card .form-input:focus {
-  border-color: var(--border-focus);
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.08);
+  border-color: #38bdf8;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+  color: #ffffff;
 }
 
 @media (max-width: 576px) {
