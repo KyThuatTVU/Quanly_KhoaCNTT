@@ -611,103 +611,6 @@
   font-weight: 500;
 }
 
-/* ==========================================================================
-   RESPONSIVE DESIGN FOR CURRICULUM SECTION
-   ========================================================================== */
-
-@media (max-width: 991px) {
-  .curr-banner {
-    padding: 56px 20px 72px;
-  }
-
-  .curr-banner-title {
-    font-size: 28px;
-  }
-
-  .curr-banner-subtitle {
-    font-size: 13px;
-  }
-
-  .curr-banner-chip-row {
-    margin: 18px 0 24px;
-  }
-
-  .curr-tab {
-    padding: 10px 20px;
-    font-size: 12px;
-  }
-
-  .curr-meta-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .curr-main-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .curr-card-3d {
-    padding: 28px;
-  }
-
-  .career-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .charts-container-row {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-}
-
-@media (max-width: 576px) {
-  .curr-banner {
-    padding: 48px 16px 64px;
-  }
-
-  .curr-banner-kicker {
-    font-size: 11px;
-  }
-
-  .curr-banner-title {
-    font-size: 22px;
-    letter-spacing: 0;
-    word-break: keep-all;
-    overflow-wrap: break-word;
-  }
-
-  .curr-banner-subtitle {
-    font-size: 12px;
-  }
-
-  .curr-banner-chip {
-    font-size: 11px;
-    padding: 7px 12px;
-  }
-
-  .curr-tab {
-    padding: 8px 14px;
-    font-size: 11.5px;
-  }
-
-  .curr-meta-row {
-    grid-template-columns: 1fr;
-  }
-  
-  .comb-desc {
-    display: inline;
-  }
-
-  .comb-badge {
-    padding: 5px 10px;
-  }
-
-  .courses-table th, .courses-table td {
-    padding: 14px 16px;
-    font-size: 13px;
-  }
-}
-
 /* --------------------------------------------------------------------------
    Core Technology Courses Table (Image 1) - Glassmorphism Restyle
    -------------------------------------------------------------------------- */
@@ -1450,4 +1353,354 @@
 .track-ktpm  { background: rgba(139,92,246,0.12); color: #7c3aed; border: 1px solid rgba(139,92,246,0.25); }
 .track-mtt   { background: rgba(6,182,212,0.12);  color: #0891b2; border: 1px solid rgba(6,182,212,0.25);  }
 .track-chung { background: rgba(249,115,22,0.1);  color: #ea580c; border: 1px solid rgba(249,115,22,0.25); }
+
+/* ==========================================================================
+   RESPONSIVE DESIGN FOR CURRICULUM SECTION (Full Overrides)
+   ========================================================================== */
+
+@media (max-width: 991px) {
+  .curr-banner {
+    padding: 56px 20px 60px;
+  }
+
+  .curr-banner-title {
+    font-size: 28px;
+  }
+
+  .curr-banner-subtitle {
+    font-size: 13px;
+  }
+
+  .curr-banner-chip-row {
+    margin: 18px 0 24px;
+  }
+
+  .curr-tab {
+    padding: 10px 18px;
+    font-size: 12.5px;
+  }
+
+  .curr-content-wrapper {
+    margin: 0 auto 80px;
+    padding: 24px 20px 0;
+  }
+
+  .curr-meta-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .curr-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .curr-card-3d {
+    padding: 24px;
+  }
+
+  .career-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .career-col {
+    height: auto;
+    padding: 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .charts-container-row {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .chart-box {
+    padding: 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 768px) {
+  .curr-banner {
+    padding: 44px 16px 44px;
+  }
+
+  .curr-content-wrapper {
+    margin: 0 auto 60px;
+    padding: 20px 16px 0;
+  }
+
+  .curr-meta-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .curr-meta-card-3d {
+    padding: 16px 12px;
+  }
+
+  .meta-val {
+    font-size: 20px;
+  }
+
+  .meta-label {
+    font-size: 11px;
+  }
+
+  .career-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .career-col {
+    height: auto;
+    padding: 20px 18px;
+  }
+
+  .career-col-header {
+    margin-bottom: 16px;
+  }
+
+  .career-col-header h4 {
+    font-size: 15.5px;
+  }
+
+  .career-list li {
+    font-size: 13.5px;
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+
+  .charts-container-row {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .chart-box {
+    padding: 20px 16px;
+  }
+
+  .chart-title {
+    font-size: 15.5px;
+  }
+
+  .empty-icon {
+    font-size: 32px;
+  }
+
+  .empty-text {
+    font-size: 12.5px;
+  }
+}
+
+@media (max-width: 576px) {
+  .curr-banner {
+    padding: 36px 14px 36px;
+  }
+
+  .curr-banner-kicker {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .curr-banner-title {
+    font-size: 21px;
+    letter-spacing: 0;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .curr-banner-subtitle {
+    font-size: 12px;
+  }
+
+  .curr-banner-chip {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .curr-tabs {
+    flex-direction: column;
+    width: 100%;
+    padding: 6px;
+    gap: 6px;
+    border-radius: 18px;
+    box-sizing: border-box;
+  }
+
+  .curr-tab {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+    font-size: 12px;
+    border-radius: 14px;
+    box-sizing: border-box;
+  }
+
+  .curr-content-wrapper {
+    margin: 0 auto 40px;
+    padding: 16px 12px 0;
+  }
+
+  .curr-meta-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .curr-meta-card-3d {
+    padding: 16px 14px;
+  }
+
+  .curr-card-3d {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .curr-section-title {
+    font-size: 16.5px;
+    margin-bottom: 20px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .career-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .career-col {
+    height: auto !important;
+    padding: 18px 16px;
+    border-radius: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .career-col-header {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .career-col-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .career-col-header h4 {
+    font-size: 15px;
+    line-height: 1.4;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .career-list li {
+    font-size: 13px;
+    line-height: 1.6;
+    padding-left: 18px;
+    margin-bottom: 10px;
+    word-break: break-word;
+  }
+
+  .charts-container-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .chart-box {
+    padding: 18px 12px;
+    border-radius: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .chart-title {
+    font-size: 14.5px;
+    line-height: 1.4;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .chart-subtitle {
+    font-size: 11px;
+    margin-bottom: 14px;
+  }
+
+  .chart-legend {
+    gap: 8px;
+    margin-bottom: 14px;
+    justify-content: flex-start;
+  }
+
+  .legend-text {
+    font-size: 9.5px;
+  }
+
+  .stats-empty-msg {
+    padding: 16px 12px;
+  }
+
+  .empty-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+  }
+
+  .empty-text {
+    font-size: 12px;
+    line-height: 1.55;
+    word-break: break-word;
+  }
+
+  .courses-table-container {
+    border-radius: 14px;
+  }
+
+  .courses-table th, .courses-table td {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .course-name {
+    font-size: 13px;
+  }
+
+  .sem-tab-bar {
+    gap: 6px;
+  }
+
+  .sem-tab-btn {
+    padding: 6px 12px;
+    font-size: 11.5px;
+  }
+
+  .faq-main-heading {
+    font-size: 19px;
+    margin: 32px 0 20px;
+    word-break: keep-all;
+  }
+
+  .faq-question-btn {
+    padding: 14px 16px;
+  }
+
+  .faq-question-btn span:first-child {
+    font-size: 13.5px;
+  }
+
+  .faq-answer p {
+    padding: 14px 16px;
+    font-size: 13px;
+  }
+}
 
