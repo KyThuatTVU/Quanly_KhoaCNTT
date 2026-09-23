@@ -172,13 +172,13 @@ function showIdleModal() {
       }
     </style>
     <div class="sit-idle-card">
-      <div class="sit-idle-icon">📱</div>
-      <h3 class="sit-idle-title">Phiên Làm Việc Tạm Dừng</h3>
+      <div class="sit-idle-icon">🔔</div>
+      <h3 class="sit-idle-title">Thông Báo</h3>
       <p class="sit-idle-desc">
-        Bạn đã thoát trình duyệt hoặc không hoạt động hơn 3 phút. Các kết nối ngầm đã được giải phóng để bảo vệ pin và bộ nhớ điện thoại.
+        Bạn đã tạm dừng thao tác hoặc vừa chuyển sang ứng dụng khác. Vui lòng nhấn bên dưới để tiếp tục xem nội dung mới nhất.
       </p>
       <button type="button" class="sit-idle-btn" onclick="window.location.reload()">
-        🔄 Khôi Phục Phiên Làm Việc
+        Tiếp Tục Xem Trang
       </button>
     </div>
   `;

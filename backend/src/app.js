@@ -93,7 +93,7 @@ const authApiLimiter = rateLimit({
   legacyHeaders: false,
   message: {
     success: false,
-    error: 'Phát hiện quá nhiều yêu cầu đăng nhập từ thiết bị của bạn. Vui lòng chờ 1 phút trước khi thử lại.'
+    error: 'Thao tác đăng nhập quá nhanh. Vui lòng chờ 1 phút trước khi thử lại.'
   }
 });
 
@@ -105,7 +105,7 @@ const publicApiLimiter = rateLimit({
   legacyHeaders: false,
   message: {
     success: false,
-    error: 'Phát hiện tần suất truy cập cao bất thường từ IP của bạn. Yêu cầu tạm ngắt trong 1 phút để bảo vệ máy chủ.'
+    error: 'Thao tác quá nhanh. Vui lòng chờ 1 phút trước khi thử lại.'
   }
 });
 
