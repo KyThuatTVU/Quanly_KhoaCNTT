@@ -974,3 +974,20 @@
     padding: 24px;
   }
 }
+
+@media (max-width: 600px) {
+  .staff-main-title {
+    font-size: 22px;
+    letter-spacing: 0;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .staff-group-title {
+    font-size: 19px;
+  }
+
+  .section-title-3d {
+    font-size: 18px;
+  }
+}

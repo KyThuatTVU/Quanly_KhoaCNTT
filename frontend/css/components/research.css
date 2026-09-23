@@ -575,3 +575,42 @@
     align-self: flex-start;
   }
 }
+
+@media (max-width: 600px) {
+  .res-banner {
+    padding: 48px 16px;
+  }
+
+  .res-banner-title {
+    font-size: 22px;
+    letter-spacing: 0;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .res-banner-desc {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .res-section {
+    padding-top: 40px;
+  }
+
+  .res-section-heading {
+    font-size: 20px;
+    margin-bottom: 24px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .res-pub-year-title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 400px) {
+  .res-banner-title {
+    font-size: 19px;
+  }
+}

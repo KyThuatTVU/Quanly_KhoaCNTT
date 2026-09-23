@@ -355,6 +355,19 @@
 }
 
 @media (max-width: 576px) {
+  .coop-banner-title {
+    font-size: 22px;
+    letter-spacing: 0;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .deans-heading {
+    font-size: 22px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
   .coop-btn-3d {
     padding: 12px 24px;
     font-size: 12.5px;

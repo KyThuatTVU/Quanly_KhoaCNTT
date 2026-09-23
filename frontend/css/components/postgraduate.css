@@ -360,6 +360,13 @@
 }
 
 @media (max-width: 640px) {
+  .postgrad-main-heading {
+    font-size: 20px;
+    margin-bottom: 24px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
   .activities-grid {
     grid-template-columns: 1fr;
   }
