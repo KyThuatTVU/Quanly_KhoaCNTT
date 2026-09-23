@@ -1244,7 +1244,9 @@ textarea.form-input {
 /* ── 12. PORTAL LOGIN PAGE STYLING (iOS-inspired Premium Minimal) ────────── */
 .login-body {
   min-height: 100vh;
-  background: radial-gradient(circle at top, #0f2d59 0%, #071730 100%);
+  background: linear-gradient(135deg, rgba(7, 23, 48, 0.68) 0%, rgba(15, 45, 89, 0.58) 100%),
+              url('../../assets/images/nenlogin.jpg') no-repeat center center / cover;
+  background-attachment: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1252,15 +1254,34 @@ textarea.form-input {
 }
 
 .login-card {
-  background: var(--bg-card);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
   border-radius: 28px;
-  box-shadow: 0 20px 45px rgba(7, 23, 48, 0.12);
+  box-shadow: 
+    0 30px 60px -12px rgba(7, 23, 48, 0.4),
+    0 18px 36px -18px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.04);
   padding: 48px 44px;
   width: 100%;
-  max-width: 500px;
+  max-width: 490px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #0284c7, #38bdf8, #0284c7);
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
 }
 
 .logo-block {
@@ -1272,11 +1293,12 @@ textarea.form-input {
 }
 
 .logo-img {
-  height: 60px;
+  height: 64px;
   width: auto;
   margin-bottom: 12px;
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   object-fit: cover;
+  box-shadow: 0 4px 12px rgba(15, 45, 89, 0.15);
 }
 
 .logo-title {
@@ -1425,40 +1447,45 @@ textarea.form-input {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
+  padding: 11px 22px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(203, 213, 225, 0.8);
   background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
   color: var(--text-primary);
   text-decoration: none;
   font-size: 13.5px;
   font-weight: 700;
-  transition: var(--transition);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.02),
+    0 4px 12px rgba(15, 23, 42, 0.05),
     inset 0 1px 0 #ffffff;
 }
 
 .btn-admin-login:hover {
   background: #ffffff;
   border-color: var(--accent);
-  transform: translateY(-1px);
+  transform: translateY(-1.5px);
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.04),
+    0 8px 18px rgba(2, 132, 199, 0.15),
     inset 0 1px 0 #ffffff;
   color: var(--accent);
 }
 
 .btn-admin-login:active {
-  transform: translateY(1px);
+  transform: translateY(0.5px);
 }
 
 .login-info-card {
-  background: var(--accent-light);
-  border: 1px solid rgba(2, 132, 199, 0.12);
-  border-radius: 14px;
+  background: rgba(239, 246, 255, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(147, 197, 253, 0.5);
+  border-radius: 16px;
   padding: 20px;
   text-align: left;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.9),
+    0 4px 12px rgba(15, 23, 42, 0.03);
 }
 
 .info-card-title {
