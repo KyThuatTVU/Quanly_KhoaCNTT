@@ -22,6 +22,14 @@ class ActivityGalleryComponent extends HTMLElement {
     try {
       console.log('Khởi chạy <activity-gallery-component>...');
       this.init();
+
+      // Real-Time SSE Auto-Refresh Listener
+      window.addEventListener('sit-data-updated', async (e) => {
+        if (e.detail && (e.detail.entity.includes('gallery') || e.detail.entity.includes('homepageGallery'))) {
+          console.log('⚡ [GalleryComponent] Real-Time gallery data updated from Admin:', e.detail);
+          await this.init();
+        }
+      });
     } catch (e) {
       this.innerHTML = `
         <div style="background: #ffebee; border: 2px dashed #f44336; color: #c62828; padding: 24px; text-align: center; font-family: sans-serif; border-radius: 16px; margin: 40px auto; max-width: 1000px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">

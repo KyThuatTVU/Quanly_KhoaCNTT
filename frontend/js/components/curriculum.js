@@ -31,6 +31,14 @@ class CurriculumProgramComponent extends HTMLElement {
     try {
       console.log('Khởi chạy <curriculum-program-component>...');
       this.init();
+
+      // Real-Time SSE Auto-Refresh Listener
+      window.addEventListener('sit-data-updated', async (e) => {
+        if (e.detail && (e.detail.entity.includes('undergrad') || e.detail.entity.includes('Program') || e.detail.entity.includes('Course') || e.detail.entity.includes('Career'))) {
+          console.log('⚡ [CurriculumComponent] Real-Time data updated from Admin:', e.detail);
+          await this.init();
+        }
+      });
     } catch (e) {
       console.error('Lỗi khởi chạy Curriculum Component:', e);
     }

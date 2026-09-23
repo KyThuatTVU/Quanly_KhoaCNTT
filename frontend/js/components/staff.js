@@ -32,6 +32,14 @@ class StaffDirectoryComponent extends HTMLElement {
       console.log('Khởi chạy <staff-directory-component>...');
       this.resolveAssetPrefix();
       this.init();
+
+      // Real-Time SSE Auto-Refresh Listener
+      window.addEventListener('sit-data-updated', async (e) => {
+        if (e.detail && (e.detail.entity.includes('staff') || e.detail.entity.includes('dean') || e.detail.entity.includes('lecturer'))) {
+          console.log('⚡ [StaffComponent] Real-Time staff data updated from Admin:', e.detail);
+          await this.init();
+        }
+      });
     } catch (e) {
       console.error('Lỗi khởi chạy Staff Component:', e);
     }

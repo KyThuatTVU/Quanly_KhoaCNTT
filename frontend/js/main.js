@@ -1,5 +1,6 @@
 // import './anti-devtools.js';
 import { IdleWatcher } from './utils/idleWatcher.js';
+import { RealtimeClient } from './utils/realtimeClient.js';
 import './components/navbar.js';
 import './components/slider.js';
 import './components/stats.js';
@@ -74,5 +75,6 @@ class FaviconManager {
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Ứng dụng Khoa CNTT TVU đã sẵn sàng.');
   FaviconManager.apply();
-  IdleWatcher.init(); // 3-minute idle watcher
+  IdleWatcher.init();      // 3-minute idle watcher
+  RealtimeClient.init();   // Real-Time SSE listener
 });
