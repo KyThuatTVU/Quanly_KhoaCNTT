@@ -11,10 +11,11 @@
  *  3. Inactivity (> 3 mins): Triggers session pause modal.
  */
 
-const IDLE_TIMEOUT_MS = 3 * 60 * 1000; // 3 minutes default
+const IDLE_TIMEOUT_MS = 3 * 60 * 1000; // 3 minutes (180,000ms)
 let idleTimer = null;
 let isIdle = false;
 let hiddenTimestamp = null;
+let lastActivityTime = Date.now();
 let globalAbortController = new AbortController();
 
 const eventNames = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll'];
@@ -22,9 +23,16 @@ const eventNames = ['mousemove', 'keydown', 'mousedown', 'touchstart', 'scroll']
 /**
  * Reset idle timer whenever user interacts with the page
  */
-function resetIdleTimer() {
+function resetIdleTimer(e) {
   if (isIdle) return; // Don't auto-close modal once triggered
 
+  const now = Date.now();
+  // Throttle mousemove jitter so subtle sensor/pointer movement within 2s doesn't spam reset
+  if (e && e.type === 'mousemove' && now - lastActivityTime < 2000) {
+    return;
+  }
+
+  lastActivityTime = now;
   clearTimeout(idleTimer);
   idleTimer = setTimeout(onIdleTimeout, IDLE_TIMEOUT_MS);
 }
@@ -33,7 +41,9 @@ function resetIdleTimer() {
  * Triggered when user has been inactive or backgrounded for IDLE_TIMEOUT_MS
  */
 function onIdleTimeout() {
+  if (isIdle) return;
   isIdle = true;
+  console.log('⏳ [IdleWatcher] Phát hiện người dùng rảnh rỗi quá 3 phút -> Kích hoạt màn hình tạm dừng.');
 
   // 1. Abort all in-flight fetch requests
   try {
@@ -58,6 +68,7 @@ function handleVisibilityChange() {
   if (document.visibilityState === 'hidden') {
     // User switched to another app or home screen
     hiddenTimestamp = Date.now();
+    console.log('📱 [IdleWatcher] Người dùng đã chuyển ứng dụng / ẩn tab di động.');
 
     // Immediately abort any pending network calls to free up mobile sockets/memory
     try {
@@ -67,6 +78,7 @@ function handleVisibilityChange() {
     }
   } else if (document.visibilityState === 'visible') {
     // User returned to browser tab
+    console.log('📱 [IdleWatcher] Người dùng vừa mở lại tab trình duyệt.');
     if (hiddenTimestamp) {
       const elapsedBackgroundTime = Date.now() - hiddenTimestamp;
 
@@ -191,6 +203,8 @@ export const IdleWatcher = {
    * Initialize Idle Watcher & Mobile Page Lifecycle Listeners
    */
   init(timeoutMs = IDLE_TIMEOUT_MS) {
+    console.log(`⏳ [IdleWatcher] Kích hoạt theo dõi rảnh rỗi (${timeoutMs / 1000}s)...`);
+
     // 1. Attach user activity listeners
     eventNames.forEach(evt => {
       window.addEventListener(evt, resetIdleTimer, { passive: true });
