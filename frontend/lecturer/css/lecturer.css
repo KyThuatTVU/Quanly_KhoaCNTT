@@ -1244,7 +1244,7 @@ textarea.form-input {
 /* ── 12. PORTAL LOGIN PAGE STYLING (iOS-inspired Premium Minimal) ────────── */
 .login-body {
   min-height: 100vh;
-  background: linear-gradient(135deg, rgba(15, 23, 42, 0.25) 0%, rgba(7, 89, 133, 0.2) 100%),
+  background: linear-gradient(135deg, rgba(7, 23, 48, 0.35) 0%, rgba(15, 45, 89, 0.35) 100%),
               url('../../assets/images/nenlogin.jpg') no-repeat center center / cover;
   background-attachment: fixed;
   display: flex;
@@ -1254,22 +1254,22 @@ textarea.form-input {
 }
 
 .login-card {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
   border-radius: 24px;
   box-shadow: 
-    0 25px 50px -12px rgba(7, 23, 48, 0.25),
-    0 12px 24px -8px rgba(0, 0, 0, 0.12),
-    inset 0 1px 1px rgba(255, 255, 255, 0.95),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.04);
-  padding: 36px 32px;
+    0 30px 60px rgba(0, 0, 0, 0.3),
+    0 10px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.1);
+  padding: 38px 34px;
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .login-card::before {
@@ -1278,27 +1278,28 @@ textarea.form-input {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #0284c7, #38bdf8, #0284c7);
+  height: 3px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), rgba(56, 189, 248, 0.8), rgba(255, 255, 255, 0.8));
   border-top-left-radius: 24px;
   border-top-right-radius: 24px;
 }
 
 .logo-block {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .logo-img {
-  height: 56px;
+  height: 58px;
   width: auto;
   margin-bottom: 10px;
-  border-radius: 10px;
+  border-radius: 12px;
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(15, 45, 89, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  border: 2px solid rgba(255, 255, 255, 0.85);
 }
 
 .logo-title {
@@ -1309,34 +1310,38 @@ textarea.form-input {
 }
 
 .logo-title strong {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 800;
-  color: #0f2d59;
+  color: #ffffff;
   letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .logo-title span {
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 600;
-  color: #475569;
+  color: rgba(255, 255, 255, 0.88);
   letter-spacing: 0.3px;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .portal-heading {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
-  color: #0f2d59;
+  color: #ffffff;
   text-align: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   letter-spacing: -0.5px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .portal-desc {
   font-size: 13px;
-  color: #475569;
+  color: rgba(255, 255, 255, 0.88);
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
   line-height: 1.5;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .password-wrapper {
@@ -1351,7 +1356,7 @@ textarea.form-input {
   background: none;
   border: none;
   cursor: pointer;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.7);
   padding: 4px;
   display: flex;
   align-items: center;
@@ -1359,18 +1364,18 @@ textarea.form-input {
 }
 
 .toggle-password:hover {
-  color: #0284c7;
+  color: #38bdf8;
 }
 
 .forgot-link {
   font-size: 12.5px;
-  color: #0284c7;
+  color: #38bdf8;
   text-decoration: none;
   font-weight: 600;
 }
 
 .forgot-link:hover {
-  color: #0369a1;
+  color: #7dd3fc;
 }
 
 /* Translucent 3D Login Button */
@@ -1391,7 +1396,7 @@ textarea.form-input {
   justify-content: center;
   gap: 8px;
   box-shadow:
-    0 6px 18px rgba(2, 132, 199, 0.3),
+    0 6px 18px rgba(2, 132, 199, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
@@ -1399,7 +1404,7 @@ textarea.form-input {
   background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
   transform: translateY(-1.5px);
   box-shadow:
-    0 10px 22px rgba(2, 132, 199, 0.4),
+    0 10px 22px rgba(2, 132, 199, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
@@ -1409,21 +1414,22 @@ textarea.form-input {
 
 .divider {
   text-align: center;
-  color: #64748b;
+  color: rgba(255, 255, 255, 0.75);
   font-size: 11.5px;
   font-weight: 600;
-  margin: 20px 0;
+  margin: 22px 0;
   position: relative;
   width: 100%;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .divider::before, .divider::after {
   content: '';
   position: absolute;
   top: 50%;
-  width: calc(50% - 26px);
+  width: calc(50% - 28px);
   height: 1px;
-  background: #cbd5e1;
+  background: rgba(255, 255, 255, 0.3);
 }
 .divider::before { left: 0; }
 .divider::after { right: 0; }
@@ -1433,40 +1439,41 @@ textarea.form-input {
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .admin-link-label {
   font-size: 12.5px;
-  color: #475569;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .btn-admin-login {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 9px 20px;
+  padding: 10px 22px;
   border-radius: 12px;
-  border: 1.5px solid #cbd5e1;
-  background: rgba(255, 255, 255, 0.9);
-  color: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   box-shadow:
-    0 2px 6px rgba(0, 0, 0, 0.03),
-    inset 0 1px 0 #ffffff;
+    0 4px 14px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .btn-admin-login:hover {
   background: #ffffff;
-  border-color: #0284c7;
-  transform: translateY(-1px);
+  border-color: #ffffff;
+  color: #0f2d59;
+  transform: translateY(-1.5px);
   box-shadow:
-    0 6px 14px rgba(2, 132, 199, 0.12),
-    inset 0 1px 0 #ffffff;
-  color: #0284c7;
+    0 8px 22px rgba(255, 255, 255, 0.35);
 }
 
 .btn-admin-login:active {
@@ -1474,58 +1481,62 @@ textarea.form-input {
 }
 
 .login-info-card {
-  background: rgba(239, 246, 255, 0.85);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(147, 197, 253, 0.6);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 14px;
   padding: 16px;
   text-align: left;
   box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.9),
-    0 2px 8px rgba(15, 23, 42, 0.02);
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    0 4px 14px rgba(0, 0, 0, 0.15);
 }
 
 .info-card-title {
   font-size: 13px;
-  color: #1d4ed8;
+  color: #38bdf8;
   display: block;
   margin-bottom: 6px;
   font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .login-info-card p {
   font-size: 12.5px;
-  color: #475569;
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.5;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Bright Glass Inputs for Lecturer Login */
+/* Translucent Glass Inputs for Lecturer Login */
 .login-card .form-group .form-label {
-  color: #475569;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 12.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .login-card .form-input {
-  height: 46px;
+  height: 48px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1.5px solid #cbd5e1;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
   padding: 0 16px;
   font-size: 14px;
-  color: #0f172a;
+  color: #ffffff;
   box-sizing: border-box;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .login-card .form-input::placeholder {
-  color: #94a3b8;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .login-card .form-input:focus {
-  border-color: #0284c7;
-  background: #ffffff;
-  box-shadow: 0 0 0 3.5px rgba(2, 132, 199, 0.12);
-  color: #0f172a;
+  border-color: #38bdf8;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.25);
+  color: #ffffff;
 }
 
 @media (max-width: 576px) {
