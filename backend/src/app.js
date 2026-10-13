@@ -73,7 +73,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure:   false,                              // false cho dev (http)
+    secure:   config.app.env === 'production',
     sameSite: config.app.env === 'production' ? 'lax' : false,  // false = cho phép cross-site trong dev
     maxAge:   config.session.maxAge
   }

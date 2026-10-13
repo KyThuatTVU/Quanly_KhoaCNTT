@@ -15,17 +15,7 @@ router.get('/auth/google', AdminAuthController.initiateGoogleAuth);
 
 // GET /auth/google/callback → Google xác thực xong gọi về đây
 router.get('/auth/google/callback',
-  (req, res, next) => {
-    const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
-    const callbackURL = isLocal 
-      ? 'http://localhost:5000/auth/google/callback'
-      : `http://${req.get('host')}/auth/google/callback`;
-
-    passport.authenticate('google', { 
-      failureRedirect: '/auth/google/failed',
-      callbackURL: callbackURL
-    })(req, res, next);
-  },
+  passport.authenticate('google', { failureRedirect: '/auth/google/failed' }),
   AdminAuthController.googleCallback
 );
 
