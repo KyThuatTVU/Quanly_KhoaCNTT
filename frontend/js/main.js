@@ -78,3 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
   IdleWatcher.init();      // 3-minute idle watcher
   RealtimeClient.init();   // Real-Time SSE listener
 });
+
+// Khi hết 3 phút rảnh rỗi: Tự động ngắt kết nối thời gian thực để không giữ tài nguyên máy chủ
+window.addEventListener('sit-idle-expired', () => {
+  RealtimeClient.disconnect();
+  console.log('🧹 [System] Đã ngắt luồng thời gian thực và giải phóng tài nguyên người dùng rảnh rỗi.');
+});

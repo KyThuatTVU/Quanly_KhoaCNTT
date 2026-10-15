@@ -107,3 +107,10 @@ export function clearClientCache() {
   clientCache.clear();
   inFlightMap.clear();
 }
+
+// Automatically purge all in-memory client data when session expires
+if (typeof window !== 'undefined') {
+  window.addEventListener('sit-idle-expired', () => {
+    clearClientCache();
+  });
+}

@@ -43,7 +43,7 @@ function resetIdleTimer(e) {
 function onIdleTimeout() {
   if (isIdle) return;
   isIdle = true;
-  console.log('⏳ [IdleWatcher] Phát hiện người dùng rảnh rỗi quá 3 phút -> Kích hoạt màn hình tạm dừng.');
+  console.log('⏳ [IdleWatcher] Người dùng không thao tác quá 3 phút -> Hủy phiên và giải phóng toàn bộ dữ liệu tạm.');
 
   // 1. Abort all in-flight fetch requests
   try {
@@ -57,7 +57,15 @@ function onIdleTimeout() {
     window.removeEventListener(evt, resetIdleTimer);
   });
 
-  // 3. Render modern glassmorphism pause overlay
+  // 3. Clear temporary session & notify system to clear client cache and disconnect realtime sockets
+  try {
+    sessionStorage.clear();
+    window.dispatchEvent(new CustomEvent('sit-idle-expired'));
+  } catch (err) {
+    console.warn('Lỗi dọn dẹp dữ liệu phiên:', err);
+  }
+
+  // 4. Render modern glassmorphism pause overlay
   showIdleModal();
 }
 
@@ -184,13 +192,13 @@ function showIdleModal() {
       }
     </style>
     <div class="sit-idle-card">
-      <div class="sit-idle-icon">🔔</div>
-      <h3 class="sit-idle-title">Thông Báo</h3>
+      <div class="sit-idle-icon">⏱️</div>
+      <h3 class="sit-idle-title">Phiên Đã Hết Hạn</h3>
       <p class="sit-idle-desc">
-        Bạn đã tạm dừng thao tác hoặc vừa chuyển sang ứng dụng khác. Vui lòng nhấn bên dưới để tiếp tục xem nội dung mới nhất.
+        Bạn đã không tương tác trong hơn 3 phút. Toàn bộ dữ liệu tạm và kết nối mạng đã được giải phóng để bảo vệ hệ thống. Vui lòng nhấn bên dưới để bắt đầu phiên mới.
       </p>
       <button type="button" class="sit-idle-btn" onclick="window.location.reload()">
-        Tiếp Tục Xem Trang
+        Bắt Đầu Phiên Mới
       </button>
     </div>
   `;
