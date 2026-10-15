@@ -85,10 +85,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // ── Anti-DDoS & Anti-Brute-Force Rate Limiters ─────────────────────────────
-// 1. Auth Rate Limiter (Chống dò mật khẩu Brute Force: tối đa 15 req/phút/IP)
+// 1. Auth Rate Limiter (Chống dò mật khẩu Brute Force: tối đa 30 req/phút/IP)
 const authApiLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 15,
+  max: 30,
   standardHeaders: true,
   legacyHeaders: false,
   message: {
@@ -97,10 +97,10 @@ const authApiLimiter = rateLimit({
   }
 });
 
-// 2. Public API Rate Limiter (Tối đa 300 req/phút/IP, ngoại trừ luồng luân chuyển sự kiện /events SSE)
+// 2. Public API Rate Limiter (Tối đa 600 req/phút/IP, 3000 trong dev, ngoại trừ luồng /events SSE)
 const publicApiLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 300,
+  max: config.app.env === 'development' ? 3000 : 600,
   standardHeaders: true,
   legacyHeaders: false,
   skip: (req) => req.path === '/events' || (req.originalUrl && req.originalUrl.includes('/events')),
@@ -112,9 +112,11 @@ const publicApiLimiter = rateLimit({
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 
-// Auth routes (được bảo vệ bởi authApiLimiter)
-app.use('/',                        authApiLimiter, adminAuthRoutes);
-app.use('/api/auth/lecturer',       authApiLimiter, lecturerAuthRoutes);
+// Auth routes (áp dụng authApiLimiter CHÍNH XÁC vào các đường dẫn xác thực /auth và /api/auth)
+app.use('/auth',                    authApiLimiter);
+app.use('/api/auth',                authApiLimiter);
+app.use('/',                        adminAuthRoutes);
+app.use('/api/auth/lecturer',       lecturerAuthRoutes);
 
 // Lecturer profile routes (cần đăng nhập GV)
 app.use('/api/lecturer',            lecturerRoutes);
