@@ -55,3 +55,28 @@ sudo certbot renew --dry-run
 
 Request HTTP phải trả `301` đến HTTPS; request HTTPS phải trả nội dung website
 và certificate phải có hostname `sit.tvu.edu.vn`.
+
+---
+
+## 3. Chạy Backend với PM2 Cluster Mode (Cân bằng tải đa nhân CPU)
+
+Để hệ thống chịu tải cao (hàng trăm đến hàng nghìn người dùng đồng thời) mà không bị nghẽn:
+
+```bash
+# Cài đặt PM2 toàn cục nếu chưa có
+sudo npm install -g pm2
+
+# Khởi chạy cụm backend đa tiến trình (tự nhận toàn bộ nhân CPU của VPS)
+cd /var/www/QuanlyKhoaCNTTTVU
+pm2 start ecosystem.config.cjs
+
+# Thiết lập tự động khởi chạy khi reboot máy chủ
+pm2 save
+pm2 startup
+```
+
+Xem trạng thái cụm tiến trình:
+```bash
+pm2 status
+pm2 logs fit-tvu-backend
+```

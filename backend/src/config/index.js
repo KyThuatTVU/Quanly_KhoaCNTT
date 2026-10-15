@@ -23,7 +23,7 @@ const config = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
     name: process.env.DB_NAME || 'quanly_khoacntt_tvu',
-    connectionLimit: 10
+    connectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT || '30', 10)
   },
   session: {
     secret: process.env.SESSION_SECRET || 'dev-session-secret',
