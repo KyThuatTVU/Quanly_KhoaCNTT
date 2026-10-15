@@ -4,7 +4,10 @@
  */
 import { Router }              from 'express';
 import passport                from 'passport';
-import { AdminAuthController } from '../controllers/adminAuth.controller.js';
+import {
+  AdminAuthController,
+  getGoogleCallbackUrl
+} from '../controllers/adminAuth.controller.js';
 import { requireAdmin }        from '../middleware/requireAdmin.js';
 
 const router = Router();
@@ -15,7 +18,10 @@ router.get('/auth/google', AdminAuthController.initiateGoogleAuth);
 
 // GET /auth/google/callback → Google xác thực xong gọi về đây
 router.get('/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/auth/google/failed' }),
+  (req, res, next) => passport.authenticate('google', {
+    failureRedirect: '/auth/google/failed',
+    callbackURL: getGoogleCallbackUrl(req)
+  })(req, res, next),
   AdminAuthController.googleCallback
 );
 

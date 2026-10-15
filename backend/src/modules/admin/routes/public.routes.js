@@ -10,8 +10,19 @@ import { sseBroadcaster }       from '../../../common/utils/sseBroadcaster.js';
 
 const router = Router();
 
+function getLegacyEntityHandler(entity) {
+  return (req, res, next) => {
+    req.params.entity = entity;
+    return AdminController.getList(req, res, next);
+  };
+}
+
 // GET /api/v1/public/events -> Real-Time Server-Sent Events stream for public clients
 router.get('/events', (req, res) => sseBroadcaster.subscribeClient(req, res));
+
+// Backwards-compatible aliases for older frontend bundles.
+router.get('/overview', publicCacheMiddleware(60), getLegacyEntityHandler('aboutOverview'));
+router.get('/overview/highlights', publicCacheMiddleware(60), getLegacyEntityHandler('aboutHighlights'));
 
 // GET /api/v1/public/:entity -> read all records with 60s in-memory caching
 router.get('/:entity', publicCacheMiddleware(60), AdminController.getList);

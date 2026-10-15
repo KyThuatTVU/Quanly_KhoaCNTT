@@ -3,7 +3,7 @@
  * FACULTY OVERVIEW DATA SERVICE
  * ==========================================================================
  * Bridges the frontend UI overview section with the backend database API.
- * Retrives data from the /api/overview and /api/overview/highlights endpoints,
+ * Retrieves data from the aboutOverview and aboutHighlights endpoints,
  * matching the 'gioi_thieu_tong_quan' and 'gioi_thieu_highlights' MySQL tables.
  */
 
@@ -26,7 +26,7 @@ export const OverviewService = {
       }
       throw new Error(result?.error || 'Dữ liệu trống hoặc không hợp lệ');
     } catch (error) {
-      console.warn('API /api/overview chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu tổng quan.', error.message);
+      console.warn('API aboutOverview chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu tổng quan.', error.message);
       return null;
     }
   },
@@ -43,7 +43,7 @@ export const OverviewService = {
       }
       throw new Error(result.error || 'Dữ liệu không hợp lệ');
     } catch (error) {
-      console.warn('API /api/overview/highlights chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu highlight.', error.message);
+      console.warn('API aboutHighlights chưa sẵn sàng. Trình duyệt đang sử dụng mockup dữ liệu highlight.', error.message);
       return null;
     }
   }
@@ -53,7 +53,7 @@ export const OverviewService = {
 =============================================================================
 EXPECTED BACKEND API JSON RESPONSE CONTRACT (For 'gioi_thieu_tong_quan')
 =============================================================================
-Configure your backend `/api/overview` endpoint to return a JSON object matching 
+Configure your backend `aboutOverview` endpoint to return a JSON object matching
 the exact schema below.
 
 {
@@ -68,7 +68,7 @@ the exact schema below.
 =============================================================================
 EXPECTED BACKEND API JSON RESPONSE CONTRACT (For 'gioi_thieu_highlights')
 =============================================================================
-Configure your backend `/api/overview/highlights` endpoint to return a JSON array 
+Configure your backend `aboutHighlights` endpoint to return a JSON array
 matching the exact schema below.
 
 [

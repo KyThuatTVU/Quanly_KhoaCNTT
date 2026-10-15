@@ -6,6 +6,25 @@ import passport from 'passport';
 import { AdminAuthService } from '../services/adminAuth.service.js';
 import config from '../../../config/index.js';
 
+export function isLocalRequest(req) {
+  const host = req.get('host') || '';
+  return host.includes('localhost') || host.includes('127.0.0.1');
+}
+
+export function getGoogleCallbackUrl(req) {
+  return isLocalRequest(req)
+    ? 'http://localhost:5000/auth/google/callback'
+    : `${req.protocol}://${req.get('host')}/auth/google/callback`;
+}
+
+export function getFrontendUrl(req, path) {
+  if (isLocalRequest(req)) {
+    return `http://localhost:5500${path}`;
+  }
+
+  return `${req.protocol}://${req.get('host')}${path}`;
+}
+
 export const AdminAuthController = {
 
   /**
@@ -13,15 +32,10 @@ export const AdminAuthController = {
    * Bắt đầu flow Google OAuth
    */
   initiateGoogleAuth(req, res, next) {
-    const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
-    const callbackURL = isLocal 
-      ? 'http://localhost:5000/auth/google/callback'
-      : `http://${req.get('host')}/auth/google/callback`;
-
     passport.authenticate('google', {
       scope: ['profile', 'email'],
       prompt: 'select_account',
-      callbackURL: callbackURL
+      callbackURL: getGoogleCallbackUrl(req)
     })(req, res, next);
   },
 
@@ -45,9 +59,8 @@ export const AdminAuthController = {
       };
 
       req.session.save((err) => {
-        const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
-        const adminLoginUrl = isLocal ? config.frontend.adminLogin : `http://${req.get('host')}/admin-login`;
-        const dashboardUrl = isLocal ? config.frontend.adminDashboard : `http://${req.get('host')}/admin/`;
+        const adminLoginUrl = getFrontendUrl(req, '/admin-login');
+        const dashboardUrl = getFrontendUrl(req, '/admin/');
 
         if (err) {
           console.error('[AdminAuth] Lỗi lưu session:', err);
@@ -70,8 +83,7 @@ export const AdminAuthController = {
       });
     } catch (err) {
       console.error('[AdminAuth] Lỗi callback:', err);
-      const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
-      const adminLoginUrl = isLocal ? config.frontend.adminLogin : `http://${req.get('host')}/admin-login`;
+      const adminLoginUrl = getFrontendUrl(req, '/admin-login');
       res.redirect(`${adminLoginUrl}?error=auth_failed`);
     }
   },
@@ -112,8 +124,7 @@ export const AdminAuthController = {
    */
   handleAuthError(req, res) {
     const message = req.query.message || 'Tài khoản Google này không có quyền truy cập hệ thống quản trị.';
-    const isLocal = req.get('host').includes('localhost') || req.get('host').includes('127.0.0.1');
-    const adminLoginUrl = isLocal ? config.frontend.adminLogin : `http://${req.get('host')}/admin-login`;
+    const adminLoginUrl = getFrontendUrl(req, '/admin-login');
     res.redirect(`${adminLoginUrl}?error=${encodeURIComponent(message)}`);
   }
 };
