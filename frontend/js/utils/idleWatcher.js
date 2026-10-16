@@ -192,13 +192,13 @@ function showIdleModal() {
       }
     </style>
     <div class="sit-idle-card">
-      <div class="sit-idle-icon">⏱️</div>
-      <h3 class="sit-idle-title">Phiên Đã Hết Hạn</h3>
+      <div class="sit-idle-icon">👋</div>
+      <h3 class="sit-idle-title">Bạn Còn Ở Đó Không?</h3>
       <p class="sit-idle-desc">
-        Bạn đã không tương tác trong hơn 3 phút. Toàn bộ dữ liệu tạm và kết nối mạng đã được giải phóng để bảo vệ hệ thống. Vui lòng nhấn bên dưới để bắt đầu phiên mới.
+        Trang web đã tạm nghỉ vì không thấy bạn thao tác trong 3 phút vừa qua. Bấm vào nút bên dưới để tiếp tục xem nội dung mới nhất nhé!
       </p>
       <button type="button" class="sit-idle-btn" onclick="window.location.reload()">
-        Bắt Đầu Phiên Mới
+        Tiếp Tục Xem Trang
       </button>
     </div>
   `;

@@ -98,6 +98,41 @@ export const AdminService = {
     }
 
     const updated = await AdminRepository.updateItem(tableName, validId, mappedData);
+
+    // Tự động đồng bộ 2 chiều trường Lĩnh vực nghiên cứu giữa nhan_vien và trang_ca_nhan
+    if (entityKey === 'staff' && mappedData.linh_vuc_nghien_cuu !== undefined) {
+      try {
+        const { default: pool } = await import('../../../database/index.js');
+        const [exists] = await pool.query('SELECT id FROM trang_ca_nhan WHERE nhan_vien_id = ? LIMIT 1', [validId]);
+        if (exists.length > 0) {
+          await pool.query('UPDATE trang_ca_nhan SET linh_vuc_nghien_cuu = ? WHERE nhan_vien_id = ?', [mappedData.linh_vuc_nghien_cuu, validId]);
+        } else {
+          await pool.query(
+            'INSERT INTO trang_ca_nhan (nhan_vien_id, email, ngach_vien_chuc, hoc_vi, hoc_ham, don_vi_cong_tac, linh_vuc_nghien_cuu) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            [validId, mappedData.email || '', mappedData.ngach_vien_chuc || 'Giảng viên', mappedData.hoc_vi || 'Cử nhân', mappedData.hoc_ham || '', mappedData.don_vi_cong_tac || 'Khoa Công nghệ thông tin', mappedData.linh_vuc_nghien_cuu]
+          );
+        }
+        memoryCache.invalidateEntity('staffProfiles');
+      } catch (errSync) {
+        console.warn('Lỗi đồng bộ sang trang_ca_nhan:', errSync.message);
+      }
+    } else if (entityKey === 'staffProfiles' && mappedData.linh_vuc_nghien_cuu !== undefined) {
+      try {
+        const { default: pool } = await import('../../../database/index.js');
+        let nvId = mappedData.nhan_vien_id;
+        if (!nvId) {
+          const [prof] = await pool.query('SELECT nhan_vien_id FROM trang_ca_nhan WHERE id = ? LIMIT 1', [validId]);
+          nvId = prof[0]?.nhan_vien_id;
+        }
+        if (nvId) {
+          await pool.query('UPDATE nhan_vien SET linh_vuc_nghien_cuu = ? WHERE id = ?', [mappedData.linh_vuc_nghien_cuu, nvId]);
+          memoryCache.invalidateEntity('staff');
+        }
+      } catch (errSync) {
+        console.warn('Lỗi đồng bộ sang nhan_vien:', errSync.message);
+      }
+    }
+
     memoryCache.invalidateEntity(entityKey);
     return updated;
   },

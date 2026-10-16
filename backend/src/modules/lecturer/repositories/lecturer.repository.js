@@ -11,9 +11,17 @@ export const LecturerRepository = {
    */
   async getProfile(nhanVienId) {
     const [rows] = await pool.query(
-      `SELECT nv.*, tc.email as tc_email, tc.ngach_vien_chuc, tc.hoc_vi as tc_hoc_vi,
-              tc.hoc_ham as tc_hoc_ham, tc.don_vi_cong_tac, tc.linh_vuc_nghien_cuu,
-              tc.google_scholar_url, tc.orcid_url, tc.github_url, tc.website_ca_nhan
+      `SELECT nv.*, 
+              tc.email as tc_email, 
+              tc.ngach_vien_chuc, 
+              tc.hoc_vi as tc_hoc_vi,
+              tc.hoc_ham as tc_hoc_ham, 
+              COALESCE(NULLIF(tc.don_vi_cong_tac, ''), nv.don_vi_cong_tac) as don_vi_cong_tac, 
+              COALESCE(NULLIF(tc.linh_vuc_nghien_cuu, ''), nv.linh_vuc_nghien_cuu) as linh_vuc_nghien_cuu,
+              tc.google_scholar_url, 
+              tc.orcid_url, 
+              tc.github_url, 
+              tc.website_ca_nhan
        FROM nhan_vien nv
        LEFT JOIN trang_ca_nhan tc ON tc.nhan_vien_id = nv.id
        WHERE nv.id = ? LIMIT 1`,
@@ -29,12 +37,15 @@ export const LecturerRepository = {
   async updateProfile(nhanVienId, data) {
     // Chỉ cho phép cập nhật các field an toàn
     const allowedFields = {
-      hoc_vi:           data.hoc_vi,
-      hoc_ham:          data.hoc_ham,
-      ngach_vien_chuc:  data.ngach_vien_chuc,
-      don_vi_cong_tac:  data.don_vi_cong_tac,
-      anh_ca_nhan_url:  data.anh_ca_nhan_url,
-      aria_label_anh:   data.aria_label_anh
+      hoc_vi:              data.hoc_vi,
+      hoc_ham:             data.hoc_ham,
+      ngach_vien_chuc:     data.ngach_vien_chuc,
+      don_vi_cong_tac:     data.don_vi_cong_tac,
+      anh_ca_nhan_url:     data.anh_ca_nhan_url,
+      aria_label_anh:      data.aria_label_anh,
+      so_noi_bo:           data.so_noi_bo,
+      so_dien_thoai:       data.so_dien_thoai,
+      linh_vuc_nghien_cuu: data.linh_vuc_nghien_cuu
     };
 
     // Loại bỏ undefined

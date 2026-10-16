@@ -187,7 +187,7 @@
   box-shadow: 0 16px 30px rgba(15, 111, 255, 0.1);
 }
 
-.meta-val {
+.curr-meta-card-3d .meta-val {
   font-family: var(--font-logo-vn);
   font-size: 24px;
   font-weight: 900;
@@ -197,7 +197,7 @@
   letter-spacing: -0.5px;
 }
 
-.meta-label {
+.curr-meta-card-3d .meta-label {
   font-family: var(--font-logo-vn);
   font-size: 11px;
   font-weight: 850;
@@ -1445,11 +1445,11 @@
     padding: 16px 12px;
   }
 
-  .meta-val {
+  .curr-meta-card-3d .meta-val {
     font-size: 20px;
   }
 
-  .meta-label {
+  .curr-meta-card-3d .meta-label {
     font-size: 11px;
   }
 

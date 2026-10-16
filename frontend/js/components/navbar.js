@@ -42,7 +42,7 @@ class NavbarComponent extends HTMLElement {
     }
 
     const logoPath = `${prefix}assets/images/sit.jpg`;
-    const homeLink = `${prefix}home/`;
+    const homeLink = `${prefix}`;
     const gioiThieuLink = `${prefix}about/`;
     const nhanSuLink = `${prefix}staff/`;
     const nghienCuuLink = `${prefix}research/`;

@@ -38,7 +38,7 @@ class FooterComponent extends HTMLElement {
    */
   render() {
     const logoPath = `${this.assetPrefix}assets/images/sit.jpg`;
-    const homeLink = `${this.assetPrefix}home/`;
+    const homeLink = `${this.assetPrefix}`;
     const gioiThieuLink = `${this.assetPrefix}about/`;
     const nhanSuLink = `${this.assetPrefix}staff/`;
     const nghienCuuLink = `${this.assetPrefix}research/`;

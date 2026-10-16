@@ -39,6 +39,9 @@ export function mapCreatePayload(entityKey, payload) {
       data.an_hien        = safeInt(payload.an_hien, 1);
       data.an_hien_email  = safeInt(payload.an_hien_email, 1);
       data.don_vi_cong_tac = payload.don_vi_cong_tac || 'Khoa Công nghệ thông tin';
+      data.so_noi_bo       = payload.so_noi_bo || null;
+      data.so_dien_thoai   = payload.so_dien_thoai || null;
+      data.linh_vuc_nghien_cuu = payload.linh_vuc_nghien_cuu || null;
       break;
 
     case 'staffGroups':

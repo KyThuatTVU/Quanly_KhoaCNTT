@@ -14,30 +14,30 @@ const BCRYPT_ROUNDS = 12;
 
 // ── Danh sách 24 giảng viên ────────────────────────────────────────────────────
 const LECTURERS = [
-  { ho_ten: 'Dương Ngọc Vân Khanh',       email: 'vankhanh@tvu.edu.vn',       dien_thoai: '0988332008' },
-  { ho_ten: 'Đoàn Phước Miền',             email: 'phuocmien@tvu.edu.vn',      dien_thoai: '0978962954' },
-  { ho_ten: 'Hà Thị Thúy Vi',              email: 'hattvi201084@tvu.edu.vn',   dien_thoai: '0983001084' },
-  { ho_ten: 'Huỳnh Văn Thanh',             email: 'hvthanh@tvu.edu.vn',        dien_thoai: '0977654181' },
-  { ho_ten: 'Khấu Văn Nhựt',              email: 'nhutkhau@tvu.edu.vn',       dien_thoai: '0993504172' },
-  { ho_ten: 'Lê Minh Tự',                 email: 'lmtu@tvu.edu.vn',           dien_thoai: '0918677326' },
-  { ho_ten: 'Lê Phong Dũ',                email: 'lpdu@tvu.edu.vn',           dien_thoai: '0914256578' },
-  { ho_ten: 'Ngô Thanh Huy',              email: 'huyngocntt@tvu.edu.vn',     dien_thoai: '0989623237' },
-  { ho_ten: 'Nguyễn Bá Nhiệm',            email: 'nhiemnb@tvu.edu.vn',        dien_thoai: '0983303609' },
-  { ho_ten: 'Nguyễn H.D Thiện',           email: 'thiennhd@tvu.edu.vn',       dien_thoai: '0989274222' },
-  { ho_ten: 'Nguyễn Khắc Quốc',           email: 'nkquoc@tvu.edu.vn',         dien_thoai: '0918085180' },
-  { ho_ten: 'Nguyễn Mộng Hiền',           email: 'hientvu@tvu.edu.vn',        dien_thoai: '0975999579' },
-  { ho_ten: 'Nguyễn Ngọc Đan Thanh',      email: 'ngocdanthanhdt@tvu.edu.vn', dien_thoai: '0916741252' },
-  { ho_ten: 'Nguyễn Nhứt Lam',            email: 'lamnn@tvu.edu.vn',          dien_thoai: '0919556441' },
-  { ho_ten: 'Nguyễn Thừa Phát Tài',       email: 'phattai@tvu.edu.vn',        dien_thoai: '0988345131' },
-  { ho_ten: 'Nguyễn Trần Diễm Hạnh',      email: 'diemhanh_tvu@tvu.edu.vn',   dien_thoai: '0842250996' },
-  { ho_ten: 'Phạm Minh Đương',            email: 'duongminh@tvu.edu.vn',      dien_thoai: '0982231344' },
-  { ho_ten: 'Phạm Thị Trúc Mai',          email: 'pttmai@tvu.edu.vn',         dien_thoai: '0936010206' },
-  { ho_ten: 'Phan Thị Phương Nam',        email: 'ptpnam@tvu.edu.vn',         dien_thoai: '0989236166' },
-  { ho_ten: 'Thạch Kọng Saoane',          email: 'oane@tvu.edu.vn',           dien_thoai: '0972904191' },
-  { ho_ten: 'Trầm Hoàng Nam',             email: 'tramhoangnam@tvu.edu.vn',    dien_thoai: '0977810235' },
-  { ho_ten: 'Trần Văn Nam',              email: 'namtv@tvu.edu.vn',          dien_thoai: '0365583414' },
-  { ho_ten: 'Trịnh Quốc Việt',            email: 'tqviettv@tvu.edu.vn',       dien_thoai: '0354696999' },
-  { ho_ten: 'Võ Thành C',                 email: 'vothanhc@tvu.edu.vn',       dien_thoai: '0909119657' },
+  { ho_ten: 'Dương Ngọc Vân Khanh',       email: 'vankhanh@tvu.edu.vn',       dien_thoai: '0988332008', so_noi_bo: '123', linh_vuc_nghien_cuu: 'Data Hiding (Ẩn dữ liệu)' },
+  { ho_ten: 'Đoàn Phước Miền',            email: 'phuocmien@tvu.edu.vn',      dien_thoai: '0978962954', so_noi_bo: '123', linh_vuc_nghien_cuu: 'Thị giác máy tính; Xử lý ảnh' },
+  { ho_ten: 'Hà Thị Thúy Vi',             email: 'hattvi201084@tvu.edu.vn',   dien_thoai: '0983001084', so_noi_bo: '123' },
+  { ho_ten: 'Huỳnh Văn Thanh',            email: 'hvthanh@tvu.edu.vn',        dien_thoai: '0977654181', so_noi_bo: '123' },
+  { ho_ten: 'Khấu Văn Nhựt',              email: 'nhutkhau@tvu.edu.vn',       dien_thoai: '0993504172', so_noi_bo: '123' },
+  { ho_ten: 'Lê Minh Tự',                 email: 'lmtu@tvu.edu.vn',           dien_thoai: '0918677326', so_noi_bo: '123' },
+  { ho_ten: 'Lê Phong Dũ',                email: 'lpdu@tvu.edu.vn',           dien_thoai: '0914256578', so_noi_bo: '3853068', linh_vuc_nghien_cuu: 'Điều khiển tắc nghẽn mạng; Mạng hướng nội dung; Mạng xã hội' },
+  { ho_ten: 'Ngô Thanh Huy',              email: 'huyngocntt@tvu.edu.vn',     dien_thoai: '0989623237', so_noi_bo: '123' },
+  { ho_ten: 'Nguyễn Bá Nhiệm',            email: 'nhiemnb@tvu.edu.vn',        dien_thoai: '0983303609', so_noi_bo: '168' },
+  { ho_ten: 'Nguyễn H.D Thiện',           email: 'thiennhd@tvu.edu.vn',        dien_thoai: '0989274222', so_noi_bo: '168', linh_vuc_nghien_cuu: 'Lập trình di động; Điện toán đám mây; E-learning' },
+  { ho_ten: 'Nguyễn Khắc Quốc',           email: 'nkquoc@tvu.edu.vn',         dien_thoai: '0918085180', so_noi_bo: '123' },
+  { ho_ten: 'Nguyễn Mộng Hiền',           email: 'hientvu@tvu.edu.vn',        dien_thoai: '0975999579', so_noi_bo: '123', linh_vuc_nghien_cuu: 'Thị giác máy tính; Xử lý ảnh' },
+  { ho_ten: 'Nguyễn Ngọc Đan Thanh',      email: 'ngocdanthanhdt@tvu.edu.vn', dien_thoai: '0916741252', so_noi_bo: '123' },
+  { ho_ten: 'Nguyễn Nhứt Lam',            email: 'lamnn@tvu.edu.vn',           dien_thoai: '0919556441', so_noi_bo: '123', linh_vuc_nghien_cuu: 'Graph Neural Network; Social Network Analysis; Deep Learning for Smart City; AI' },
+  { ho_ten: 'Nguyễn Thừa Phát Tài',       email: 'phattai@tvu.edu.vn',         dien_thoai: '0988345131', so_noi_bo: '123', linh_vuc_nghien_cuu: 'Hệ thống thông tin' },
+  { ho_ten: 'Nguyễn Trần Diễm Hạnh',      email: 'diemhanh_tvu@tvu.edu.vn',   dien_thoai: '0842250996', so_noi_bo: '123' },
+  { ho_ten: 'Phạm Minh Đương',            email: 'duongminh@tvu.edu.vn',       dien_thoai: '0982231344', so_noi_bo: '123', linh_vuc_nghien_cuu: 'Công nghệ thông tin và ứng dụng' },
+  { ho_ten: 'Phạm Thị Trúc Mai',          email: 'pttmai@tvu.edu.vn',          dien_thoai: '0936010206', so_noi_bo: '123', linh_vuc_nghien_cuu: 'Phát triển ứng dụng web mã nguồn mở; Hệ chuyên gia; Khai phá dữ liệu; Phân tích dữ liệu; Phân tích mạng xã hội' },
+  { ho_ten: 'Phan Thị Phương Nam',        email: 'ptpnam@tvu.edu.vn',          dien_thoai: '0989236166', so_noi_bo: '123' },
+  { ho_ten: 'Thạch Kọng Saoane',          email: 'oane@tvu.edu.vn',            dien_thoai: '0972904191', so_noi_bo: '123' },
+  { ho_ten: 'Trầm Hoàng Nam',             email: 'tramhoangnam@tvu.edu.vn',    dien_thoai: '0977810235', so_noi_bo: '123' },
+  { ho_ten: 'Trần Văn Nam',               email: 'namtv@tvu.edu.vn',           dien_thoai: '0365583414', so_noi_bo: '123', linh_vuc_nghien_cuu: 'Xử lý ngôn ngữ tự nhiên (NLP)' },
+  { ho_ten: 'Trịnh Quốc Việt',            email: 'tqviettv@tvu.edu.vn',        dien_thoai: '0354696999', so_noi_bo: '123' },
+  { ho_ten: 'Võ Thành C',                 email: 'vothanhc@tvu.edu.vn',        dien_thoai: '0909119657', so_noi_bo: '123' },
 ];
 
 // ── Admin mặc định (sẽ được dùng để seed GV) ────────────────────────────────
@@ -150,14 +150,18 @@ async function run() {
       let nhanVienId;
       if (existNV.length > 0) {
         nhanVienId = existNV[0].id;
+        await conn.query(
+          'UPDATE nhan_vien SET so_noi_bo = ?, linh_vuc_nghien_cuu = ? WHERE id = ?',
+          [lecturer.so_noi_bo, lecturer.linh_vuc_nghien_cuu || null, nhanVienId]
+        );
       } else {
         // Tạo mới nhan_vien
         const slug = lecturer.email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
         const [nvResult] = await conn.query(
           `INSERT INTO nhan_vien
-             (nhom_id, ho_ten, hoc_vi, chuc_vu, email, slug_ca_nhan, anh_ca_nhan_url, thu_tu_trong_nhom, an_hien)
-           VALUES (?, ?, 'Thạc sĩ', 'Giảng viên', ?, ?, 'assets/images/default-avatar.webp', 99, 1)`,
-          [nhomId, lecturer.ho_ten, lecturer.email, slug]
+             (nhom_id, ho_ten, hoc_vi, chuc_vu, email, slug_ca_nhan, anh_ca_nhan_url, thu_tu_trong_nhom, an_hien, so_noi_bo, so_dien_thoai, linh_vuc_nghien_cuu)
+           VALUES (?, ?, 'Thạc sĩ', 'Giảng viên', ?, ?, 'assets/images/default-avatar.webp', 99, 1, ?, ?, ?)`,
+          [nhomId, lecturer.ho_ten, lecturer.email, slug, lecturer.so_noi_bo, lecturer.dien_thoai, lecturer.linh_vuc_nghien_cuu || null]
         );
         nhanVienId = nvResult.insertId;
       }

@@ -25,8 +25,20 @@ export function globalErrorHandler(err, req, res, next) {
   const statusCode = err.statusCode || 500;
   const isOperational = err.isOperational || false;
 
+  // Lỗi 404: Route không tồn tại (thường do bot trên internet quét /v2/, /.env hoặc gõ sai URL)
+  // Chỉ cảnh báo nhẹ, không in cả đống stack trace đỏ rực làm rối log
+  if (statusCode === 404) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(`⚠️ [404 Not Found] ${req.method} ${req.originalUrl}`);
+    }
+    return res.status(404).json({
+      success: false,
+      error: err.message
+    });
+  }
+
   if (process.env.NODE_ENV === 'development') {
-    // In development, expose full stack trace
+    // In development, expose full stack trace cho các lỗi 500 thực sự
     console.error('🔴 [ERROR]', err);
     return res.status(statusCode).json({
       success: false,

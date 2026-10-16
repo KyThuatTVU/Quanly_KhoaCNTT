@@ -145,11 +145,11 @@ app.use(notFoundHandler);
 app.use(globalErrorHandler);
 
 // ── Start server & Configure HTTP Socket Timeouts ────────────────────────────
-const server = app.listen(config.app.port, () => {
-  logger.info(`🚀 Server dang chay tai http://localhost:${config.app.port}`);
-  logger.info(`🔗 Admin API: http://localhost:${config.app.port}/api/v1/admin (Yêu cầu đăng nhập Admin)`);
-  logger.info(`🔐 Admin Login: http://localhost:${config.app.port}/auth/google`);
-  logger.info(`👨‍🏫 Lecturer Auth: http://localhost:${config.app.port}/api/auth/lecturer/login`);
+const server = app.listen(config.app.port, config.app.host, () => {
+  logger.info(`🚀 Server dang chay tai http://${config.app.host}:${config.app.port}`);
+  logger.info(`🔗 Admin API: http://${config.app.host}:${config.app.port}/api/v1/admin (Yêu cầu đăng nhập Admin)`);
+  logger.info(`🔐 Admin Login: http://${config.app.host}:${config.app.port}/auth/google`);
+  logger.info(`👨‍🏫 Lecturer Auth: http://${config.app.host}:${config.app.port}/api/auth/lecturer/login`);
 });
 
 // Chống treo socket / request ngâm lâu quá 10 giây (Tự động ngắt kết nối giải phóng bộ nhớ)

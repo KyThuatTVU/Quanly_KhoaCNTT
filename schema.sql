@@ -85,6 +85,9 @@ CREATE TABLE `nhan_vien` (
   `thu_tu_trong_nhom` INT NOT NULL DEFAULT 0 COMMENT 'Thứ tự vị trí trong nhóm',
   `an_hien`           TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1: Hiện, 0: Ẩn',
   `an_hien_email`     TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1: Hiện, 0: Ẩn',
+  `so_noi_bo`         VARCHAR(50) DEFAULT NULL COMMENT 'Số máy nội bộ',
+  `so_dien_thoai`     VARCHAR(50) DEFAULT NULL COMMENT 'Số điện thoại liên hệ',
+  `linh_vuc_nghien_cuu` TEXT DEFAULT NULL COMMENT 'Lĩnh vực nghiên cứu tóm tắt',
   `ngay_tao`          DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ngay_cap_nhat`     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT `fk_nhanvien_nhom` FOREIGN KEY (`nhom_id`) REFERENCES `nhom_nhan_su` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE

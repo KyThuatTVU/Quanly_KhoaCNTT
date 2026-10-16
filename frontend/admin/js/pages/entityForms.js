@@ -8,7 +8,7 @@ import { AdminApiService } from '../services/adminApiService.js';
 export async function renderEntityPanel(container, entityKey) {
   container.innerHTML = `<div style="padding:40px; text-align:center; color:var(--admin-text-muted);">Đang tải dữ liệu...</div>`;
   
-  if (['staff', 'deans', 'lecturers', 'staffProfiles', 'staffResearch', 'staffPapers', 'staffProjects', 'staffBooks', 'staffSupervisions', 'lecturerAccounts'].includes(entityKey)) {
+  if (['staff', 'deans', 'lecturers', 'visitingLecturers', 'staffProfiles', 'staffResearch', 'staffPapers', 'staffProjects', 'staffBooks', 'staffSupervisions', 'lecturerAccounts'].includes(entityKey)) {
     try {
       this.staffList = await AdminApiService.getList('staff');
     } catch (err) {
@@ -31,7 +31,7 @@ export async function renderEntityPanel(container, entityKey) {
     }
   }
    let fetchKey = entityKey;
-  if (entityKey === 'deans' || entityKey === 'lecturers') {
+  if (entityKey === 'deans' || entityKey === 'lecturers' || entityKey === 'visitingLecturers') {
     fetchKey = 'staff';
   }
   const rawData = await AdminApiService.getList(fetchKey);
@@ -39,6 +39,8 @@ export async function renderEntityPanel(container, entityKey) {
     this.currentEntityData = rawData.filter(item => Number(item.nhom_id) === 1);
   } else if (entityKey === 'lecturers') {
     this.currentEntityData = rawData.filter(item => Number(item.nhom_id) === 2);
+  } else if (entityKey === 'visitingLecturers') {
+    this.currentEntityData = rawData.filter(item => Number(item.nhom_id) === 3);
   } else if (entityKey === 'staffProfiles') {
     const profiles = rawData || [];
     this.currentEntityData = (this.staffList || []).map(staff => {
@@ -46,6 +48,7 @@ export async function renderEntityPanel(container, entityKey) {
       if (existingProfile) {
         return {
           ...existingProfile,
+          linh_vuc_nghien_cuu: existingProfile.linh_vuc_nghien_cuu || staff.linh_vuc_nghien_cuu || '',
           is_new_profile: false
         };
       } else {
@@ -57,7 +60,7 @@ export async function renderEntityPanel(container, entityKey) {
           hoc_vi: staff.hoc_vi || 'Cử nhân',
           hoc_ham: staff.hoc_ham || '',
           don_vi_cong_tac: staff.don_vi_cong_tac || 'Khoa Công nghệ thông tin',
-          linh_vuc_nghien_cuu: 'Chưa cập nhật',
+          linh_vuc_nghien_cuu: staff.linh_vuc_nghien_cuu || '',
           google_scholar_url: '#',
           orcid_url: '#',
           github_url: '#',
@@ -81,9 +84,12 @@ export async function renderEntityPanel(container, entityKey) {
         case 'staff':
         case 'deans':
         case 'lecturers':
+        case 'visitingLecturers': {
           displayTitle = `[Cán bộ] ${item.ho_ten}`;
-          displaySub = `Chức vụ: ${item.chuc_vu} | Học vị: ${item.hoc_vi} | Nhóm: ${item.nhom_id === 1 ? 'Lãnh đạo khoa' : 'Giảng viên & Trợ giảng'}`;
+          const gName = item.nhom_id === 1 ? 'Ban Lãnh đạo' : (item.nhom_id === 3 ? 'GV Thỉnh giảng' : 'Giảng viên & Trợ giảng');
+          displaySub = `Chức vụ: ${item.chuc_vu || 'Chưa cập nhật'} | Học vị: ${item.hoc_vi || 'Cử nhân'} | Nhóm: ${gName}${item.so_noi_bo ? ' | Nội bộ: ' + item.so_noi_bo : ''}${item.so_dien_thoai ? ' | ĐT: ' + item.so_dien_thoai : ''}`;
           break;
+        }
         case 'staffProfiles': {
           const staffName = this.staffList.find(s => s.id === item.nhan_vien_id)?.ho_ten || `ID cán bộ: ${item.nhan_vien_id}`;
           displayTitle = `[Hồ sơ cá nhân] ${staffName}`;
@@ -657,9 +663,10 @@ export function generateFormFields(entityKey, data) {
     `;
   };
    let html = ``;
-   if (entityKey === 'staff' || entityKey === 'deans' || entityKey === 'lecturers') {
+   if (entityKey === 'staff' || entityKey === 'deans' || entityKey === 'lecturers' || entityKey === 'visitingLecturers') {
     const isDean = entityKey === 'deans';
     const isLecturer = entityKey === 'lecturers';
+    const isVisiting = entityKey === 'visitingLecturers';
     const isEdit = !!data.id;
      if (isDean && !isEdit) {
       // Form bổ nhiệm Lãnh đạo khoa mới (chọn từ Giảng viên có sẵn)
@@ -695,7 +702,7 @@ export function generateFormFields(entityKey, data) {
     } else {
       // Form sửa hoặc thêm giảng viên/lãnh đạo bình thường
       html += `
-        <input type="hidden" name="nhom_id" id="field_nhom_id" value="${isDean ? '1' : (isLecturer ? '2' : (data.nhom_id || '2'))}">
+        <input type="hidden" name="nhom_id" id="field_nhom_id" value="${isDean ? '1' : (isVisiting ? '3' : (isLecturer ? '2' : (data.nhom_id || '2')))}">
         <div class="form-group">
           <label>Họ và tên Giảng viên (*)</label>
           <input type="text" name="main_title" value="${data.ho_ten || ''}" required placeholder="VD: TS. Nguyễn Nhứt Lam">
@@ -705,7 +712,7 @@ export function generateFormFields(entityKey, data) {
           <input type="text" name="chuc_vu" value="${data.chuc_vu || ''}" required placeholder="VD: Trưởng khoa, Giảng viên">
         </div>
       `;
-       if (!isDean && !isLecturer) {
+       if (!isDean && !isLecturer && !isVisiting) {
         // Chỉ hiện Nhóm nhân sự nếu là entity 'staff' chung cũ
         html += `
           <div class="form-group">
@@ -750,6 +757,18 @@ export function generateFormFields(entityKey, data) {
         <div class="form-group">
           <label>Email công vụ (@tvu.edu.vn)</label>
           <input type="email" name="email" value="${data.email || ''}" placeholder="lamnn@tvu.edu.vn">
+        </div>
+        <div class="form-group">
+          <label>Số máy nội bộ (Extension)</label>
+          <input type="text" name="so_noi_bo" value="${data.so_noi_bo || ''}" placeholder="VD: 123 hoặc 104">
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại di động / liên hệ</label>
+          <input type="text" name="so_dien_thoai" value="${data.so_dien_thoai || ''}" placeholder="VD: 0919 556 441">
+        </div>
+        <div class="form-group">
+          <label>Lĩnh vực nghiên cứu chính (Hiển thị trên thẻ)</label>
+          <textarea name="linh_vuc_nghien_cuu" rows="2" placeholder="VD: Graph neural network; Social network analysis; Deep learning for smart city; AI">${data.linh_vuc_nghien_cuu || ''}</textarea>
         </div>
         <div class="form-group">
           <label>Đơn vị công tác chính</label>

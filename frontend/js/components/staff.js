@@ -217,25 +217,68 @@ class StaffDirectoryComponent extends HTMLElement {
         rawPath = rawPath.substring(3);
       }
       const imgPath = `${this.assetPrefix}${rawPath}`;
+
+      const roleBadge = (item.chuc_vu || 'GIẢNG VIÊN').toUpperCase();
+      const fullName = item.ho_ten;
+      const soNoiBo = item.so_noi_bo || '';
+      const dienThoai = item.so_dien_thoai || '';
+      const email = item.email || '';
+      const researchField = item.linh_vuc_nghien_cuu || '';
+
       const avatarHtml = `
-        <div class="staff-card-img-container">
-          <img src="${imgPath}" alt="${item.ho_ten}" class="staff-card-img" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
-          <div class="staff-fallback-avatar-wrapper" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center;">
-            ${this.getFallbackAvatar()}
+        <div class="staff-avatar-col">
+          <div class="staff-avatar-circle">
+            <img src="${imgPath}" alt="${fullName}" class="staff-avatar-img" 
+                 onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+            <div class="staff-fallback-avatar-wrapper" style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center;">
+              ${this.getFallbackAvatar()}
+            </div>
           </div>
         </div>
       `;
-
-      const titleAndName = item.ho_ten;
-      const subtitle = item.chuc_vu;
 
       return `
         <div class="staff-card-3d-wrap" onclick="this.closest('staff-directory-component').showProfile(${item.id})">
           <div class="staff-card-3d">
             ${avatarHtml}
-            <div class="staff-card-info">
-              <h3 class="staff-card-name">${titleAndName}</h3>
-              <p class="staff-card-role">${subtitle}</p>
+            <div class="staff-info-col">
+              <div class="staff-role-badge">${roleBadge}</div>
+              <h3 class="staff-name-title">${fullName}</h3>
+              <div class="staff-accent-line"></div>
+
+              <div class="staff-meta-details">
+                ${soNoiBo ? `
+                  <div class="staff-meta-row">
+                    <span class="staff-meta-label">Số nội bộ:</span>
+                    <span class="staff-meta-val">${soNoiBo}</span>
+                  </div>
+                ` : ''}
+                ${dienThoai ? `
+                  <div class="staff-meta-row">
+                    <span class="staff-meta-label">Điện thoại:</span>
+                    <span class="staff-meta-val">${dienThoai}</span>
+                  </div>
+                ` : ''}
+                ${email ? `
+                  <div class="staff-meta-row">
+                    <span class="staff-meta-label">Email:</span>
+                    <a href="mailto:${email}" class="staff-meta-link" onclick="event.stopPropagation()">${email}</a>
+                  </div>
+                ` : ''}
+                ${researchField ? `
+                  <div class="staff-meta-row staff-research-row">
+                    <span class="staff-meta-label">Lĩnh vực nghiên cứu:</span>
+                    <span class="staff-meta-val staff-research-val">${researchField}</span>
+                  </div>
+                ` : ''}
+              </div>
+
+              <div class="staff-action-row">
+                <button type="button" class="staff-detail-btn" title="Xem hồ sơ khoa học chi tiết">
+                  <span>Thông tin chi tiết</span>
+                  <span class="btn-arrow">→</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -246,8 +289,8 @@ class StaffDirectoryComponent extends HTMLElement {
     this.staffGroups.forEach(group => {
       const groupStaff = visibleStaff.filter(item => item.nhom_id === group.id);
       
-      // Render the section if there is staff inside it, or if it is one of the main groups (1 or 2)
-      if (groupStaff.length > 0 || group.id === 1 || group.id === 2) {
+      // Render the section if there is staff inside it, or if it is one of the main groups (1, 2, or 3)
+      if (groupStaff.length > 0 || group.id === 1 || group.id === 2 || group.id === 3) {
         groupsHtml += `
           <div class="staff-group-section">
             <h2 class="staff-group-title">${group.ten_nhom}</h2>
@@ -287,14 +330,14 @@ class StaffDirectoryComponent extends HTMLElement {
       hoc_vi: staff.hoc_vi || 'Cử nhân',
       hoc_ham: staff.hoc_ham || '',
       don_vi_cong_tac: staff.don_vi_cong_tac || 'Khoa Công nghệ thông tin',
-      linh_vuc_nghien_cuu: 'Chưa cập nhật',
+      linh_vuc_nghien_cuu: staff.linh_vuc_nghien_cuu || 'Chưa cập nhật',
       google_scholar_url: '#',
       orcid_url: '#',
       github_url: '#',
       website_ca_nhan: '#'
     };
 
-    const rawResearchField = pData.linh_vuc_nghien_cuu || '';
+    const rawResearchField = pData.linh_vuc_nghien_cuu || staff.linh_vuc_nghien_cuu || '';
     const cleanResearchField = rawResearchField.split('||hide:')[0] || 'Chưa cập nhật';
     const hideConfig = rawResearchField.includes('||hide:') ? rawResearchField.split('||hide:')[1] : '';
     const hiddenSections = hideConfig ? hideConfig.split(',') : [];

@@ -3,12 +3,141 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Clean, robust relative redirect to the main landing page -->
-    <meta http-equiv="refresh" content="0; url=./home/" />
-    <script>window.location.replace("./home/");</script>
-    <title>Đang chuyển hướng | Redirecting</title>
+    <!-- Google Fonts: Quicksand, Be Vietnam Pro, Plus Jakarta Sans, Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Component and page styles -->
+    <link rel="stylesheet" href="./css/style.css?v=1.0.1" />
+    <!-- Component JS script loaded as ES Module -->
+    <script type="module" src="./js/main.js"></script>
+    <title>Khoa Công nghệ Thông tin - Trường Đại học Trà Vinh</title>
   </head>
   <body>
-    <p>Trang đang chuyển đến <a href="./home/">./home/</a>...</p>
+    <!-- Reusable Navbar Component -->
+    <navbar-component></navbar-component>
+
+    <!-- Hero Banner Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-welcome" data-i18n="home.hero.welcome">Chào mừng bạn đến với</div>
+        <h1 class="hero-title" data-i18n="home.hero.title">Khoa Công nghệ Thông tin</h1>
+        <div class="hero-subtitle" data-i18n="home.hero.subtitle">Welcome to School of Information Technology</div>
+      </div>
+    </section>
+
+    <!-- Programs Grid Section -->
+    <main class="programs-section">
+      <div class="programs-grid">
+        
+        <!-- Card 1: Undergraduate Program (Công nghệ thông tin) -->
+        <article class="program-card ug">
+          <div class="aun-badge">ABET</div>
+          <div class="program-icon-wrapper">
+            <!-- Code/Computer SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+              <polyline points="10 9 7 12 10 15"></polyline>
+              <polyline points="14 15 17 12 14 9"></polyline>
+            </svg>
+          </div>
+          <h2 class="program-title" data-i18n="home.prog.it.title">Kỹ sư Công nghệ thông tin</h2>
+          <p class="program-desc" data-i18n="home.prog.it.desc">Đào tạo kỹ sư CNTT chất lượng cao, định hướng thực hành ứng dụng, làm chủ công nghệ phần mềm và hệ thống mạng hiện đại.</p>
+        </article>
+
+        <!-- Card 2: AI Program (Trí tuệ nhân tạo) -->
+        <article class="program-card ai">
+          <div class="hot-badge">HOT</div>
+          <div class="program-icon-wrapper">
+            <!-- Lightbulb SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A5 5 0 0 0 8 8c0 1 .3 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+              <path d="M9 18h6"></path>
+              <path d="M10 22h4"></path>
+              <path d="M12 2v2"></path>
+              <path d="M4.9 4.9l1.4 1.4"></path>
+              <path d="M19.1 4.9l-1.4 1.4"></path>
+            </svg>
+          </div>
+          <h2 class="program-title" data-i18n="home.prog.ai.title">Kỹ sư Trí tuệ nhân tạo</h2>
+          <p class="program-desc" data-i18n="home.prog.ai.desc">Đào tạo mũi nhọn về khoa học dữ liệu, thuật toán máy học, xử lý ngôn ngữ tự nhiên và phát triển các hệ thống AI thông minh.</p>
+        </article>
+
+        <!-- Card 3: Master Program (Thạc sĩ CNTT) -->
+        <article class="program-card ms">
+        
+          <div class="program-icon-wrapper">
+            <!-- Graduation Cap SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+            </svg>
+          </div>
+          <h2 class="program-title" data-i18n="home.prog.ms.title">Thạc sĩ Công nghệ thông tin</h2>
+          <p class="program-desc" data-i18n="home.prog.ms.desc">Nâng cao chuyên môn học thuật và ứng dụng thực tiễn, trang bị tư duy nghiên cứu độc lập và năng lực quản lý dự án công nghệ lớn.</p>
+        </article>
+
+        <!-- Card 4: PhD Program (Tiến sĩ Khoa học máy tính) -->
+        <article class="program-card phd">
+          <div class="program-icon-wrapper">
+            <!-- Science Beaker SVG Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3h12"></path>
+              <path d="M9 3v6c0 1.5-1 3.5-3 5.5A4 4 0 0 0 9 21h6a4 4 0 0 0 3-6.5c-2-2-3-4-3-5.5V3"></path>
+              <path d="M6 14h12"></path>
+            </svg>
+          </div>
+          <h2 class="program-title" data-i18n="home.prog.phd.title">Tiến sĩ Công nghệ Thông tin</h2>
+          <p class="program-desc" data-i18n="home.prog.phd.desc">Chương trình nghiên cứu học thuật chuyên sâu nhất, đào tạo các nhà khoa học, chuyên gia đầu ngành có khả năng tạo ra tri thức công nghệ mới.</p>
+        </article>
+
+      </div>
+    </main>
+
+    <!-- Admission Information Section -->
+    <section class="admission-section">
+      <div class="admission-container">
+        <div class="admission-callout">
+          <div class="admission-callout-header">
+            <span class="admission-callout-icon">🎓</span>
+            <h3 class="admission-callout-title" data-i18n="home.admission.title">Tuyển sinh 2026</h3>
+          </div>
+          <div class="admission-callout-content">
+            <p>
+              Khoa Công nghệ thông tin tuyển sinh <strong>Kỹ sư Công nghệ thông tin</strong> (mã ngành: <strong>7480201</strong>) và <strong>Kỹ sư Trí tuệ nhân tạo</strong> (mã ngành: <strong>7480107</strong>) với các tổ hợp xét tuyển <strong>A00</strong> (Toán - Vật lý - Hoá học), <strong>A01</strong> (Toán - Vật lý - Tiếng Anh), <strong>C01</strong> (Ngữ văn - Toán - Vật lý) và <strong>D07</strong> (Toán - Hóa học - Tiếng Anh). Điểm chuẩn năm 2025 ngành Công nghệ thông tin và Trí tuệ nhân tạo lần lượt là <strong>15.00</strong> và <strong>16.00</strong>. Chỉ tiêu dự kiến năm 2026 là <strong>150</strong> sinh viên Kỹ sư Công nghệ thông tin và <strong>50</strong> sinh viên Kỹ sư Trí tuệ nhân tạo.
+            </p>
+            <p>
+              Mọi chi tiết xin vui lòng liên hệ <a href="https://tuyensinh.tvu.edu.vn" target="_blank" class="admission-link">Tư vấn tuyển sinh Đại học Trà Vinh</a> hoặc <a href="https://www.facebook.com/fit.tvu.edu.vn" target="_blank" class="admission-link">Facebook khoa Công nghệ thông tin</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reusable Slider Component -->
+    <hero-slider-component></hero-slider-component>
+
+    <!-- News & Events Grid Component -->
+    <news-events-component></news-events-component>
+
+    <!-- Student Showcase Component -->
+    <student-showcase-component></student-showcase-component>
+
+    <!-- Infographics List Component -->
+    <infographic-list-component></infographic-list-component>
+
+    <!-- Counter Stats Component -->
+    <stats-counter-component></stats-counter-component>
+
+    <!-- Alumni Showcase Component -->
+    <alumni-showcase-component></alumni-showcase-component>
+
+    <!-- Activity Gallery Component -->
+    <activity-gallery-component></activity-gallery-component>
+
+    <!-- Footer Component -->
+    <footer-component></footer-component>
   </body>
 </html>

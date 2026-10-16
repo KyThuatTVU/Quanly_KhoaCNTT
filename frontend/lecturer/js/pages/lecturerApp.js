@@ -236,6 +236,14 @@ class LecturerApp {
                 <label class="form-label">Đơn vị công tác (*)</label>
                 <input type="text" id="donViCongTac" class="form-input" required />
               </div>
+              <div class="form-group">
+                <label class="form-label">Số máy nội bộ (Extension)</label>
+                <input type="text" id="soNoiBo" class="form-input" placeholder="VD: 123" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Số điện thoại di động / liên hệ</label>
+                <input type="text" id="soDienThoai" class="form-input" placeholder="VD: 0919 556 441" />
+              </div>
             </div>
 
             <div class="section-title" style="margin-top: 36px;">🔬 Chuyên môn & Nghiên cứu</div>
@@ -294,6 +302,8 @@ class LecturerApp {
       document.getElementById('hocHam').value = data.hoc_ham || '';
       document.getElementById('chucVu').value = data.chuc_vu || '';
       document.getElementById('donViCongTac').value = data.don_vi_cong_tac || '';
+      document.getElementById('soNoiBo').value = data.so_noi_bo || '';
+      document.getElementById('soDienThoai').value = data.so_dien_thoai || '';
       document.getElementById('linhVucNghienCuu').value = data.linh_vuc_nghien_cuu || '';
       document.getElementById('googleScholar').value = data.google_scholar_url || '';
       document.getElementById('orcid').value = data.orcid_url || '';
@@ -328,6 +338,8 @@ class LecturerApp {
       hoc_ham: document.getElementById('hocHam').value.trim(),
       chuc_vu: document.getElementById('chucVu').value.trim(),
       don_vi_cong_tac: document.getElementById('donViCongTac').value.trim(),
+      so_noi_bo: document.getElementById('soNoiBo').value.trim(),
+      so_dien_thoai: document.getElementById('soDienThoai').value.trim(),
       linh_vuc_nghien_cuu: document.getElementById('linhVucNghienCuu').value.trim(),
       google_scholar_url: document.getElementById('googleScholar').value.trim(),
       orcid_url: document.getElementById('orcid').value.trim(),

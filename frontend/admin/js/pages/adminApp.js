@@ -432,6 +432,7 @@ class AdminApp {
       staff: 'Cán bộ - Giảng viên',
       deans: 'Ban Lãnh đạo Khoa',
       lecturers: 'Giảng viên & Trợ giảng',
+      visitingLecturers: 'Giảng viên Thỉnh giảng',
       staffGroups: 'Nhóm Nhân sự Khoa',
       staffProfiles: 'Trang cá nhân chi tiết',
       staffResearch: 'Đề tài NCKH Cá nhân',
@@ -485,6 +486,9 @@ class AdminApp {
   getFallbackTitle(entityKey, item) {
     const fallbacks = {
       staff: 'Giảng viên',
+      deans: 'Lãnh đạo',
+      lecturers: 'Giảng viên',
+      visitingLecturers: 'GV Thỉnh giảng',
       staffGroups: 'Nhóm nhân sự',
       staffProfiles: 'Trang cá nhân',
       staffResearch: 'Đề tài NCKH',
@@ -681,7 +685,7 @@ class AdminApp {
 
     try {
       let apiNav = this.currentNav;
-      if (this.currentNav === 'deans' || this.currentNav === 'lecturers') {
+      if (this.currentNav === 'deans' || this.currentNav === 'lecturers' || this.currentNav === 'visitingLecturers') {
         apiNav = 'staff';
       }
 
@@ -744,7 +748,7 @@ class AdminApp {
       }
     }
 
-    const apiKey = (entityKey === 'deans' || entityKey === 'lecturers') ? 'staff' : entityKey;
+    const apiKey = (entityKey === 'deans' || entityKey === 'lecturers' || entityKey === 'visitingLecturers') ? 'staff' : entityKey;
     if (confirm(`Bạn có chắc chắn muốn xóa hoàn toàn cán bộ/mục này khỏi cơ sở dữ liệu không?`)) {
       try {
         await AdminApiService.deleteItem(apiKey, id);

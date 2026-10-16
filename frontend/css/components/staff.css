@@ -82,99 +82,92 @@
 }
 
 /* --------------------------------------------------------------------------
-   3D Horizontal Directory Cards (Premium Design Match)
+   Directory Staff Cards - Clean 3D Layout (Matching Sample Design)
    -------------------------------------------------------------------------- */
 .staff-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+  gap: 28px;
+  align-items: stretch;
+}
+
+@media (max-width: 1040px) {
+  .staff-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 
 .staff-card-3d-wrap {
-  perspective: 1200px;
+  display: flex;
+  height: 100%;
   cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.staff-card-3d-wrap:hover {
+  transform: translateY(-4px);
 }
 
 .staff-card-3d {
-  transform-style: preserve-3d;
-  background: rgba(255, 255, 255, 0.45);              /* Translucent white glass background */
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-top: 2px solid rgba(255, 255, 255, 0.85);     /* Bright light top edge highlight */
-  border-left: 1.5px solid rgba(255, 255, 255, 0.65);
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  padding: 20px 24px;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 28px 28px;
   display: flex;
   align-items: center;
   gap: 24px;
-  backdrop-filter: blur(20px);                         /* Strong glass backdrop blur */
-  -webkit-backdrop-filter: blur(20px);
-  /* Glass 3D Extrusion Shadow */
   box-shadow: 
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.6), 
-    0 4px 0 rgba(2, 132, 199, 0.12),                   /* Translucent 3D bottom bevel */
-    0 10px 25px rgba(12, 35, 64, 0.04);
-  transform: translateZ(0);
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
-  overflow: hidden;
+    0 4px 20px -2px rgba(15, 23, 42, 0.05),
+    0 1px 3px rgba(15, 23, 42, 0.02);
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-sizing: border-box;
 }
 
-/* Role colored left accents for depth - Translucent styled */
-.staff-group-section:nth-of-type(1) .staff-card-3d {
-  border-left: 5px solid rgba(2, 132, 199, 0.7);
-}
-
-.staff-group-section:nth-of-type(2) .staff-card-3d {
-  border-left: 5px solid rgba(14, 165, 233, 0.7);
-}
-
-/* Hover 3D Physics */
 .staff-card-3d-wrap:hover .staff-card-3d {
-  transform: translateY(-6px) translateZ(15px) rotateX(1.5deg) rotateY(-1.5deg);
-  border-color: rgba(2, 132, 199, 0.3);
+  border-color: rgba(11, 99, 206, 0.35);
   box-shadow: 
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.85), 
-    0 8px 0 rgba(2, 132, 199, 0.25),                   /* Thicker 3D bottom glass edge on hover */
-    0 20px 40px rgba(12, 35, 64, 0.12);
+    0 16px 36px -6px rgba(11, 99, 206, 0.14),
+    0 4px 12px -2px rgba(15, 23, 42, 0.04);
 }
 
-/* Avatar container with inner shadow/glowing rings */
-.staff-card-img-container {
-  width: 96px;
-  height: 96px;
-  border-radius: 18px;
-  overflow: hidden;
+/* Circular Avatar Column */
+.staff-avatar-col {
   flex-shrink: 0;
-  box-shadow: 
-    inset 0 1px 2px rgba(255, 255, 255, 0.4),
-    0 4px 12px rgba(2, 132, 199, 0.1);
-  background: rgba(255, 255, 255, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2.5px solid rgba(255, 255, 255, 0.7);
-  transition: all 0.3s ease;
 }
 
-.staff-card-3d-wrap:hover .staff-card-img-container {
-  border-color: rgba(2, 132, 199, 0.6);
+.staff-avatar-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: #f8fafc;
+  border: 4px solid #ffffff;
   box-shadow: 
-    inset 0 1px 3px rgba(255, 255, 255, 0.6),
-    0 6px 16px rgba(2, 132, 199, 0.25);
+    0 8px 24px rgba(15, 23, 42, 0.12),
+    0 2px 6px rgba(15, 23, 42, 0.04);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+}
+
+.staff-card-3d-wrap:hover .staff-avatar-circle {
   transform: scale(1.03);
 }
 
-.staff-card-img {
+.staff-avatar-img {
   width: 100%;
   height: 100%;
+  border-radius: 50%;
   object-fit: cover;
-  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.staff-card-3d-wrap:hover .staff-card-img {
-  transform: scale(1.08);
+  object-position: center top;
 }
 
 .staff-fallback-svg {
@@ -182,42 +175,184 @@
   height: 70%;
   filter: drop-shadow(0 2px 4px rgba(2, 132, 199, 0.15));
 }
-.staff-fallback-svg circle {
-  fill: rgba(255, 255, 255, 0.6);
-  stroke: rgba(2, 132, 199, 0.2);
-}
-.staff-fallback-svg path:nth-of-type(1) {
-  fill: #38bdf8;
-}
-.staff-fallback-svg path:nth-of-type(2) {
-  fill: #0284c7;
+
+/* Right Content Info Column */
+.staff-info-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
-/* Text info layout */
-.staff-card-info {
-  flex-grow: 1;
+.staff-role-badge {
+  font-family: var(--font-body, 'Be Vietnam Pro', sans-serif);
+  font-size: 13px;
+  font-weight: 700;
+  color: #0b63ce;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+  line-height: 1.2;
 }
 
-.staff-card-name {
-  font-family: var(--font-logo-vn);
-  font-size: 19px;
-  font-weight: 850;
-  color: #0c2340; /* Deep navy text */
-  margin: 0 0 6px;
-  transition: color 0.25s ease;
+.staff-name-title {
+  font-family: var(--font-body, 'Be Vietnam Pro', sans-serif);
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+  line-height: 1.25;
 }
 
-.staff-card-3d-wrap:hover .staff-card-name {
-  color: #0284c7; /* Sky/ocean blue on hover */
+.staff-accent-line {
+  width: 44px;
+  height: 3.5px;
+  background: #0b63ce;
+  border-radius: 2px;
+  margin-bottom: 14px;
 }
 
-.staff-card-role {
-  font-family: var(--font-body);
+.staff-meta-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-family: var(--font-body, 'Be Vietnam Pro', sans-serif);
+}
+
+.staff-meta-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
   font-size: 14px;
   line-height: 1.5;
-  color: #4a607a; /* Muted slate/steel blue text */
+}
+
+.staff-meta-label {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #1e293b !important;
+  flex-shrink: 0;
+  letter-spacing: normal !important;
+  font-family: var(--font-body, 'Be Vietnam Pro', sans-serif) !important;
+}
+
+.staff-meta-val {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  color: #475569 !important;
+  line-height: 1.5 !important;
+  letter-spacing: normal !important;
+  font-family: var(--font-body, 'Be Vietnam Pro', sans-serif) !important;
+}
+
+.staff-meta-link {
+  color: #0b63ce;
+  text-decoration: none;
   font-weight: 500;
-  margin: 0;
+  font-size: 14px;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.staff-meta-link:hover {
+  text-decoration: underline;
+  color: #004494;
+}
+
+.staff-meta-row.staff-research-row {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.5;
+}
+
+.staff-meta-row.staff-research-row .staff-meta-label {
+  display: inline;
+  margin-right: 6px;
+}
+
+.staff-research-val {
+  display: inline;
+  color: #475569 !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.staff-action-row {
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.staff-detail-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0b63ce;
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(11, 99, 206, 0.2);
+  transition: all 0.2s ease;
+  font-family: var(--font-body, 'Be Vietnam Pro', sans-serif);
+}
+
+.staff-detail-btn:hover {
+  background: #0056b3;
+  box-shadow: 0 4px 12px rgba(11, 99, 206, 0.35);
+  transform: translateY(-1px);
+}
+
+.staff-detail-btn .btn-arrow {
+  font-size: 15px;
+  transition: transform 0.2s ease;
+}
+
+.staff-card-3d-wrap:hover .staff-detail-btn .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Responsive adjustment for Mobile screens */
+@media (max-width: 680px) {
+  .staff-card-3d {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px 18px;
+    gap: 18px;
+  }
+  .staff-info-col {
+    align-items: center;
+  }
+  .staff-accent-line {
+    margin: 0 auto 14px auto;
+  }
+  .staff-meta-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .staff-meta-row.staff-research-row {
+    text-align: center;
+    display: block;
+  }
+  .staff-action-row {
+    margin-top: 10px;
+    width: 100%;
+  }
+  .staff-detail-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* --------------------------------------------------------------------------
